@@ -1,0 +1,59 @@
+{
+  "compilerOptions": {
+    "target": "ES2017",
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "strict": false,
+    "noEmit": false,
+    "esModuleInterop": true,
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "jsx": "react-jsx",
+    "incremental": true,
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ],
+    "paths": {
+      "@/*": [
+        "./src/*"
+      ]
+    }
+  },
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    ".next/types/**/*.ts",
+    ".next/dev/types/**/*.ts",
+    "**/*.mts",
+    "src/api/axiosInstance.ts",
+    "src/app/(auth)/components/Login-comp.tsx",
+    "src/app/(auth)/components/Regis-comp.tsx",
+    "src/app/(auth)/forgetpassword/page.tsx",
+    "src/app/(auth)/hooks/login-hook.ts",
+    "src/app/(auth)/hooks/register-hook.ts",
+    "src/app/(auth)/login/page.tsx",
+    "src/app/(auth)/register/page.tsx",
+    "src/app/(auth)/services/authService.ts",
+    "src/app/(auth)/layout.tsx",
+    "src/app/About/page.tsx",
+    "src/app/Contactus/page.tsx",
+    "src/app/shopping/page.tsx",
+    "src/app/layout.tsx",
+    "src/app/page.tsx",
+    "src/components/Footer.tsx",
+    "src/components/Header.tsx"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
+}
