@@ -3,7 +3,6 @@ import { useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import * as Yup from 'yup';
 import axios from "axios";
-import { useTokenStore } from "@/store/token";
 
 export interface LoginValues {
     identifier: string;
@@ -13,7 +12,6 @@ export interface LoginValues {
 export function useLogin() {
     const pathname = usePathname();
     const router = useRouter();
-    const { setToken } = useTokenStore();
 
     const [showPassword, setShowPassword] = useState(false);
     const [loginError, setLoginError] = useState("");
@@ -30,8 +28,8 @@ export function useLogin() {
                 identifier: values.identifier,
                 password: values.password,
             });
-            const token = response.data.jwt;
-            setToken(token);
+            const token = response.data.jwt
+            document.cookie = `token=${token}; path=/; max-age=604800`;
             router.replace('/');
         } catch (error) {
             setLoginError("Email or Password is incorrect");

@@ -22,24 +22,26 @@ export default function LoginComp() {
     const EyeIcon = showPassword ? FaEyeSlash : TfiEye;
 
     return (
-        <div className="flex p-6 w-full justify-center items-center rounded-xl flex-col shadow-2xl bg-white gap-4 md:gap-6 lg:gap-8">
+        <div className="flex p-6 w-full justify-center items-center rounded-xl flex-col shadow-2xl bg-white dark:bg-dark-theme gap-4 md:gap-6 lg:gap-8">
             <div className="flex justify-center items-center gap-4 flex-col">
-                <div className="w-16 h-16 bg-primary-store rounded-full flex justify-center items-center">
+                {/* 1. إضافة تأثير الشعاع (Glow) بلون أخضر مشع حول أيقونة البروفايل في الوضع المظلم */}
+                <div className="w-16 h-16 bg-primary-store rounded-full flex justify-center items-center shadow-[0_0_20px_rgba(16,185,129,0.4)] dark:shadow-[0_0_25px_rgba(16,185,129,0.6)]">
                     <Image src={test} width={100} height={100} className="w-7.5 h-7.5" alt="avatar logo" />
                 </div>
 
                 <div className="flex justify-center items-center gap-1 flex-col text-center">
-                    <h3 className="font-semibold text-xl md:text-2xl leading-8">Welcome Back</h3>
-                    <p className="text-footer-color leading-6 text-[14px] md:text-[16px]">
+                    <h3 className="font-semibold text-xl md:text-2xl leading-8 text-black dark:text-white">Welcome Back</h3>
+                    <p className="text-footer-color leading-6 text-[14px] md:text-[16px] dark:text-white/80">
                         Enter your details to access your luxury account
                     </p>
                 </div>
 
                 <div className="grid grid-cols-2">
-                    <Link href="/login" className={`text-footer-color transition-all duration-450 ease-in-out cursor-pointer flex justify-center items-center border-b-2 min-w-37.5 md:min-w-50 border-footer-color/20 ${pathname === "/login" ? "border-footer-primary text-footer-primary hover:text-green-700 hover:border-green-600" : "hover:text-footer-primary/65 hover:border-footer-primary/65"}`}>
+                    {/* 2. تعديل الـ Underline والـ Hover للعناصر غير النشطة لتضيء بدلاً من أن تنخفض */}
+                    <Link href="/login" className={`text-footer-color dark:text-white/80 transition-all duration-450 ease-in-out cursor-pointer flex justify-center items-center border-b-2 min-w-37.5 md:min-w-50 border-footer-color/20 ${pathname === "/login" ? "border-primary-store text-primary-store dark:text-white font-semibold" : "hover:text-primary-store hover:border-primary-store/50"}`}>
                         <p className="mb-3">Login</p>
                     </Link>
-                    <Link href="/register" className={`text-footer-color transition-all duration-450 ease-in-out cursor-pointer flex justify-center items-center border-b-2 min-w-37.5 md:min-w-50 border-footer-color/20 ${pathname === "/register" ? "border-footer-primary text-footer-primary hover:text-green-700 hover:border-green-600" : "hover:text-footer-primary/50 hover:border-footer-primary/50"}`}>
+                    <Link href="/register" className={`text-footer-color dark:text-white/80 transition-all duration-450 ease-in-out cursor-pointer flex justify-center items-center border-b-2 min-w-37.5 md:min-w-50 border-footer-color/20 ${pathname === "/register" ? "border-primary-store text-primary-store dark:text-white font-semibold" : "hover:text-primary-store hover:border-primary-store/50"}`}>
                         <p className="mb-3">Register</p>
                     </Link>
                 </div>
@@ -48,25 +50,25 @@ export default function LoginComp() {
                     {({ errors, values }) => (
                         <Form className="flex flex-col w-full gap-4" onChange={clearError}>
                             <div className="email-div relative">
-                                <label htmlFor="email" className="text-[12px] font-medium text-footer-color">Email Address</label>
+                                <label htmlFor="email" className="text-[12px] font-medium text-footer-color dark:text-white/80">Email Address</label>
                                 <div className="absolute inset-y-13 inset-s-3 flex items-center pointer-events-none">
                                     <TfiEmail className="text-gray-400" />
                                 </div>
                                 <Field
                                     name="identifier" id="email" type="email" placeholder="name@example.com"
-                                    className={`rounded-lg block focus:outline-0 mt-1 w-full p-3 pl-10 border ${!values.identifier ? 'border-gray-300' : errors.identifier ? 'border-red-600' : 'border-green-600'}`}
+                                    className={`rounded-lg block focus:outline-0 mt-1 w-full p-3 pl-10 border dark:bg-gray-800 dark:text-white ${!values.identifier ? 'border-gray-300 dark:border-gray-700' : errors.identifier ? 'border-red-600' : 'border-green-600'}`}
                                 />
                                 <ErrorMessage name="identifier" component="p" className="text-red-600 text-[12px] mt-1" />
                             </div>
 
                             <div className="password-div relative">
-                                <label htmlFor="password" className="text-[12px] font-medium text-footer-color">Password</label>
+                                <label htmlFor="password" className="text-[12px] font-medium text-footer-color dark:text-white/80">Password</label>
                                 <div className="absolute inset-y-13 inset-s-3 flex items-center pointer-events-none">
                                     <TfiLock className="text-gray-400" />
                                 </div>
                                 <Field
                                     name="password" id="password" type={showPassword ? "text" : "password"} placeholder="••••••••"
-                                    className={`rounded-lg block focus:outline-0 mt-1 w-full p-3 pl-10 border ${!values.password ? 'border-gray-300' : errors.password ? 'border-red-600' : 'border-green-600'}`}
+                                    className={`rounded-lg block focus:outline-0 mt-1 w-full p-3 pl-10 border dark:bg-gray-800 dark:text-white ${!values.password ? 'border-gray-300 dark:border-gray-700' : errors.password ? 'border-red-600' : 'border-green-600'}`}
                                 />
                                 <button
                                     className="absolute cursor-pointer inset-y-13 inset-e-3 flex items-center"
@@ -83,13 +85,13 @@ export default function LoginComp() {
                             )}
 
                             <div className="flex w-full justify-end">
-                                <Link className="w-fit text-sm text-footer-primary transition-all duration-300 ease-in-out hover:-translate-y-0.5" href="/forgetpassword">Forgot Password?</Link>
+                                <Link className="w-fit text-sm text-footer-primary dark:text-green-400 transition-all duration-300 ease-in-out hover:-translate-y-0.5" href="/forgetpassword">Forgot Password?</Link>
                             </div>
 
                             <button
                                 type="submit"
                                 disabled={Boolean(errors.identifier || errors.password || !values.identifier || !values.password)}
-                                className={`w-full transition-all duration-400 ease-in-out p-3 rounded-lg text-white flex justify-center items-center ${(errors.identifier || errors.password || !values.identifier || !values.password) ? 'bg-gray-300' : 'cursor-pointer bg-primary-store hover:shadow-lg hover:-translate-y-0.5 hover:bg-green-800'}`}
+                                className={`w-full transition-all duration-400 ease-in-out p-3 rounded-lg text-white flex justify-center items-center ${(errors.identifier || errors.password || !values.identifier || !values.password) ? 'bg-gray-300 dark:bg-gray-700' : 'cursor-pointer bg-primary-store hover:shadow-lg hover:-translate-y-0.5 hover:bg-green-800'}`}
                             >
                                 Login
                             </button>
@@ -99,24 +101,24 @@ export default function LoginComp() {
 
                 <div className="flex items-center justify-center gap-4 text-form-gray w-full my-6">
                     <div className="h-px bg-form-gray flex-1"></div>
-                    <p className="text-[12px] font-medium whitespace-nowrap">OR CONTINUE WITH</p>
+                    <p className="text-[12px] font-medium whitespace-nowrap dark:text-white/70">OR CONTINUE WITH</p>
                     <div className="h-px bg-form-gray flex-1"></div>
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-2 w-full">
                     <Link
-                        className="border border-form-gray flex justify-center items-center gap-2 p-3 rounded-lg transition-all duration-300 ease-in-out hover:shadow-lg hover:-translate-y-1"
+                        className="border border-form-gray dark:border-gray-700 flex justify-center items-center gap-2 p-3 rounded-lg transition-all duration-300 ease-in-out hover:shadow-lg hover:-translate-y-1"
                         href="http://localhost:1337/api/connect/google"
                     >
                         <FcGoogle className="text-xl" />
-                        <span className="text-[14px] font-semibold text-footer-secondary leading-5">Google</span>
+                        <span className="text-[14px] font-semibold text-footer-secondary dark:text-white leading-5">Google</span>
                     </Link>
                     <Link
-                        className="border border-form-gray flex justify-center items-center gap-2 p-3 rounded-lg transition-all duration-300 ease-in-out hover:shadow-lg hover:-translate-y-1"
+                        className="border border-form-gray dark:border-gray-700 flex justify-center items-center gap-2 p-3 rounded-lg transition-all duration-300 ease-in-out hover:shadow-lg hover:-translate-y-1"
                         href=""
                     >
-                        <FaApple className="text-xl" />
-                        <span className="text-[14px] font-semibold text-footer-secondary leading-5">Apple</span>
+                        <FaApple className="text-xl dark:text-white" />
+                        <span className="text-[14px] font-semibold text-footer-secondary dark:text-white leading-5">Apple</span>
                     </Link>
                 </div>
             </div>

@@ -5,11 +5,11 @@ import "./globals.css";
 import { Plus_Jakarta_Sans } from "next/font/google";
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
+import ThemeProvider from "./providers/Themeprovider";
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
 });
-
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
@@ -25,26 +25,26 @@ const plusJakarta = Plus_Jakarta_Sans({
   variable: "--font-jakarta",
   display: "swap",
 });
-
 export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html
       lang="en"
-      data-theme="light"
       data-scroll-behavior="smooth"
       className={`${geistSans.variable} ${geistMono.variable} ${plusJakarta.variable} scroll-smooth antialiased`}
     >
       <body
-        data-theme="light"
-        className=" font-jakarta  overflow-x-auto h-dvh flex flex-col"
-      >
-        <Providers>
-          <Header />
-          {children}
-          <Footer />
-        </Providers>
+
+        className={`font-jakarta overflow-x-hidden h-dvh flex flex-col`}>
+        <ThemeProvider>
+          <Providers>
+            <Header />
+            {children}
+            <Footer />
+          </Providers>
+        </ThemeProvider>
+
       </body>
     </html>
   );
