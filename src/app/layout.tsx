@@ -5,6 +5,7 @@ import { Plus_Jakarta_Sans } from "next/font/google";
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
 import ThemeProvider from "./providers/Themeprovider";
+import { Toaster } from "react-hot-toast";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -43,6 +44,7 @@ export default function RootLayout({
             {children}
           </main>
           <Footer />
+          <Toaster position="bottom-right" />
         </ThemeProvider>
       </body>
     </html>

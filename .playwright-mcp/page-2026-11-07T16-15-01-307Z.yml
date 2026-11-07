@@ -1,0 +1,209 @@
+- generic [active] [ref=f13e1]:
+  - banner [ref=f13e2]:
+    - generic [ref=f13e3]:
+      - link "Luminous Marketplace" [ref=f13e4] [cursor=pointer]:
+        - /url: /
+      - generic [ref=f13e5]:
+        - button "Toggle theme" [ref=f13e6] [cursor=pointer]
+        - link "Cart" [ref=f13e10] [cursor=pointer]:
+          - /url: /cart
+        - button "Toggle navigation menu" [ref=f13e13] [cursor=pointer]
+  - main [ref=f13e16]:
+    - generic [ref=f13e17]:
+      - generic [ref=f13e20]:
+        - generic [ref=f13e21]:
+          - paragraph [ref=f13e22]: Autumn Collection 2024
+          - heading "Elevate Your Everyday Essentials" [level=2] [ref=f13e23]
+          - paragraph [ref=f13e24]: Discover curated quality across electronics, fashion, and luxury beauty. Performance meets high-end design in every detail.
+          - generic [ref=f13e25]:
+            - button "Shop Collection" [ref=f13e26] [cursor=pointer]
+            - button "View Lookbook" [ref=f13e27] [cursor=pointer]
+        - generic [ref=f13e29]:
+          - img "Bag Collection" [ref=f13e30]
+          - generic [ref=f13e31]:
+            - generic [ref=f13e32]: ★
+            - generic [ref=f13e33]:
+              - heading "Top Rated" [level=4] [ref=f13e34]
+              - paragraph [ref=f13e35]: Selected by our curators
+      - generic [ref=f13e37]:
+        - generic [ref=f13e38]:
+          - generic [ref=f13e39]:
+            - heading "Featured Products" [level=2] [ref=f13e40]
+            - paragraph [ref=f13e41]: Handpicked items just for you
+          - link "View All" [ref=f13e42] [cursor=pointer]:
+            - /url: /products
+        - generic [ref=f13e45]:
+          - generic [ref=f13e46]:
+            - generic [ref=f13e47]:
+              - generic [ref=f13e48]:
+                - img "Wireless Noise-Canceling Headphones" [ref=f13e50]
+                - button "Add to wishlist" [ref=f13e51] [cursor=pointer]
+                - generic [ref=f13e54]: 25% OFF
+              - generic [ref=f13e55]:
+                - heading "Wireless Noise-Canceling Headphones" [level=3] [ref=f13e56]
+                - generic [ref=f13e57]:
+                  - generic [ref=f13e58]: ★
+                  - generic [ref=f13e59]: "4.8"
+                  - generic [ref=f13e60]: (124)
+            - generic [ref=f13e61]:
+              - generic [ref=f13e62]:
+                - generic [ref=f13e63]: $299.99
+                - generic [ref=f13e64]: $399.99
+              - button "Add to cart" [ref=f13e65] [cursor=pointer]
+          - generic [ref=f13e69]:
+            - generic [ref=f13e70]:
+              - generic [ref=f13e71]:
+                - img "Smart Fitness Watch Series 5" [ref=f13e73]
+                - button "Add to wishlist" [ref=f13e74] [cursor=pointer]
+                - generic [ref=f13e77]: 20% OFF
+              - generic [ref=f13e78]:
+                - heading "Smart Fitness Watch Series 5" [level=3] [ref=f13e79]
+                - generic [ref=f13e80]:
+                  - generic [ref=f13e81]: ★
+                  - generic [ref=f13e82]: "4.6"
+                  - generic [ref=f13e83]: (89)
+            - generic [ref=f13e84]:
+              - generic [ref=f13e85]:
+                - generic [ref=f13e86]: $199.99
+                - generic [ref=f13e87]: $249.99
+              - button "Add to cart" [ref=f13e88] [cursor=pointer]
+          - generic [ref=f13e92]:
+            - generic [ref=f13e93]:
+              - generic [ref=f13e94]:
+                - img "Ergonomic Mechanical Keyboard" [ref=f13e96]
+                - button "Add to wishlist" [ref=f13e97] [cursor=pointer]
+                - generic [ref=f13e100]: 17% OFF
+              - generic [ref=f13e101]:
+                - heading "Ergonomic Mechanical Keyboard" [level=3] [ref=f13e102]
+                - generic [ref=f13e103]:
+                  - generic [ref=f13e104]: ★
+                  - generic [ref=f13e105]: "4.9"
+                  - generic [ref=f13e106]: (64)
+            - generic [ref=f13e107]:
+              - generic [ref=f13e108]:
+                - generic [ref=f13e109]: $149.99
+                - generic [ref=f13e110]: $179.99
+              - button "Add to cart" [ref=f13e111] [cursor=pointer]
+      - generic [ref=f13e116]:
+        - generic [ref=f13e117]:
+          - generic [ref=f13e118]:
+            - heading "Shop by Category" [level=2] [ref=f13e119]
+            - paragraph [ref=f13e120]: Browse our wide range of categories
+          - link "View All Categories" [ref=f13e121] [cursor=pointer]:
+            - /url: /products
+        - generic [ref=f13e124]:
+          - generic [ref=f13e125] [cursor=pointer]:
+            - img "Electronics" [ref=f13e127]
+            - generic [ref=f13e132]:
+              - heading "Electronics" [level=3] [ref=f13e133]
+              - paragraph [ref=f13e134]: 156 items
+          - generic [ref=f13e135] [cursor=pointer]:
+            - img "Fashion" [ref=f13e137]
+            - generic [ref=f13e142]:
+              - heading "Fashion" [level=3] [ref=f13e143]
+              - paragraph [ref=f13e144]: 243 items
+          - generic [ref=f13e145] [cursor=pointer]:
+            - img "Home & Garden" [ref=f13e147]
+            - generic [ref=f13e152]:
+              - heading "Home & Garden" [level=3] [ref=f13e153]
+              - paragraph [ref=f13e154]: 89 items
+          - generic [ref=f13e155] [cursor=pointer]:
+            - img "Sports" [ref=f13e157]
+            - generic [ref=f13e162]:
+              - heading "Sports" [level=3] [ref=f13e163]
+              - paragraph [ref=f13e164]: 72 items
+      - generic [ref=f13e166]:
+        - generic [ref=f13e167]:
+          - img "Black Friday Super Sale" [ref=f13e169]
+          - generic [ref=f13e171]:
+            - generic [ref=f13e172]: 50% OFF
+            - heading "Black Friday Super Sale" [level=2] [ref=f13e176]
+            - paragraph [ref=f13e177]: Up to 50% off on all top electronic brands
+            - paragraph [ref=f13e178]: Grab the hottest electronics deals of the year with limited-time discounts and free shipping on selected items.
+            - generic [ref=f13e179]:
+              - generic [ref=f13e180]: "Valid Until:"
+              - generic [ref=f13e185]: 2026-11-30
+            - link "Shop Now" [ref=f13e186] [cursor=pointer]:
+              - /url: /products
+        - generic [ref=f13e187]:
+          - heading "Hot Deals" [level=3] [ref=f13e188]
+          - generic [ref=f13e189]:
+            - generic [ref=f13e190]:
+              - generic [ref=f13e191]:
+                - generic [ref=f13e192]:
+                  - img "Ultra-Fast Portable SSD 1TB" [ref=f13e193]
+                  - generic [ref=f13e194]: 40% OFF
+                - heading "Ultra-Fast Portable SSD 1TB" [level=4] [ref=f13e195]
+                - generic [ref=f13e196]:
+                  - generic [ref=f13e197]: $89.99
+                  - generic [ref=f13e198]: $149.99
+              - generic [ref=f13e199]:
+                - generic [ref=f13e201]:
+                  - generic [ref=f13e202]: 45 sold
+                  - generic [ref=f13e203]: 100 available
+                - button "Add to Cart" [ref=f13e206] [cursor=pointer]
+            - generic [ref=f13e207]:
+              - generic [ref=f13e208]:
+                - generic [ref=f13e209]:
+                  - img "Wireless Gaming Mouse RGB" [ref=f13e210]
+                  - generic [ref=f13e211]: 38% OFF
+                - heading "Wireless Gaming Mouse RGB" [level=4] [ref=f13e212]
+                - generic [ref=f13e213]:
+                  - generic [ref=f13e214]: $49.99
+                  - generic [ref=f13e215]: $79.99
+              - generic [ref=f13e216]:
+                - generic [ref=f13e218]:
+                  - generic [ref=f13e219]: 78 sold
+                  - generic [ref=f13e220]: 120 available
+                - button "Add to Cart" [ref=f13e223] [cursor=pointer]
+            - generic [ref=f13e224]:
+              - generic [ref=f13e225]:
+                - generic [ref=f13e226]:
+                  - img "Smart 4K Action Camera Waterproof" [ref=f13e227]
+                  - generic [ref=f13e228]: 35% OFF
+                - heading "Smart 4K Action Camera Waterproof" [level=4] [ref=f13e229]
+                - generic [ref=f13e230]:
+                  - generic [ref=f13e231]: $129.99
+                  - generic [ref=f13e232]: $199.99
+              - generic [ref=f13e233]:
+                - generic [ref=f13e235]:
+                  - generic [ref=f13e236]: 23 sold
+                  - generic [ref=f13e237]: 50 available
+                - button "Add to Cart" [ref=f13e240] [cursor=pointer]
+  - contentinfo [ref=f13e241]:
+    - generic [ref=f13e242]:
+      - generic [ref=f13e243]:
+        - generic [ref=f13e244]:
+          - heading "Luminous" [level=2] [ref=f13e245]
+          - paragraph [ref=f13e246]: Elevating your lifestyle through curated quality and modern commerce.
+        - generic [ref=f13e247]:
+          - heading "Shop" [level=2] [ref=f13e248]
+          - generic [ref=f13e249]:
+            - link "Electronics" [ref=f13e250] [cursor=pointer]:
+              - /url: /products
+            - link "Fashion" [ref=f13e251] [cursor=pointer]:
+              - /url: /products
+            - link "Home" [ref=f13e252] [cursor=pointer]:
+              - /url: /products
+        - generic [ref=f13e253]:
+          - heading "Support" [level=2] [ref=f13e254]
+          - generic [ref=f13e255]:
+            - link "Help Center" [ref=f13e256] [cursor=pointer]:
+              - /url: /Contactus
+            - link "Shipping" [ref=f13e257] [cursor=pointer]:
+              - /url: /Contactus
+            - link "Returns" [ref=f13e258] [cursor=pointer]:
+              - /url: /Contactus
+        - generic [ref=f13e259]:
+          - heading "Subscribe" [level=2] [ref=f13e260]
+          - generic [ref=f13e261]:
+            - textbox "Email" [ref=f13e262]
+            - button "Go" [ref=f13e263] [cursor=pointer]
+      - generic [ref=f13e264]:
+        - paragraph [ref=f13e265]: © 2026 Luminous Marketplace. All rights reserved.
+        - generic [ref=f13e266]:
+          - link "Privacy Policy" [ref=f13e267] [cursor=pointer]:
+            - /url: "#"
+          - link "Terms of Services" [ref=f13e268] [cursor=pointer]:
+            - /url: "#"
+  - button "Open Next.js Dev Tools" [ref=f13e274] [cursor=pointer]

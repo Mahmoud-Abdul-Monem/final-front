@@ -1,5 +1,5 @@
 'use client'
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import * as Yup from 'yup';
 
@@ -14,6 +14,7 @@ export function useLogin() {
 
     const [showPassword, setShowPassword] = useState(false);
     const [loginError, setLoginError] = useState("");
+    const throttleRef = useRef<boolean>(false);
 
     const loginSchema = Yup.object().shape({
         identifier: Yup.string().email('wrong email').required('email is required'),
@@ -21,7 +22,14 @@ export function useLogin() {
     });
 
     const loginUser = async (values: LoginValues) => {
+        // Throttle: prevent multiple submissions within 1 second
+        if (throttleRef.current) {
+            return;
+        }
+
+        throttleRef.current = true;
         setLoginError("");
+
         try {
             const response = await fetch('http://localhost:1337/api/auth/local', {
                 method: 'POST',
@@ -44,6 +52,10 @@ export function useLogin() {
             router.replace('/');
         } catch {
             setLoginError("Email or Password is incorrect");
+        } finally {
+            setTimeout(() => {
+                throttleRef.current = false;
+            }, 1000);
         }
     };
 

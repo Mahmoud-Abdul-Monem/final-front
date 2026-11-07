@@ -2,6 +2,8 @@ import Image from "next/image";
 import { FiHeart, FiShoppingBag, FiStar } from "react-icons/fi";
 import type { Product } from "@/services/products";
 import type { CatalogView } from "./types";
+import { useCartStore } from "@/store/cartStore";
+import toast from "react-hot-toast";
 
 // TODO: link cards to /products/[documentId] once the product detail page exists
 
@@ -76,13 +78,28 @@ function Badge({ product }: { product: Product }) {
   return null;
 }
 
-// TODO: wire to cart store once implemented (see src/store)
 function AddToCartButton({ product, fullWidth = false }: { product: Product; fullWidth?: boolean }) {
+  const addItem = useCartStore((state) => state.addItem);
   const isSoldOut = product.stock === 0;
+
+  const handleAddToCart = () => {
+    addItem({
+      id: String(product.id),
+      documentId: product.documentId,
+      name: product.name,
+      price: product.price,
+      originalPrice: product.originalPrice,
+      image: product.image,
+      category: product.category?.name,
+    });
+    toast.success(`${product.name} added to cart`);
+  };
+
   return (
     <button
       type="button"
       disabled={isSoldOut}
+      onClick={handleAddToCart}
       aria-label={`Add ${product.name} to cart`}
       className={
         fullWidth

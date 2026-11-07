@@ -1,7 +1,7 @@
 import Link from 'next/link';
-import { BsCart3 } from "react-icons/bs";
 import ThemeToggle from "./header/ThemeToggle";
 import MobileNav from "./header/MobileNav";
+import CartBadge from "./header/CartBadge";
 
 export default function Header() {
     return (
@@ -29,9 +29,7 @@ export default function Header() {
 
                 <div className="flex items-center gap-3">
                     <ThemeToggle />
-                    <Link href="/cart" aria-label="Cart">
-                        <BsCart3 className="w-5 h-5 cursor-pointer text-white hover:text-white/80 transition-colors" />
-                    </Link>
+                    <CartBadge />
                     <MobileNav />
                 </div>
             </div>

@@ -1,5 +1,5 @@
 'use client'
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import * as Yup from 'yup';
 
@@ -16,6 +16,7 @@ export function useRegister() {
 
     const [showPassword, setShowPassword] = useState(false);
     const [regisError, setRegisError] = useState("");
+    const throttleRef = useRef<boolean>(false);
 
     const regisSchema = Yup.object().shape({
         username: Yup.string()
@@ -34,7 +35,14 @@ export function useRegister() {
     });
 
     const registerUser = async (values: RegisterValues) => {
+        // Throttle: prevent multiple submissions within 1 second
+        if (throttleRef.current) {
+            return;
+        }
+
+        throttleRef.current = true;
         setRegisError("");
+
         try {
             const response = await fetch('http://localhost:1337/api/auth/local/register', {
                 method: 'POST',
@@ -58,6 +66,10 @@ export function useRegister() {
             router.replace('/');
         } catch {
             setRegisError("username or email is taken");
+        } finally {
+            setTimeout(() => {
+                throttleRef.current = false;
+            }, 1000);
         }
     };
 

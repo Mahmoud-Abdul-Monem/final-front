@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { FiSearch } from "react-icons/fi";
 
 interface SearchBarProps {
@@ -11,14 +11,33 @@ interface SearchBarProps {
 
 export default function SearchBar({ value, onSearch, placeholder = "Search products..." }: SearchBarProps) {
   const [input, setInput] = useState(value);
+  const debounceRef = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
     setInput(value);
   }, [value]);
 
+  // Debounce: 300ms delay before triggering search
+  useEffect(() => {
+    if (debounceRef.current) {
+      clearTimeout(debounceRef.current);
+    }
+
+    debounceRef.current = setTimeout(() => {
+      if (input.trim()) {
+        onSearch(input.trim());
+      }
+    }, 300);
+
+    return () => {
+      if (debounceRef.current) {
+        clearTimeout(debounceRef.current);
+      }
+    };
+  }, [input, onSearch]);
+
   const submit = (e: React.FormEvent) => {
     e.preventDefault();
-    // TODO: wire to API — call searchProducts(query) or update ?q= searchParam
     onSearch(input.trim());
   };
 

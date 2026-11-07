@@ -1,0 +1,87 @@
+- generic [active] [ref=f11e1]:
+  - banner [ref=f11e2]:
+    - generic [ref=f11e3]:
+      - link "Luminous Marketplace" [ref=f11e4] [cursor=pointer]:
+        - /url: /
+      - generic [ref=f11e5]:
+        - button "Toggle theme" [ref=f11e6] [cursor=pointer]
+        - link "Cart" [ref=f11e10] [cursor=pointer]:
+          - /url: /cart
+          - generic [ref=f11e13]: "2"
+        - button "Toggle navigation menu" [ref=f11e14] [cursor=pointer]
+  - main [ref=f11e17]:
+    - generic [ref=f11e18]:
+      - generic [ref=f11e19]:
+        - heading "Shopping Cart" [level=1] [ref=f11e20]
+        - paragraph [ref=f11e21]: 2 items
+      - generic [ref=f11e22]:
+        - generic [ref=f11e23]:
+          - generic [ref=f11e24]:
+            - img "Wireless Noise-Canceling Headphones" [ref=f11e26]
+            - generic [ref=f11e27]:
+              - generic [ref=f11e28]:
+                - heading "Wireless Noise-Canceling Headphones" [level=3] [ref=f11e29]
+                - paragraph [ref=f11e30]: $299.99
+              - generic [ref=f11e31]:
+                - generic [ref=f11e32]:
+                  - button "Decrease quantity" [ref=f11e33] [cursor=pointer]
+                  - generic [ref=f11e35]: "2"
+                  - button "Increase quantity" [ref=f11e36] [cursor=pointer]
+                - button "Remove Wireless Noise-Canceling Headphones from cart" [ref=f11e38] [cursor=pointer]
+          - button "Clear Cart" [ref=f11e41] [cursor=pointer]
+        - generic [ref=f11e43]:
+          - heading "Order Summary" [level=2] [ref=f11e44]
+          - generic [ref=f11e45]:
+            - generic [ref=f11e46]:
+              - generic [ref=f11e47]: Subtotal
+              - generic [ref=f11e48]: $599.98
+            - generic [ref=f11e49]:
+              - generic [ref=f11e50]: Shipping
+              - generic [ref=f11e51]: Calculated at checkout
+            - generic [ref=f11e52]:
+              - generic [ref=f11e53]: Tax
+              - generic [ref=f11e54]: Calculated at checkout
+          - generic [ref=f11e56]:
+            - generic [ref=f11e57]: Total
+            - generic [ref=f11e58]: $599.98
+          - button "Proceed to Checkout" [ref=f11e59] [cursor=pointer]
+          - link "Continue Shopping" [ref=f11e60] [cursor=pointer]:
+            - /url: /shopping
+  - contentinfo [ref=f11e61]:
+    - generic [ref=f11e62]:
+      - generic [ref=f11e63]:
+        - generic [ref=f11e64]:
+          - heading "Luminous" [level=2] [ref=f11e65]
+          - paragraph [ref=f11e66]: Elevating your lifestyle through curated quality and modern commerce.
+        - generic [ref=f11e67]:
+          - heading "Shop" [level=2] [ref=f11e68]
+          - generic [ref=f11e69]:
+            - link "Electronics" [ref=f11e70] [cursor=pointer]:
+              - /url: /products
+            - link "Fashion" [ref=f11e71] [cursor=pointer]:
+              - /url: /products
+            - link "Home" [ref=f11e72] [cursor=pointer]:
+              - /url: /products
+        - generic [ref=f11e73]:
+          - heading "Support" [level=2] [ref=f11e74]
+          - generic [ref=f11e75]:
+            - link "Help Center" [ref=f11e76] [cursor=pointer]:
+              - /url: /Contactus
+            - link "Shipping" [ref=f11e77] [cursor=pointer]:
+              - /url: /Contactus
+            - link "Returns" [ref=f11e78] [cursor=pointer]:
+              - /url: /Contactus
+        - generic [ref=f11e79]:
+          - heading "Subscribe" [level=2] [ref=f11e80]
+          - generic [ref=f11e81]:
+            - textbox "Email" [ref=f11e82]
+            - button "Go" [ref=f11e83] [cursor=pointer]
+      - generic [ref=f11e84]:
+        - paragraph [ref=f11e85]: © 2026 Luminous Marketplace. All rights reserved.
+        - generic [ref=f11e86]:
+          - link "Privacy Policy" [ref=f11e87] [cursor=pointer]:
+            - /url: "#"
+          - link "Terms of Services" [ref=f11e88] [cursor=pointer]:
+            - /url: "#"
+  - button "Open Next.js Dev Tools" [ref=f11e94] [cursor=pointer]
+  - alert [ref=f11e98]

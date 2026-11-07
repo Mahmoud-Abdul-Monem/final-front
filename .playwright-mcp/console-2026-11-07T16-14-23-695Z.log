@@ -1,0 +1,66 @@
+[     274ms] [LOG] [Fast Refresh] done in 787ms @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:2483
+[     543ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:2483
+[     736ms] [LOG] [Fast Refresh] done in 301ms @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:2483
+[    1125ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:2483
+[    1132ms] [LOG] [Fast Refresh] done in 109ms @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:2483
+[    1346ms] [LOG] %c Console Ninja extension is connected to Next.js browser, background: rgb(30,30,30); color: rgb(255,213,92) see https://tinyurl.com/2vt8jxzw for more info. @ :0
+[    1354ms] [INFO] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:2483
+[    1394ms] [LOG] [HMR] connected @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:2483
+[    1511ms] Error: Hydration failed because the server rendered HTML didn't match the client. As a result this tree will be regenerated on the client. This can happen if a SSR-ed Client Component used:
+
+- A server/client branch `if (typeof window !== 'undefined')`.
+- Variable input such as `Date.now()` or `Math.random()` which changes each time it's called.
+- Date formatting in a user's locale which doesn't match the server.
+- External changing data without sending a snapshot of it along with the HTML.
+- Invalid HTML tag nesting.
+
+It can also happen if the client has a browser extension installed which messes with the HTML before React loaded.
+
+https://react.dev/link/hydration-mismatch
+
+  ...
+    <RedirectBoundary>
+      <RedirectErrorBoundary router={{...}}>
+        <Head>
+        <__next_root_layout_boundary__>
+          <SegmentViewNode type="layout" pagePath="layout.tsx">
+            <SegmentTrieNode>
+            <link>
+            <script>
+            <script>
+            <script>
+            <script>
+            <script>
+            <script>
+            <RootLayout>
+              <html lang="en" data-scroll-behavior="smooth" className="geist_a715...">
+                <body className="font-jakar...">
+                  <ThemeProvider>
+                    <Header>
+                      <header className="sticky top...">
+                        ...
+                          <CartBadge>
+                            <LinkComponent href="/cart" aria-label="Cart" className="relative">
+                              <a aria-label="Cart" className="relative" ref={function} onClick={function onClick} ...>
+                                <BsCart3>
++                               <span
++                                 className="absolute -top-1 -right-1 w-4 h-4 bg-red-500 text-white text-[10px] font-b..."
++                               >
+                    ...
+        ...
+
+    at throwOnHydrationMismatch (http://localhost:3000/_next/static/chunks/node_modules_next_dist_compiled_react-dom_096_9a-._.js:3318:56)
+    at beginWork (http://localhost:3000/_next/static/chunks/node_modules_next_dist_compiled_react-dom_096_9a-._.js:6758:918)
+    at runWithFiberInDEV (http://localhost:3000/_next/static/chunks/node_modules_next_dist_compiled_react-dom_096_9a-._.js:965:74)
+    at performUnitOfWork (http://localhost:3000/_next/static/chunks/node_modules_next_dist_compiled_react-dom_096_9a-._.js:9555:97)
+    at workLoopConcurrentByScheduler (http://localhost:3000/_next/static/chunks/node_modules_next_dist_compiled_react-dom_096_9a-._.js:9551:58)
+    at renderRootConcurrent (http://localhost:3000/_next/static/chunks/node_modules_next_dist_compiled_react-dom_096_9a-._.js:9534:71)
+    at performWorkOnRoot (http://localhost:3000/_next/static/chunks/node_modules_next_dist_compiled_react-dom_096_9a-._.js:9061:150)
+    at performWorkOnRootViaSchedulerTask (http://localhost:3000/_next/static/chunks/node_modules_next_dist_compiled_react-dom_096_9a-._.js:10255:9)
+    at MessagePort.performWorkUntilDeadline (http://localhost:3000/_next/static/chunks/node_modules_next_dist_compiled_1amofcm._.js:2647:64)
+[    1710ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:2483
+[    1803ms] [LOG] [Fast Refresh] done in 195ms @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:2483
+[    6088ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:2483
+[    6271ms] [LOG] [Fast Refresh] done in 287ms @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:2483
+[    6442ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:2483
+[    6703ms] [LOG] [Fast Refresh] done in 364ms @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:2483
