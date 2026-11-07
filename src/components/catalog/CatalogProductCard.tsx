@@ -1,7 +1,8 @@
 ﻿'use client';
 import { useState } from "react";
 import Image from "next/image";
-import { FiHeart, FiShoppingBag, FiStar } from "react-icons/fi";
+import { FiShoppingBag, FiStar } from "react-icons/fi";
+import WishlistButton from "@/components/WishlistButton";
 import type { Product } from "@/services/products";
 import type { CatalogView } from "./types";
 import { useCartStore } from "@/store/cartStore";
@@ -155,13 +156,12 @@ export default function CatalogProductCard({ product, view, priority = false }: 
                 {product.name}
               </h3>
             </div>
-            <button
-              type="button"
-              aria-label="Add to wishlist"
+            <WishlistButton
+              productId={product.documentId || String(product.id)}
+              productName={product.name}
               className="shrink-0 p-2 rounded-full border border-form-gray/50 dark:border-gray-600 text-body dark:text-gray-300 hover:text-red-500 hover:border-red-300 transition-colors"
-            >
-              <FiHeart className="w-4 h-4" aria-hidden />
-            </button>
+              iconClassName="w-4 h-4"
+            />
           </div>
 
           <Rating product={product} />
@@ -203,13 +203,12 @@ export default function CatalogProductCard({ product, view, priority = false }: 
 
         <Badge product={product} />
 
-        <button
-          type="button"
-          aria-label="Add to wishlist"
+        <WishlistButton
+          productId={product.documentId || String(product.id)}
+          productName={product.name}
           className="absolute right-3 top-3 z-10 w-9 h-9 rounded-full bg-white/90 dark:bg-gray-900/90 backdrop-blur-sm border border-form-gray/40 dark:border-gray-600 flex items-center justify-center text-body dark:text-gray-300 hover:text-red-500 transition-colors"
-        >
-          <FiHeart className="w-4 h-4" aria-hidden />
-        </button>
+          iconClassName="w-4 h-4"
+        />
       </div>
 
       <div className="p-4 lg:p-5 flex flex-col gap-1.5 flex-1">

@@ -24,9 +24,9 @@ export default function Contact() {
     ]
 
     return (
-        <div className="min-h-screen w-full bg-white dark:bg-dark-theme transition-colors">
+        <article className="min-h-screen w-full bg-white dark:bg-dark-theme transition-colors">
             {/* Hero Section */}
-            <div className="relative bg-gradient-to-br from-primary-store to-green-700 py-20 md:py-32">
+            <header className="relative bg-gradient-to-br from-primary-store to-green-700 py-20 md:py-32">
                 <div className="container mx-auto px-4 md:px-12">
                     <div className="max-w-3xl">
                         <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6">
@@ -37,15 +37,15 @@ export default function Contact() {
                         </p>
                     </div>
                 </div>
-            </div>
+            </header>
 
             {/* Contact Content */}
-            <div className="py-16 md:py-24">
+            <section aria-labelledby="contact-content-heading" className="py-16 md:py-24">
                 <div className="container mx-auto px-4 md:px-12">
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
                         {/* Contact Form */}
                         <div>
-                            <h2 className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white mb-6">
+                            <h2 id="contact-content-heading" className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white mb-6">
                                 Send us a Message
                             </h2>
                             <form className="space-y-6">
@@ -126,7 +126,7 @@ export default function Contact() {
                         </div>
 
                         {/* Contact Info */}
-                        <div>
+                        <address className="not-italic">
                             <h2 className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white mb-6">
                                 Contact Information
                             </h2>
@@ -183,13 +183,13 @@ export default function Contact() {
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </address>
                     </div>
                 </div>
-            </div>
+            </section>
 
             {/* FAQ Section */}
-            <div className="py-16 md:py-24 bg-gray-50 dark:bg-gray-900/50">
+            <section aria-label="Frequently asked questions" className="py-16 md:py-24 bg-gray-50 dark:bg-gray-900/50">
                 <div className="container mx-auto px-4 md:px-12">
                     <div className="text-center mb-12">
                         <h2 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4">
@@ -232,7 +232,7 @@ export default function Contact() {
                         ))}
                     </div>
                 </div>
-            </div>
-        </div>
+            </section>
+        </article>
     )
 }

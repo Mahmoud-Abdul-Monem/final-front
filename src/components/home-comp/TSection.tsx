@@ -8,11 +8,11 @@ export default async function TSection() {
   const categories = await getCategories();
 
   return (
-    <div className="col-span-5 py-16 bg-white dark:bg-dark-theme transition-colors">
+    <section aria-labelledby="shop-categories-heading" className="col-span-5 py-16 bg-white dark:bg-dark-theme transition-colors">
       <div className="container mx-auto px-4 md:px-12">
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-10 gap-4">
           <div>
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-2">Shop by Category</h2>
+            <h2 id="shop-categories-heading" className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-2">Shop by Category</h2>
             <p className="text-gray-600 dark:text-gray-400">Browse our wide range of categories</p>
           </div>
           <Link
@@ -29,7 +29,7 @@ export default async function TSection() {
         {categories && categories.length > 0 ? (
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
             {categories.map((category) => (
-              <div
+              <article
                 key={category.documentId || category.id}
                 className="group cursor-pointer"
               >
@@ -60,13 +60,13 @@ export default async function TSection() {
                     {category.itemCount || 0} items
                   </p>
                 </div>
-              </div>
+              </article>
             ))}
           </div>
         ) : (
           <p className="text-gray-500 text-center py-8">No categories available at the moment.</p>
         )}
       </div>
-    </div>
+    </section>
   )
 }

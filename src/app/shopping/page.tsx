@@ -4,8 +4,11 @@ import { getProducts } from "@/services/products";
 import { getCategories } from "@/services/categories";
 
 export const metadata: Metadata = {
-  title: "Shopping | Luminous Marketplace",
-  description: "Discover our curated collection of premium products.",
+  title: "Shop Electronics",
+  description:
+    "Browse electronics selected for performance, design, and everyday use at Luminous Marketplace.",
+  alternates: { canonical: "/shopping" },
+  openGraph: { title: "Shop Electronics", url: "/shopping" },
 };
 
 export default async function ShoppingPage() {

@@ -18,8 +18,40 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Luminous Marketplace",
-  description: "Elevating your lifestyle through curated quality and modern commerce.",
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000"),
+  applicationName: "Luminous Marketplace",
+  title: {
+    default: "Luminous Marketplace | Quality Products, Curated for You",
+    template: "%s | Luminous Marketplace",
+  },
+  description:
+    "Shop a curated range of electronics, fashion, home, and lifestyle products at Luminous Marketplace, with quality picks and a simple shopping experience.",
+  keywords: [
+    "online marketplace",
+    "shop online",
+    "electronics",
+    "fashion",
+    "home products",
+    "Luminous Marketplace",
+  ],
+  openGraph: {
+    type: "website",
+    siteName: "Luminous Marketplace",
+    title: "Luminous Marketplace | Quality Products, Curated for You",
+    description:
+      "Discover a curated collection of electronics, fashion, home, and lifestyle products.",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Luminous Marketplace | Quality Products, Curated for You",
+    description:
+      "Discover a curated collection of electronics, fashion, home, and lifestyle products.",
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: { index: true, follow: true, "max-image-preview": "large" },
+  },
 };
 
 const plusJakarta = Plus_Jakarta_Sans({
@@ -48,8 +80,14 @@ export default function RootLayout({
       </head>
       <body className="font-jakarta overflow-x-hidden min-h-screen flex flex-col bg-white dark:bg-dark-theme text-gray-900 dark:text-white">
         <ThemeProvider>
+          <a
+            href="#main-content"
+            className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded focus:bg-white focus:px-4 focus:py-2 focus:text-black"
+          >
+            Skip to main content
+          </a>
           <Header />
-          <main className="flex-1 w-full flex flex-col">
+          <main id="main-content" className="flex-1 w-full flex flex-col">
             {children}
           </main>
           <Footer />

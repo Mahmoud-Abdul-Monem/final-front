@@ -15,11 +15,11 @@ export default async function FoSection() {
   const dealProducts = deals || [];
 
   return (
-    <div className="col-span-5 py-16 bg-gradient-to-br from-gray-900 to-gray-800 dark:from-gray-950 dark:to-gray-900 transition-colors">
+    <section aria-label="Special offers and deals" className="col-span-5 py-16 bg-gradient-to-br from-gray-900 to-gray-800 dark:from-gray-950 dark:to-gray-900 transition-colors">
       <div className="container mx-auto px-4 md:px-12">
         {/* Main Banner */}
         {specialOffer && (
-          <div className="relative rounded-3xl overflow-hidden mb-12">
+          <article className="relative rounded-3xl overflow-hidden mb-12">
             <div className="absolute inset-0">
               {specialOffer.image && (
                 <Image
@@ -65,7 +65,7 @@ export default async function FoSection() {
                 </Link>
               </div>
             </div>
-          </div>
+          </article>
         )}
 
         {/* Deal Products */}
@@ -76,6 +76,6 @@ export default async function FoSection() {
           </div>
         )}
       </div>
-    </div>
+    </section>
   )
 }

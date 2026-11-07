@@ -6,7 +6,7 @@ export default function Footer() {
             <div className='container py-12 md:py-16 w-full px-4 md:px-12'>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 sm:gap-y-10">
                     <div className="flex gap-4 flex-col">
-                        <h2 className='text-footer-primary text-[24px] leading-8 font-bold dark:text-white'>Luminous</h2>
+                        <p className='text-footer-primary text-[24px] leading-8 font-bold dark:text-white'>Luminous</p>
                         <p className='text-footer-color text-[16px] md:text-[18px] leading-6 font-normal max-w-69 dark:text-gray-300'>
                             Elevating your lifestyle through curated quality and modern commerce.
                         </p>

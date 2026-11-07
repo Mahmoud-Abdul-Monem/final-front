@@ -14,9 +14,9 @@ export default function FSection() {
               Autumn Collection 2024
             </p>
 
-            <h2 className="leading-tight md:leading-12 lg:leading-14 text-[30px] md:text-[36px] lg:text-[48px] text-footer-primary dark:text-white font-bold">
+            <h1 className="leading-tight md:leading-12 lg:leading-14 text-[30px] md:text-[36px] lg:text-[48px] text-footer-primary dark:text-white font-bold">
               Elevate Your Everyday Essentials
-            </h2>
+            </h1>
 
             <p className="font-normal leading-relaxed text-[15px] md:text-[16px] lg:text-[18px] text-footer-color dark:text-gray-300">
               Discover curated quality across electronics, fashion, and luxury beauty. Performance meets high-end design in every detail.

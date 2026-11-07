@@ -34,9 +34,9 @@ export default function About() {
     ]
 
     return (
-        <div className="min-h-screen w-full bg-white dark:bg-dark-theme transition-colors">
+        <article className="min-h-screen w-full bg-white dark:bg-dark-theme transition-colors">
             {/* Hero Section */}
-            <div className="relative bg-gradient-to-br from-primary-store to-green-700 py-20 md:py-32">
+            <header className="relative bg-gradient-to-br from-primary-store to-green-700 py-20 md:py-32">
                 <div className="container mx-auto px-4 md:px-12">
                     <div className="max-w-3xl">
                         <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6">
@@ -47,14 +47,14 @@ export default function About() {
                         </p>
                     </div>
                 </div>
-            </div>
+            </header>
 
             {/* Story Section */}
-            <div className="py-16 md:py-24">
+            <section aria-labelledby="our-story-heading" className="py-16 md:py-24">
                 <div className="container mx-auto px-4 md:px-12">
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
                         <div>
-                            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-6">
+                            <h2 id="our-story-heading" className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-6">
                                 Our Story
                             </h2>
                             <p className="text-gray-600 dark:text-gray-300 mb-4 leading-relaxed">
@@ -78,10 +78,10 @@ export default function About() {
                         </div>
                     </div>
                 </div>
-            </div>
+            </section>
 
             {/* Mission & Vision */}
-            <div className="py-16 md:py-24 bg-gray-50 dark:bg-gray-900/50">
+            <section aria-label="Our mission and vision" className="py-16 md:py-24 bg-gray-50 dark:bg-gray-900/50">
                 <div className="container mx-auto px-4 md:px-12">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                         <div className="bg-white dark:bg-gray-800 p-8 rounded-2xl shadow-sm">
@@ -102,10 +102,10 @@ export default function About() {
                         </div>
                     </div>
                 </div>
-            </div>
+            </section>
 
             {/* Stats */}
-            <div className="py-16 md:py-24">
+            <section aria-label="Luminous Marketplace at a glance" className="py-16 md:py-24">
                 <div className="container mx-auto px-4 md:px-12">
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
                         {stats.map((stat, index) => (
@@ -120,13 +120,13 @@ export default function About() {
                         ))}
                     </div>
                 </div>
-            </div>
+            </section>
 
             {/* Features */}
-            <div className="py-16 md:py-24 bg-gray-50 dark:bg-gray-900/50">
+            <section aria-labelledby="why-choose-us-heading" className="py-16 md:py-24 bg-gray-50 dark:bg-gray-900/50">
                 <div className="container mx-auto px-4 md:px-12">
                     <div className="text-center mb-12">
-                        <h2 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4">
+                        <h2 id="why-choose-us-heading" className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4">
                             Why Choose Us
                         </h2>
                         <p className="text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
@@ -152,13 +152,13 @@ export default function About() {
                         ))}
                     </div>
                 </div>
-            </div>
+            </section>
 
             {/* Team Section */}
-            <div className="py-16 md:py-24">
+            <section aria-labelledby="team-heading" className="py-16 md:py-24">
                 <div className="container mx-auto px-4 md:px-12">
                     <div className="text-center mb-12">
-                        <h2 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4">
+                        <h2 id="team-heading" className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4">
                             Meet Our Team
                         </h2>
                         <p className="text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
@@ -191,7 +191,7 @@ export default function About() {
                         ))}
                     </div>
                 </div>
-            </div>
-        </div>
+            </section>
+        </article>
     )
 }

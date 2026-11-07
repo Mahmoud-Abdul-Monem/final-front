@@ -3,7 +3,8 @@
 import React from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
-import { FiHeart, FiShoppingBag, FiStar } from 'react-icons/fi'
+import { FiShoppingBag, FiStar } from 'react-icons/fi'
+import WishlistButton from '@/components/WishlistButton'
 import { useCartStore } from '@/store/cartStore'
 import toast from 'react-hot-toast'
 import type { Product } from '@/services/products'
@@ -64,12 +65,12 @@ export default function FeaturedProducts({ products }: FeaturedProductsProps) {
                     </div>
                   )}
                 </div>
-                <button 
-                  aria-label="Add to wishlist"
+                <WishlistButton
+                  productId={product.documentId || String(product.id)}
+                  productName={product.name}
                   className="absolute top-3 right-3 bg-white/90 dark:bg-gray-900/90 p-2 rounded-full opacity-0 group-hover:opacity-100 transition-opacity hover:bg-white dark:hover:bg-gray-800"
-                >
-                  <FiHeart className="w-5 h-5 text-gray-600 dark:text-gray-300" />
-                </button>
+                  iconClassName="w-5 h-5 text-gray-600 dark:text-gray-300"
+                />
                 {hasDiscount && (
                   <div className="absolute top-3 left-3 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded-full">
                     {discountPercentage}% OFF
