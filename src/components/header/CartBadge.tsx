@@ -6,9 +6,12 @@ import { BsCart3 } from "react-icons/bs";
 import { useCartStore } from "@/store/cartStore";
 
 export default function CartBadge() {
-  const getTotalItems = useCartStore((state) => state.getTotalItems);
-  const cartCount = getTotalItems();
   const [mounted, setMounted] = useState(false);
+  
+  // Subscribe directly to items array so the component re-renders reactively on any cart update
+  const cartCount = useCartStore((state) =>
+    state.items.reduce((total, item) => total + item.quantity, 0)
+  );
 
   useEffect(() => {
     setMounted(true);

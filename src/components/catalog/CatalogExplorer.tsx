@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useMemo, useState, useRef, useEffect } from "react";
 import CatalogHeader from "./CatalogHeader";
@@ -64,7 +64,7 @@ export default function CatalogExplorer({
       if (min !== null && !isNaN(min) && p.price < min) return false;
       if (max !== null && !isNaN(max) && p.price > max) return false;
       if (filters.brands.length > 0) {
-        // TODO: real brand field doesn't exist on Product yet — match loosely for now
+        // TODO: real brand field doesn't exist on Product yet â€” match loosely for now
         const brandHit = filters.brands.some((b) =>
           `${p.name} ${p.category?.name ?? ""}`.toLowerCase().includes(b.toLowerCase())
         );
@@ -191,11 +191,12 @@ export default function CatalogExplorer({
                       : "flex flex-col gap-4"
                   }
                 >
-                  {paged.map((product) => (
+                  {paged.map((product, idx) => (
                     <CatalogProductCard
                       key={product.documentId || product.id}
                       product={product}
                       view={view}
+                      priority={idx < 4}
                     />
                   ))}
                 </div>

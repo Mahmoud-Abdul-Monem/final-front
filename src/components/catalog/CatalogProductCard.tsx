@@ -1,3 +1,5 @@
+﻿'use client';
+import { useState } from "react";
 import Image from "next/image";
 import { FiHeart, FiShoppingBag, FiStar } from "react-icons/fi";
 import type { Product } from "@/services/products";
@@ -10,6 +12,7 @@ import toast from "react-hot-toast";
 interface CatalogProductCardProps {
   product: Product;
   view: CatalogView;
+  priority?: boolean;
 }
 
 function PriceTag({ product, className = "" }: { product: Product; className?: string }) {
@@ -113,19 +116,23 @@ function AddToCartButton({ product, fullWidth = false }: { product: Product; ful
   );
 }
 
-export default function CatalogProductCard({ product, view }: CatalogProductCardProps) {
+export default function CatalogProductCard({ product, view, priority = false }: CatalogProductCardProps) {
+  const [imgError, setImgError] = useState(false);
   const isSoldOut = product.stock === 0;
 
   if (view === "list") {
     return (
       <article className="bg-white dark:bg-gray-800 rounded-xl border border-form-gray/30 dark:border-gray-700/60 shadow-sm overflow-hidden flex flex-col sm:flex-row">
         <div className="relative block sm:w-56 shrink-0 aspect-[4/3] sm:aspect-auto sm:min-h-44 bg-image-bg dark:bg-gray-700/50">
-          {product.image ? (
+          {product.image && !imgError ? (
             <Image
               src={product.image}
               alt={product.name}
               fill
               sizes="(max-width: 640px) 100vw, 224px"
+              priority={priority}
+              loading={priority ? "eager" : "lazy"}
+              onError={() => setImgError(true)}
               className="object-cover"
             />
           ) : (
@@ -176,12 +183,15 @@ export default function CatalogProductCard({ product, view }: CatalogProductCard
     >
       <div className="relative aspect-[4/5] lg:aspect-square bg-image-bg dark:bg-gray-700/50">
         <div className="absolute inset-0">
-          {product.image ? (
+          {product.image && !imgError ? (
             <Image
               src={product.image}
               alt={product.name}
               fill
               sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, (max-width: 1280px) 33vw, 25vw"
+              priority={priority}
+              loading={priority ? "eager" : "lazy"}
+              onError={() => setImgError(true)}
               className="object-cover"
             />
           ) : (

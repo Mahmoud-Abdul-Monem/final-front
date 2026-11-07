@@ -1,9 +1,9 @@
-'use client';
+﻿'use client';
 
 import React from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
-import { FiHeart, FiShoppingBag } from 'react-icons/fi'
+import { FiHeart, FiShoppingBag, FiStar } from 'react-icons/fi'
 import { useCartStore } from '@/store/cartStore'
 import toast from 'react-hot-toast'
 import type { Product } from '@/services/products'
@@ -34,7 +34,7 @@ export default function FeaturedProducts({ products }: FeaturedProductsProps) {
 
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-      {products.map((product) => {
+      {products.map((product, idx) => {
         const hasDiscount = product.originalPrice && product.originalPrice > product.price;
         const discountPercentage = hasDiscount 
           ? Math.round((1 - product.price / product.originalPrice!) * 100) 
@@ -54,6 +54,8 @@ export default function FeaturedProducts({ products }: FeaturedProductsProps) {
                       alt={product.name}
                       fill
                       sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+                      priority={idx < 4}
+                      loading={idx < 4 ? "eager" : "lazy"}
                       className="object-cover group-hover:scale-105 transition-transform duration-300"
                     />
                   ) : (
@@ -81,7 +83,7 @@ export default function FeaturedProducts({ products }: FeaturedProductsProps) {
                 </h3>
 
                 <div className="flex items-center gap-1">
-                  <span className="text-amber-400">★</span>
+                  <FiStar className="w-4 h-4 fill-amber-400 text-amber-400" />
                   <span className="text-sm text-gray-600 dark:text-gray-400">{product.rating ?? 5.0}</span>
                   <span className="text-sm text-gray-400 dark:text-gray-500">({product.reviews ?? 0})</span>
                 </div>

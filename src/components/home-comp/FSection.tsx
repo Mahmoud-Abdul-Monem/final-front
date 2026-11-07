@@ -1,4 +1,5 @@
-import Image from 'next/image'
+﻿import Image from 'next/image'
+import { FiStar } from 'react-icons/fi'
 import bagPic from "@/assets/Group 1.png"
 
 export default function FSection() {
@@ -45,9 +46,7 @@ export default function FSection() {
 
               {/* Smooth Responsively-Scaled Top Rated Badge */}
               <div className="absolute -bottom-3 left-3 sm:-bottom-4 sm:left-4 md:-bottom-5 md:left-6 bg-white/95 dark:bg-gray-900/95 backdrop-blur-sm p-2 sm:p-2.5 md:p-3 rounded-xl sm:rounded-2xl shadow-lg border border-gray-100 dark:border-gray-800 flex items-center gap-2 sm:gap-2.5 md:gap-3 transition-all duration-300 hover:scale-105">
-                <div className="bg-amber-100 dark:bg-amber-950 w-7 h-7 sm:w-8 sm:h-8 md:w-9 md:h-9 rounded-lg sm:rounded-xl flex items-center justify-center text-amber-500 text-xs sm:text-sm font-bold shrink-0">
-                  ★
-                </div>
+                <div className="bg-amber-100 dark:bg-amber-950 w-7 h-7 sm:w-8 sm:h-8 md:w-9 md:h-9 rounded-lg sm:rounded-xl flex items-center justify-center text-amber-500 text-xs sm:text-sm font-bold shrink-0"><FiStar className="w-3.5 h-3.5 fill-amber-500" /></div>
                 <div>
                   <h4 className="text-xs sm:text-sm font-bold text-gray-900 dark:text-white leading-tight">
                     Top Rated
