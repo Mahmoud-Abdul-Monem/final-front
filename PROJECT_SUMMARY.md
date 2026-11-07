@@ -1,4 +1,4 @@
-# Luminous Marketplace - Project Summary
+﻿# Luminous Marketplace - Project Summary
 
 ## 📋 معلومات المشروع
 
@@ -14,7 +14,7 @@
 - Formik + Yup (forms & validation)
 - React Hot Toast (notifications)
 
-**Backend**: Strapi v4 (http://localhost:1337)
+**Backend**: Strapi v5.50.2 (http://localhost:1337) - Flat Response, documentId
 - No OTP required for auth
 - No users initially in DB (register first to test)
 
@@ -420,3 +420,23 @@ RootLayout
 └── Cart Page (client)
     └── Cart UI with cart store
 ```
+
+---
+
+## 🚀 التحديثات الأخيرة (Recent Updates & Fixes)
+
+### 1. تكامل الـ API والـ Fetch مع Strapi v5:
+- **التوافق مع Flat Response**: تحديث جميع الـ Services لاستقبال البيانات المسطحة لـ Strapi v5 بدون data.attributes.
+- **اعتماد documentId**: تحديث الـ Interfaces لدعم documentId كمعرف أساسي للروابط والتوجيه.
+- **إزالة الـ Dummy Data وتفعيل الـ ISR Cache**:
+  - SSection (المنتجات المميزة): مربوط بـ getFeaturedProducts() مع كاش 3600s.
+  - TSection (التصنيفات): مربوط بـ getCategories() مع كاش 3600s.
+  - FoSection (العروض والصفقات): مربوط بـ getSpecialOffers() و getAllDeals() مع كاش 1800s.
+  - صفحة المنتجات (/products): مربوطة بـ getProducts() و getCategories() مع populate=*.
+
+### 2. إصلاحات وتحسينات الـ UI والأداء:
+- **حل مشكلة تحديث السلة الحي (Live Cart Update)** في CartBadge.tsx: تم تغيير الـ selector ليشترك تفاعلياً ومباشراً في state.items ليعاد التصيير فورياً بمجرد الضغط على "Add to Cart".
+- **منع وميض وتأخير الـ Dark Mode (FOUC)** في layout.tsx: إضافة سكريبت تنفيذي متزامن خفيف (Render-blocking) في <head> يقرأ الثيم من localStorage قبل رسم أول بكسل، مع الحفاظ على layout.tsx كـ Server Component ودون استخدام Server Events.
+- **تحسين صور الـ LCP**: إضافة priority و loading="eager" لأول صف من المنتجات وللبانر الرئيسي لحل تحذيرات Core Web Vitals.
+- **معالجة الصور المفقودة (404 Fallback)**: إضافة onError في كروت المنتجات للتعامل مع روابط الصور القديمة المعطلة وعرض Fallback أنيق.
+- **إصلاح تشوه رمز النجمة (Rating Star)**: استبدال محرف اليونيكود النصي المشوه ★ بـ أيقونة SVG نقية FiStar من eact-icons/fi.
