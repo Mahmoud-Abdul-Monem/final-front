@@ -1,5 +1,4 @@
-// API Placeholder for Special Offers and Deals
-// TODO: Replace with actual API calls using fetch or axios
+const STRAPI_URL = process.env.NEXT_PUBLIC_STRAPI_URL || 'http://localhost:1337';
 
 export interface SpecialOffer {
   id: number;
@@ -26,36 +25,51 @@ export interface DealProduct {
 
 /**
  * Fetch active special offers
- * TODO: Replace with actual API endpoint
  */
 export async function getSpecialOffers(): Promise<SpecialOffer[]> {
-  // Placeholder API call
-  // const response = await fetch('/api/offers');
-  // return response.json();
-
-  return [];
+  try {
+    const response = await fetch(`${STRAPI_URL}/api/special-offers?populate=*`, {
+      next: { revalidate: 1800 },
+    });
+    if (!response.ok) return [];
+    const data = await response.json();
+    return data?.data || [];
+  } catch (error) {
+    console.error('Failed to fetch special offers:', error);
+    return [];
+  }
 }
 
 /**
  * Fetch deal products for a specific offer
- * TODO: Replace with actual API endpoint
  */
 export async function getDealProducts(offerId: number): Promise<DealProduct[]> {
-  // Placeholder API call
-  // const response = await fetch(`/api/offers/${offerId}/products`);
-  // return response.json();
-
-  return [];
+  try {
+    const response = await fetch(`${STRAPI_URL}/api/offers/${offerId}/products?populate=*`, {
+      next: { revalidate: 1800 },
+    });
+    if (!response.ok) return [];
+    const data = await response.json();
+    return data?.data || [];
+  } catch (error) {
+    console.error('Failed to fetch deal products:', error);
+    return [];
+  }
 }
 
 /**
  * Fetch all active deals across all offers
- * TODO: Replace with actual API endpoint
  */
 export async function getAllDeals(): Promise<DealProduct[]> {
-  // Placeholder API call
-  // const response = await fetch('/api/offers/deals');
-  // return response.json();
-
-  return [];
+  try {
+    const response = await fetch(`${STRAPI_URL}/api/deal-products?populate=*`, {
+      next: { revalidate: 1800 },
+    });
+    if (!response.ok) return [];
+    const data = await response.json();
+    return data?.data || [];
+  } catch (error) {
+    console.error('Failed to fetch deals:', error);
+    return [];
+  }
 }

@@ -1,5 +1,4 @@
-// API Placeholder for Contact Form
-// TODO: Replace with actual API calls using fetch or axios
+const STRAPI_URL = process.env.NEXT_PUBLIC_STRAPI_URL || 'http://localhost:1337';
 
 export interface ContactFormData {
   firstName: string;
@@ -17,28 +16,36 @@ export interface ContactResponse {
 
 /**
  * Submit contact form
- * TODO: Replace with actual API endpoint
  */
 export async function submitContactForm(data: ContactFormData): Promise<ContactResponse> {
-  // Placeholder API call
-  // const response = await fetch('/api/contact', {
-  //   method: 'POST',
-  //   headers: {
-  //     'Content-Type': 'application/json',
-  //   },
-  //   body: JSON.stringify(data),
-  // });
-  // return response.json();
+  try {
+    const response = await fetch(`${STRAPI_URL}/api/contact-submissions`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ data }),
+    });
 
-  return {
-    success: true,
-    message: 'Message sent successfully'
-  };
+    if (!response.ok) {
+      throw new Error(`Failed to submit form: ${response.statusText}`);
+    }
+
+    return {
+      success: true,
+      message: 'Message sent successfully'
+    };
+  } catch (error) {
+    return {
+      success: false,
+      message: 'Failed to send message',
+      error: error instanceof Error ? error.message : 'Unknown error'
+    };
+  }
 }
 
 /**
  * Fetch contact information
- * TODO: Replace with actual API endpoint
  */
 export async function getContactInfo(): Promise<{
   email: string;
@@ -50,9 +57,17 @@ export async function getContactInfo(): Promise<{
     sunday: string;
   };
 }> {
-  // Placeholder API call
-  // const response = await fetch('/api/contact/info');
-  // return response.json();
+  try {
+    const response = await fetch(`${STRAPI_URL}/api/contact-info`, {
+      next: { revalidate: 86400 },
+    });
+    if (response.ok) {
+      const data = await response.json();
+      if (data?.data) return data.data;
+    }
+  } catch (error) {
+    console.error('Failed to fetch contact info:', error);
+  }
 
   return {
     email: 'support@luminous.com',

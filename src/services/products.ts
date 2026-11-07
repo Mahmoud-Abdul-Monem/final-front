@@ -1,5 +1,4 @@
-// API Placeholder for Products Data
-// TODO: Replace with actual API calls using fetch or axios
+const STRAPI_URL = process.env.NEXT_PUBLIC_STRAPI_URL || 'http://localhost:1337';
 
 export interface Product {
   id: number;
@@ -15,49 +14,69 @@ export interface Product {
 }
 
 /**
- * Fetch featured products
- * TODO: Replace with actual API endpoint
+ * Fetch featured products using native Next.js fetch with ISR cache
  */
 export async function getFeaturedProducts(): Promise<Product[]> {
-  // Placeholder API call
-  // const response = await fetch('/api/products/featured');
-  // return response.json();
-
-  return [];
+  try {
+    const response = await fetch(`${STRAPI_URL}/api/products?filters[isFeatured][$eq]=true&populate=*`, {
+      next: { revalidate: 3600 },
+    });
+    if (!response.ok) return [];
+    const data = await response.json();
+    return data?.data || [];
+  } catch (error) {
+    console.error('Failed to fetch featured products:', error);
+    return [];
+  }
 }
 
 /**
  * Fetch products by category
- * TODO: Replace with actual API endpoint
  */
 export async function getProductsByCategory(categoryId: number): Promise<Product[]> {
-  // Placeholder API call
-  // const response = await fetch(`/api/products/category/${categoryId}`);
-  // return response.json();
-
-  return [];
+  try {
+    const response = await fetch(`${STRAPI_URL}/api/products?filters[category][id][$eq]=${categoryId}&populate=*`, {
+      next: { revalidate: 3600 },
+    });
+    if (!response.ok) return [];
+    const data = await response.json();
+    return data?.data || [];
+  } catch (error) {
+    console.error('Failed to fetch products by category:', error);
+    return [];
+  }
 }
 
 /**
  * Fetch product details by ID
- * TODO: Replace with actual API endpoint
  */
 export async function getProductById(productId: number): Promise<Product | null> {
-  // Placeholder API call
-  // const response = await fetch(`/api/products/${productId}`);
-  // return response.json();
-
-  return null;
+  try {
+    const response = await fetch(`${STRAPI_URL}/api/products/${productId}?populate=*`, {
+      next: { revalidate: 3600 },
+    });
+    if (!response.ok) return null;
+    const data = await response.json();
+    return data?.data || null;
+  } catch (error) {
+    console.error('Failed to fetch product by id:', error);
+    return null;
+  }
 }
 
 /**
  * Search products
- * TODO: Replace with actual API endpoint
  */
 export async function searchProducts(query: string): Promise<Product[]> {
-  // Placeholder API call
-  // const response = await fetch(`/api/products/search?q=${encodeURIComponent(query)}`);
-  // return response.json();
-
-  return [];
+  try {
+    const response = await fetch(`${STRAPI_URL}/api/products?filters[name][$containsi]=${encodeURIComponent(query)}&populate=*`, {
+      next: { revalidate: 60 },
+    });
+    if (!response.ok) return [];
+    const data = await response.json();
+    return data?.data || [];
+  } catch (error) {
+    console.error('Failed to search products:', error);
+    return [];
+  }
 }

@@ -2,7 +2,6 @@
 import { useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import * as Yup from 'yup';
-import axios from "axios";
 
 export interface RegisterValues {
     username: string;
@@ -37,15 +36,27 @@ export function useRegister() {
     const registerUser = async (values: RegisterValues) => {
         setRegisError("");
         try {
-            const response = await axios.post('http://localhost:1337/api/auth/local/register', {
-                username: values.username,
-                email: values.email,
-                password: values.password,
+            const response = await fetch('http://localhost:1337/api/auth/local/register', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    username: values.username,
+                    email: values.email,
+                    password: values.password,
+                }),
             });
-            const token = response.data.jwt
+
+            if (!response.ok) {
+                throw new Error('Registration failed');
+            }
+
+            const data = await response.json();
+            const token = data.jwt;
             document.cookie = `token=${token}; path=/; max-age=604800`;
             router.replace('/');
-        } catch (error) {
+        } catch {
             setRegisError("username or email is taken");
         }
     };

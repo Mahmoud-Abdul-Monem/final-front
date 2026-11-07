@@ -2,7 +2,6 @@
 import { useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import * as Yup from 'yup';
-import axios from "axios";
 
 export interface LoginValues {
     identifier: string;
@@ -24,14 +23,26 @@ export function useLogin() {
     const loginUser = async (values: LoginValues) => {
         setLoginError("");
         try {
-            const response = await axios.post('http://localhost:1337/api/auth/local', {
-                identifier: values.identifier,
-                password: values.password,
+            const response = await fetch('http://localhost:1337/api/auth/local', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    identifier: values.identifier,
+                    password: values.password,
+                }),
             });
-            const token = response.data.jwt
+
+            if (!response.ok) {
+                throw new Error('Authentication failed');
+            }
+
+            const data = await response.json();
+            const token = data.jwt;
             document.cookie = `token=${token}; path=/; max-age=604800`;
             router.replace('/');
-        } catch (error) {
+        } catch {
             setLoginError("Email or Password is incorrect");
         }
     };

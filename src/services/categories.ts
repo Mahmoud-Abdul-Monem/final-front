@@ -1,5 +1,4 @@
-// API Placeholder for Categories Data
-// TODO: Replace with actual API calls using fetch or axios
+const STRAPI_URL = process.env.NEXT_PUBLIC_STRAPI_URL || 'http://localhost:1337';
 
 export interface Category {
   id: number;
@@ -11,37 +10,52 @@ export interface Category {
 }
 
 /**
- * Fetch all categories
- * TODO: Replace with actual API endpoint
+ * Fetch all categories with native Next.js fetch
  */
 export async function getCategories(): Promise<Category[]> {
-  // Placeholder API call
-  // const response = await fetch('/api/categories');
-  // return response.json();
-
-  return [];
+  try {
+    const response = await fetch(`${STRAPI_URL}/api/categories?populate=*`, {
+      next: { revalidate: 3600 },
+    });
+    if (!response.ok) return [];
+    const data = await response.json();
+    return data?.data || [];
+  } catch (error) {
+    console.error('Failed to fetch categories:', error);
+    return [];
+  }
 }
 
 /**
  * Fetch category by ID
- * TODO: Replace with actual API endpoint
  */
 export async function getCategoryById(categoryId: number): Promise<Category | null> {
-  // Placeholder API call
-  // const response = await fetch(`/api/categories/${categoryId}`);
-  // return response.json();
-
-  return null;
+  try {
+    const response = await fetch(`${STRAPI_URL}/api/categories/${categoryId}?populate=*`, {
+      next: { revalidate: 3600 },
+    });
+    if (!response.ok) return null;
+    const data = await response.json();
+    return data?.data || null;
+  } catch (error) {
+    console.error('Failed to fetch category by ID:', error);
+    return null;
+  }
 }
 
 /**
  * Fetch category by slug
- * TODO: Replace with actual API endpoint
  */
 export async function getCategoryBySlug(slug: string): Promise<Category | null> {
-  // Placeholder API call
-  // const response = await fetch(`/api/categories/slug/${slug}`);
-  // return response.json();
-
-  return null;
+  try {
+    const response = await fetch(`${STRAPI_URL}/api/categories?filters[slug][$eq]=${slug}&populate=*`, {
+      next: { revalidate: 3600 },
+    });
+    if (!response.ok) return null;
+    const data = await response.json();
+    return data?.data?.[0] || null;
+  } catch (error) {
+    console.error('Failed to fetch category by slug:', error);
+    return null;
+  }
 }
