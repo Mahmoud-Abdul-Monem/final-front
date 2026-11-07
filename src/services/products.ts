@@ -2,15 +2,39 @@ const STRAPI_URL = process.env.NEXT_PUBLIC_STRAPI_URL || 'http://localhost:1337'
 
 export interface Product {
   id: number;
+  documentId: string;
   name: string;
   price: number;
   originalPrice?: number;
   image: string;
-  rating: number;
-  reviews: number;
-  category?: string;
+  rating?: number;
+  reviews?: number;
+  category?: {
+    id: number;
+    documentId: string;
+    name: string;
+    description?: string;
+  };
   description?: string;
   stock?: number;
+  isFeatured?: boolean;
+}
+
+/**
+ * Fetch all products
+ */
+export async function getProducts(): Promise<Product[]> {
+  try {
+    const response = await fetch(`${STRAPI_URL}/api/products?populate=*`, {
+      next: { revalidate: 3600 },
+    });
+    if (!response.ok) return [];
+    const data = await response.json();
+    return data?.data || [];
+  } catch (error) {
+    console.error('Failed to fetch products:', error);
+    return [];
+  }
 }
 
 /**
@@ -33,7 +57,7 @@ export async function getFeaturedProducts(): Promise<Product[]> {
 /**
  * Fetch products by category
  */
-export async function getProductsByCategory(categoryId: number): Promise<Product[]> {
+export async function getProductsByCategory(categoryId: number | string): Promise<Product[]> {
   try {
     const response = await fetch(`${STRAPI_URL}/api/products?filters[category][id][$eq]=${categoryId}&populate=*`, {
       next: { revalidate: 3600 },
@@ -48,11 +72,11 @@ export async function getProductsByCategory(categoryId: number): Promise<Product
 }
 
 /**
- * Fetch product details by ID
+ * Fetch product details by documentId
  */
-export async function getProductById(productId: number): Promise<Product | null> {
+export async function getProductById(documentId: string): Promise<Product | null> {
   try {
-    const response = await fetch(`${STRAPI_URL}/api/products/${productId}?populate=*`, {
+    const response = await fetch(`${STRAPI_URL}/api/products/${documentId}?populate=*`, {
       next: { revalidate: 3600 },
     });
     if (!response.ok) return null;

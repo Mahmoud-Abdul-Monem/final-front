@@ -14,6 +14,20 @@ export interface ContactResponse {
   error?: string;
 }
 
+export interface ContactInfo {
+  id?: number;
+  documentId?: string;
+  email: string;
+  phone: string;
+  address: string;
+  businessHours: {
+    monday_friday?: string;
+    saturday?: string;
+    sunday?: string;
+    weekdays?: string;
+  };
+}
+
 /**
  * Submit contact form
  */
@@ -47,16 +61,7 @@ export async function submitContactForm(data: ContactFormData): Promise<ContactR
 /**
  * Fetch contact information
  */
-export async function getContactInfo(): Promise<{
-  email: string;
-  phone: string;
-  address: string;
-  businessHours: {
-    weekdays: string;
-    saturday: string;
-    sunday: string;
-  };
-}> {
+export async function getContactInfo(): Promise<ContactInfo> {
   try {
     const response = await fetch(`${STRAPI_URL}/api/contact-info`, {
       next: { revalidate: 86400 },
@@ -74,7 +79,7 @@ export async function getContactInfo(): Promise<{
     phone: '+1 (555) 123-4567',
     address: '123 Commerce St, New York, NY 10001',
     businessHours: {
-      weekdays: '9:00 AM - 6:00 PM EST',
+      monday_friday: '9:00 AM - 6:00 PM EST',
       saturday: '10:00 AM - 4:00 PM EST',
       sunday: 'Closed'
     }

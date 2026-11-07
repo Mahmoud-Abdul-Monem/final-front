@@ -2,6 +2,7 @@ const STRAPI_URL = process.env.NEXT_PUBLIC_STRAPI_URL || 'http://localhost:1337'
 
 export interface Category {
   id: number;
+  documentId: string;
   name: string;
   image: string;
   itemCount: number;
@@ -27,11 +28,11 @@ export async function getCategories(): Promise<Category[]> {
 }
 
 /**
- * Fetch category by ID
+ * Fetch category by documentId
  */
-export async function getCategoryById(categoryId: number): Promise<Category | null> {
+export async function getCategoryById(documentId: string): Promise<Category | null> {
   try {
-    const response = await fetch(`${STRAPI_URL}/api/categories/${categoryId}?populate=*`, {
+    const response = await fetch(`${STRAPI_URL}/api/categories/${documentId}?populate=*`, {
       next: { revalidate: 3600 },
     });
     if (!response.ok) return null;
