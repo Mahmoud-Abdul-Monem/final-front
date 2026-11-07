@@ -3,6 +3,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { FiClock, FiTag } from 'react-icons/fi'
 import { getSpecialOffers, getAllDeals } from '@/services/offers'
+import DealProducts from './DealProducts'
 
 export default async function FoSection() {
   const [offers, deals] = await Promise.all([
@@ -71,77 +72,7 @@ export default async function FoSection() {
         {dealProducts.length > 0 && (
           <div className="mb-8">
             <h3 className="text-2xl md:text-3xl font-bold text-white mb-6">Hot Deals</h3>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              {dealProducts.map((product) => {
-                const hasDiscount = product.originalPrice && product.originalPrice > product.price;
-                const discountPercentage = hasDiscount 
-                  ? Math.round((1 - product.price / product.originalPrice) * 100) 
-                  : 0;
-
-                const progress = product.total > 0 ? (product.sold / product.total) * 100 : 0;
-
-                return (
-                  <div
-                    key={product.documentId || product.id}
-                    className="bg-white/10 backdrop-blur-sm rounded-2xl p-4 hover:bg-white/15 transition-colors flex flex-col justify-between"
-                  >
-                    <div>
-                      <div className="relative aspect-square rounded-xl overflow-hidden mb-4 bg-gray-800">
-                        {product.image ? (
-                          <Image
-                            src={product.image}
-                            alt={product.name}
-                            fill
-                            sizes="(max-width: 768px) 100vw, 33vw"
-                            className="object-cover"
-                          />
-                        ) : (
-                          <div className="w-full h-full flex items-center justify-center text-gray-400">
-                            No image
-                          </div>
-                        )}
-                        {hasDiscount && (
-                          <div className="absolute top-3 left-3 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded-full">
-                            {discountPercentage}% OFF
-                          </div>
-                        )}
-                      </div>
-                      <h4 className="font-semibold text-white text-base mb-2 line-clamp-2">
-                        {product.name}
-                      </h4>
-                      <div className="flex items-center gap-2 mb-3">
-                        <span className="text-xl font-bold text-white">
-                          ${product.price}
-                        </span>
-                        {hasDiscount && (
-                          <span className="text-sm text-gray-400 line-through">
-                            ${product.originalPrice}
-                          </span>
-                        )}
-                      </div>
-                    </div>
-
-                    <div>
-                      <div className="mb-4">
-                        <div className="flex justify-between text-xs text-gray-300 mb-1">
-                          <span>{product.sold} sold</span>
-                          <span>{product.total} available</span>
-                        </div>
-                        <div className="w-full bg-gray-700 rounded-full h-2">
-                          <div
-                            className="bg-red-500 h-2 rounded-full transition-all"
-                            style={{ width: `${Math.min(progress, 100)}%` }}
-                          />
-                        </div>
-                      </div>
-                      <button className="w-full bg-primary-store hover:bg-green-700 text-white py-2 rounded-lg font-semibold transition-colors">
-                        Add to Cart
-                      </button>
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
+            <DealProducts products={dealProducts} />
           </div>
         )}
       </div>

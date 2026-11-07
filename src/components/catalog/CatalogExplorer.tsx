@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useMemo, useState, useRef, useEffect } from "react";
 import CatalogHeader from "./CatalogHeader";
 import SearchBar from "./SearchBar";
 import FiltersPanel from "./FiltersPanel";
@@ -30,6 +30,15 @@ export default function CatalogExplorer({
   const [view, setView] = useState<CatalogView>("grid");
   const [page, setPage] = useState(1);
   const [drawerOpen, setDrawerOpen] = useState(false);
+  const priceDebounceRef = useRef<NodeJS.Timeout | null>(null);
+
+  useEffect(() => {
+    return () => {
+      if (priceDebounceRef.current) {
+        clearTimeout(priceDebounceRef.current);
+      }
+    };
+  }, []);
 
   const resetPage = () => setPage(1);
 
@@ -112,6 +121,9 @@ export default function CatalogExplorer({
   const resetFilters = () => {
     setFilters(DEFAULT_FILTERS);
     resetPage();
+    if (priceDebounceRef.current) {
+      clearTimeout(priceDebounceRef.current);
+    }
   };
 
   const filterPanelProps = {
@@ -119,8 +131,14 @@ export default function CatalogExplorer({
     filters,
     onToggleCategory: toggleCategory,
     onPriceChange: (min: string, max: string) => {
-      setFilters((f) => ({ ...f, minPrice: min, maxPrice: max }));
-      resetPage();
+      // Debounce price filter updates to avoid excessive re-renders
+      if (priceDebounceRef.current) {
+        clearTimeout(priceDebounceRef.current);
+      }
+      priceDebounceRef.current = setTimeout(() => {
+        setFilters((f) => ({ ...f, minPrice: min, maxPrice: max }));
+        resetPage();
+      }, 300);
     },
     onToggleBrand: toggleBrand,
     onReset: resetFilters,
