@@ -1,6 +1,6 @@
 'use client'
 import Link from 'next/link'
-import { BsCart3 } from "react-icons/bs";
+import { BsCart3, BsMoon, BsSun } from "react-icons/bs";
 import { useState } from 'react';
 
 import { useThemeStore } from '@/store/theme';
@@ -28,7 +28,9 @@ export default function Header() {
                 </nav>
 
                 <div className="flex items-center gap-3">
-                    <button onClick={toggleTheme} className='cursor-pointer text-xs md:text-sm dark:text-white px-2 py-1 bg-white/10 rounded'>theme</button>
+                    <button onClick={toggleTheme} className='cursor-pointer text-white/80 hover:text-white p-2 bg-white/10 rounded-lg transition-all'>
+                        {theme === 'light' ? <BsMoon className='w-5 h-5' /> : <BsSun className='w-5 h-5' />}
+                    </button>
                     <BsCart3 className='w-5 h-5 cursor-pointer dark:text-white' />
 
                     {/* Mobile Menu Button */}
