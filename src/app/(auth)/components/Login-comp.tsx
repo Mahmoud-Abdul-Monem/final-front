@@ -22,7 +22,7 @@ export default function LoginComp() {
     const EyeIcon = showPassword ? FaEyeSlash : TfiEye;
 
     return (
-        <div className="flex p-6 w-full justify-center items-center rounded-xl flex-col shadow-2xl bg-white dark:bg-dark-theme gap-4 md:gap-6 lg:gap-8">
+        <div className="flex p-4 md:p-6 w-full max-w-md justify-center items-center rounded-xl flex-col shadow-2xl bg-white dark:bg-dark-theme gap-4 md:gap-6 lg:gap-8">
             <div className="flex justify-center items-center gap-4 flex-col">
                 {/* 1. إضافة تأثير الشعاع (Glow) بلون أخضر مشع حول أيقونة البروفايل في الوضع المظلم */}
                 <div className="w-16 h-16 bg-primary-store rounded-full flex justify-center items-center shadow-[0_0_20px_rgba(16,185,129,0.4)] dark:shadow-[0_0_25px_rgba(16,185,129,0.6)]">
@@ -36,12 +36,12 @@ export default function LoginComp() {
                     </p>
                 </div>
 
-                <div className="grid grid-cols-2">
+                <div className="grid grid-cols-2 w-full">
                     {/* 2. تعديل الـ Underline والـ Hover للعناصر غير النشطة لتضيء بدلاً من أن تنخفض */}
-                    <Link href="/login" className={`text-footer-color dark:text-white/80 transition-all duration-450 ease-in-out cursor-pointer flex justify-center items-center border-b-2 min-w-37.5 md:min-w-50 border-footer-color/20 ${pathname === "/login" ? "border-primary-store text-primary-store dark:text-white font-semibold" : "hover:text-primary-store hover:border-primary-store/50"}`}>
+                    <Link href="/login" className={`text-footer-color dark:text-white/80 transition-all duration-450 ease-in-out cursor-pointer flex justify-center items-center border-b-2 border-footer-color/20 ${pathname === "/login" ? "border-primary-store text-primary-store dark:text-white font-semibold" : "hover:text-primary-store hover:border-primary-store/50"}`}>
                         <p className="mb-3">Login</p>
                     </Link>
-                    <Link href="/register" className={`text-footer-color dark:text-white/80 transition-all duration-450 ease-in-out cursor-pointer flex justify-center items-center border-b-2 min-w-37.5 md:min-w-50 border-footer-color/20 ${pathname === "/register" ? "border-primary-store text-primary-store dark:text-white font-semibold" : "hover:text-primary-store hover:border-primary-store/50"}`}>
+                    <Link href="/register" className={`text-footer-color dark:text-white/80 transition-all duration-450 ease-in-out cursor-pointer flex justify-center items-center border-b-2 border-footer-color/20 ${pathname === "/register" ? "border-primary-store text-primary-store dark:text-white font-semibold" : "hover:text-primary-store hover:border-primary-store/50"}`}>
                         <p className="mb-3">Register</p>
                     </Link>
                 </div>

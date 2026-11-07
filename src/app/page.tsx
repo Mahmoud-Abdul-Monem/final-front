@@ -4,7 +4,7 @@ import TSection from "@/components/home-comp/TSection";
 import FoSection from "@/components/home-comp/FoSection";
 export default function Home() {
   return (
-    <div className="h-dvh w-full grid grid-cols-5 bg-white  dark:text-white dark:bg-dark-theme">
+    <div className="min-h-screen w-full grid grid-cols-1 lg:grid-cols-5 bg-white  dark:text-white dark:bg-dark-theme">
 
         <FSection />
         <SSection />
