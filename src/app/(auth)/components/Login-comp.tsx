@@ -6,7 +6,7 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import { TfiEmail, TfiEye, TfiLock } from "react-icons/tfi";
 import { FcGoogle } from "react-icons/fc";
 import { STRAPI_BASE_URL } from "@/lib/strapi";
-import { FaApple, FaEyeSlash } from "react-icons/fa";
+import { FaFacebookF, FaEyeSlash } from "react-icons/fa";
 import { useLogin } from "../hooks/useLogin";
 
 export default function LoginComp() {
@@ -116,10 +116,10 @@ export default function LoginComp() {
                     </Link>
                     <Link
                         className="border border-form-gray dark:border-gray-700 flex justify-center items-center gap-2 p-3 rounded-lg transition-all duration-300 ease-in-out hover:shadow-lg hover:-translate-y-1"
-                        href=""
+                        href={`${STRAPI_BASE_URL}/api/connect/facebook`}
                     >
-                        <FaApple className="text-xl dark:text-white" />
-                        <span className="text-[14px] font-semibold text-footer-secondary dark:text-white leading-5">Apple</span>
+                        <FaFacebookF className="text-xl text-[#1877F2]" />
+                        <span className="text-[14px] font-semibold text-footer-secondary dark:text-white leading-5">Facebook</span>
                     </Link>
                 </div>
             </div>
