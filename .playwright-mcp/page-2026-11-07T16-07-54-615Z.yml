@@ -1,0 +1,192 @@
+- generic [active] [ref=f4e1]:
+  - banner [ref=f4e2]:
+    - generic [ref=f4e3]:
+      - link "Luminous Marketplace" [ref=f4e4] [cursor=pointer]:
+        - /url: /
+      - navigation [ref=f4e5]:
+        - link "Home" [ref=f4e6] [cursor=pointer]:
+          - /url: /
+        - link "About" [ref=f4e7] [cursor=pointer]:
+          - /url: /About
+        - link "Contact us" [ref=f4e8] [cursor=pointer]:
+          - /url: /Contactus
+        - link "Products" [ref=f4e9] [cursor=pointer]:
+          - /url: /products
+      - generic [ref=f4e10]:
+        - button "Toggle theme" [ref=f4e11] [cursor=pointer]
+        - link "Cart" [ref=f4e15] [cursor=pointer]:
+          - /url: /cart
+  - main [ref=f4e18]:
+    - generic [ref=f4e20]:
+      - generic [ref=f4e21]:
+        - navigation "Breadcrumb" [ref=f4e22]:
+          - list [ref=f4e23]:
+            - listitem [ref=f4e24]:
+              - link "Home" [ref=f4e25] [cursor=pointer]:
+                - /url: /
+            - listitem [ref=f4e26]:
+              - generic [ref=f4e29]: Products
+        - heading "All Products" [level=1] [ref=f4e30]
+        - paragraph [ref=f4e31]: Discover all available products in our store — curated quality and modern commerce.
+      - search [ref=f4e32]:
+        - generic [ref=f4e33]:
+          - searchbox "Search products" [ref=f4e34]
+          - button "Search" [ref=f4e35] [cursor=pointer]
+      - generic [ref=f4e36]:
+        - complementary [ref=f4e37]:
+          - generic [ref=f4e39]:
+            - generic [ref=f4e40]:
+              - heading "Filters" [level=2] [ref=f4e41]
+              - button "Reset all" [ref=f4e42] [cursor=pointer]
+            - generic [ref=f4e43]:
+              - button [expanded] [ref=f4e44] [cursor=pointer]:
+                - heading "Categories" [level=3] [ref=f4e45]
+              - generic [ref=f4e48]:
+                - generic [ref=f4e49] [cursor=pointer]:
+                  - checkbox "Electronics (156)" [ref=f4e51]
+                  - generic [ref=f4e52]:
+                    - text: Electronics
+                    - generic [ref=f4e53]: (156)
+                - generic [ref=f4e54] [cursor=pointer]:
+                  - checkbox "Fashion (243)" [ref=f4e56]
+                  - generic [ref=f4e57]:
+                    - text: Fashion
+                    - generic [ref=f4e58]: (243)
+                - generic [ref=f4e59] [cursor=pointer]:
+                  - checkbox "Home & Garden (89)" [ref=f4e61]
+                  - generic [ref=f4e62]:
+                    - text: Home & Garden
+                    - generic [ref=f4e63]: (89)
+                - generic [ref=f4e64] [cursor=pointer]:
+                  - checkbox "Sports (72)" [ref=f4e66]
+                  - generic [ref=f4e67]:
+                    - text: Sports
+                    - generic [ref=f4e68]: (72)
+            - generic [ref=f4e69]:
+              - button [expanded] [ref=f4e70] [cursor=pointer]:
+                - heading "Price Range" [level=3] [ref=f4e71]
+              - generic [ref=f4e74]:
+                - generic [ref=f4e75]:
+                  - generic: $
+                  - spinbutton "Minimum price" [ref=f4e76]
+                - generic [ref=f4e77]: "-"
+                - generic [ref=f4e78]:
+                  - generic: $
+                  - spinbutton "Maximum price" [ref=f4e79]
+              - slider "Maximum price slider" [ref=f4e80]: "5000"
+              - generic [ref=f4e81]:
+                - generic [ref=f4e82]: $0
+                - generic [ref=f4e83]: $5000+
+              - button "Apply" [ref=f4e84] [cursor=pointer]
+            - generic [ref=f4e85]:
+              - button [expanded] [ref=f4e86] [cursor=pointer]:
+                - heading "Brand" [level=3] [ref=f4e87]
+              - generic [ref=f4e90]:
+                - generic [ref=f4e91] [cursor=pointer]:
+                  - checkbox "Luminous" [ref=f4e93]
+                  - generic [ref=f4e94]: Luminous
+                - generic [ref=f4e95] [cursor=pointer]:
+                  - checkbox "Aura" [ref=f4e97]
+                  - generic [ref=f4e98]: Aura
+                - generic [ref=f4e99] [cursor=pointer]:
+                  - checkbox "Lumina" [ref=f4e101]
+                  - generic [ref=f4e102]: Lumina
+                - generic [ref=f4e103] [cursor=pointer]:
+                  - checkbox "Optic Pro" [ref=f4e105]
+                  - generic [ref=f4e106]: Optic Pro
+        - generic [ref=f4e107]:
+          - generic [ref=f4e108]:
+            - paragraph [ref=f4e109]: Showing 1-3 of 3 products
+            - generic [ref=f4e110]:
+              - combobox "Sort products" [ref=f4e112] [cursor=pointer]:
+                - option "Featured" [selected]
+                - 'option "Price: Low to High"'
+                - 'option "Price: High to Low"'
+                - 'option "Name: A to Z"'
+                - option "Top Rated"
+              - generic [ref=f4e113]:
+                - button "Grid view" [pressed] [ref=f4e114] [cursor=pointer]
+                - button "List view" [ref=f4e120] [cursor=pointer]
+          - generic [ref=f4e122]:
+            - article [ref=f4e123]:
+              - generic [ref=f4e124]:
+                - img "Wireless Noise-Canceling Headphones" [ref=f4e126]
+                - generic [ref=f4e127]: New
+                - button "Add to wishlist" [ref=f4e128] [cursor=pointer]
+              - generic [ref=f4e131]:
+                - heading "Wireless Noise-Canceling Headphones" [level=3] [ref=f4e132]
+                - generic [ref=f4e134]:
+                  - generic "Rated 4.8 out of 5" [ref=f4e135]
+                  - generic [ref=f4e146]: (124)
+                - generic [ref=f4e147]:
+                  - generic [ref=f4e148]:
+                    - generic [ref=f4e149]: $299.99
+                    - generic [ref=f4e150]: $399.99
+                  - button "Add Wireless Noise-Canceling Headphones to cart" [ref=f4e151] [cursor=pointer]
+            - article [ref=f4e155]:
+              - generic [ref=f4e156]:
+                - img "Smart Fitness Watch Series 5" [ref=f4e158]
+                - generic [ref=f4e159]: New
+                - button "Add to wishlist" [ref=f4e160] [cursor=pointer]
+              - generic [ref=f4e163]:
+                - heading "Smart Fitness Watch Series 5" [level=3] [ref=f4e164]
+                - generic [ref=f4e166]:
+                  - generic "Rated 4.6 out of 5" [ref=f4e167]
+                  - generic [ref=f4e178]: (89)
+                - generic [ref=f4e179]:
+                  - generic [ref=f4e180]:
+                    - generic [ref=f4e181]: $199.99
+                    - generic [ref=f4e182]: $249.99
+                  - button "Add Smart Fitness Watch Series 5 to cart" [ref=f4e183] [cursor=pointer]
+            - article [ref=f4e187]:
+              - generic [ref=f4e188]:
+                - img "Ergonomic Mechanical Keyboard" [ref=f4e190]
+                - generic [ref=f4e191]: New
+                - button "Add to wishlist" [ref=f4e192] [cursor=pointer]
+              - generic [ref=f4e195]:
+                - heading "Ergonomic Mechanical Keyboard" [level=3] [ref=f4e196]
+                - generic [ref=f4e198]:
+                  - generic "Rated 4.9 out of 5" [ref=f4e199]
+                  - generic [ref=f4e210]: (64)
+                - generic [ref=f4e211]:
+                  - generic [ref=f4e212]:
+                    - generic [ref=f4e213]: $149.99
+                    - generic [ref=f4e214]: $179.99
+                  - button "Add Ergonomic Mechanical Keyboard to cart" [ref=f4e215] [cursor=pointer]
+  - contentinfo [ref=f4e219]:
+    - generic [ref=f4e220]:
+      - generic [ref=f4e221]:
+        - generic [ref=f4e222]:
+          - heading "Luminous" [level=2] [ref=f4e223]
+          - paragraph [ref=f4e224]: Elevating your lifestyle through curated quality and modern commerce.
+        - generic [ref=f4e225]:
+          - heading "Shop" [level=2] [ref=f4e226]
+          - generic [ref=f4e227]:
+            - link "Electronics" [ref=f4e228] [cursor=pointer]:
+              - /url: /products
+            - link "Fashion" [ref=f4e229] [cursor=pointer]:
+              - /url: /products
+            - link "Home" [ref=f4e230] [cursor=pointer]:
+              - /url: /products
+        - generic [ref=f4e231]:
+          - heading "Support" [level=2] [ref=f4e232]
+          - generic [ref=f4e233]:
+            - link "Help Center" [ref=f4e234] [cursor=pointer]:
+              - /url: /Contactus
+            - link "Shipping" [ref=f4e235] [cursor=pointer]:
+              - /url: /Contactus
+            - link "Returns" [ref=f4e236] [cursor=pointer]:
+              - /url: /Contactus
+        - generic [ref=f4e237]:
+          - heading "Subscribe" [level=2] [ref=f4e238]
+          - generic [ref=f4e239]:
+            - textbox "Email" [ref=f4e240]
+            - button "Go" [ref=f4e241] [cursor=pointer]
+      - generic [ref=f4e242]:
+        - paragraph [ref=f4e243]: © 2026 Luminous Marketplace. All rights reserved.
+        - generic [ref=f4e244]:
+          - link "Privacy Policy" [ref=f4e245] [cursor=pointer]:
+            - /url: "#"
+          - link "Terms of Services" [ref=f4e246] [cursor=pointer]:
+            - /url: "#"
+  - button "Open Next.js Dev Tools" [ref=f4e252] [cursor=pointer]

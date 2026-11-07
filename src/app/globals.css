@@ -23,6 +23,15 @@
   --color-login-bgc: #f8f9fe;
   --color-form-gray: #BFC9C2;
   --color-dark-theme: #0B0F12;
+  --color-ink: #0B1C30;
+  --color-body: #404944;
+  --color-price-gold: #735C00;
+  --color-gold-btn: #FED65B;
+  --color-panel-blue: #E5EEFF;
+  --color-image-bg: #EFF4FF;
+  --color-chip-blue: #DCE9FF;
+  --color-green-active: #82C2A6;
+  --color-green-deep: #003827;
 }
 
 @theme {
