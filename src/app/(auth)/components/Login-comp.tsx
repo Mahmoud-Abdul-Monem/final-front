@@ -5,6 +5,7 @@ import Link from "next/link";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import { TfiEmail, TfiEye, TfiLock } from "react-icons/tfi";
 import { FcGoogle } from "react-icons/fc";
+import { STRAPI_BASE_URL } from "@/lib/strapi";
 import { FaApple, FaEyeSlash } from "react-icons/fa";
 import { useLogin } from "../hooks/useLogin";
 
@@ -108,7 +109,7 @@ export default function LoginComp() {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-2 w-full">
                     <Link
                         className="border border-form-gray dark:border-gray-700 flex justify-center items-center gap-2 p-3 rounded-lg transition-all duration-300 ease-in-out hover:shadow-lg hover:-translate-y-1"
-                        href="http://localhost:1337/api/connect/google"
+                        href={`${STRAPI_BASE_URL}/api/connect/google`}
                     >
                         <FcGoogle className="text-xl" />
                         <span className="text-[14px] font-semibold text-footer-secondary dark:text-white leading-5">Google</span>

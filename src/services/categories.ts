@@ -1,4 +1,4 @@
-const STRAPI_URL = process.env.NEXT_PUBLIC_STRAPI_URL || 'http://localhost:1337';
+import { STRAPI_BASE_URL } from "@/lib/strapi";
 
 export interface Category {
   id: number;
@@ -15,7 +15,7 @@ export interface Category {
  */
 export async function getCategories(): Promise<Category[]> {
   try {
-    const response = await fetch(`${STRAPI_URL}/api/categories?populate=*`, {
+    const response = await fetch(`${STRAPI_BASE_URL}/api/categories?populate=*`, {
       next: { revalidate: 3600 },
     });
     if (!response.ok) return [];
@@ -32,7 +32,7 @@ export async function getCategories(): Promise<Category[]> {
  */
 export async function getCategoryById(documentId: string): Promise<Category | null> {
   try {
-    const response = await fetch(`${STRAPI_URL}/api/categories/${documentId}?populate=*`, {
+    const response = await fetch(`${STRAPI_BASE_URL}/api/categories/${documentId}?populate=*`, {
       next: { revalidate: 3600 },
     });
     if (!response.ok) return null;
@@ -49,7 +49,7 @@ export async function getCategoryById(documentId: string): Promise<Category | nu
  */
 export async function getCategoryBySlug(slug: string): Promise<Category | null> {
   try {
-    const response = await fetch(`${STRAPI_URL}/api/categories?filters[slug][$eq]=${slug}&populate=*`, {
+    const response = await fetch(`${STRAPI_BASE_URL}/api/categories?filters[slug][$eq]=${slug}&populate=*`, {
       next: { revalidate: 3600 },
     });
     if (!response.ok) return null;

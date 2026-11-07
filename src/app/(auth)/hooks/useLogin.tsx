@@ -2,6 +2,7 @@
 import { useState, useRef } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import * as Yup from 'yup';
+import { STRAPI_BASE_URL } from "@/lib/strapi";
 
 export interface LoginValues {
     identifier: string;
@@ -31,7 +32,7 @@ export function useLogin() {
         setLoginError("");
 
         try {
-            const response = await fetch('http://localhost:1337/api/auth/local', {
+            const response = await fetch(`${STRAPI_BASE_URL}/api/auth/local`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

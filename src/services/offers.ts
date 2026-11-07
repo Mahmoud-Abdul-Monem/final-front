@@ -1,4 +1,4 @@
-const STRAPI_URL = process.env.NEXT_PUBLIC_STRAPI_URL || 'http://localhost:1337';
+import { STRAPI_BASE_URL } from "@/lib/strapi";
 
 export interface SpecialOffer {
   id: number;
@@ -30,7 +30,7 @@ export interface DealProduct {
  */
 export async function getSpecialOffers(): Promise<SpecialOffer[]> {
   try {
-    const response = await fetch(`${STRAPI_URL}/api/special-offers?populate=*`, {
+    const response = await fetch(`${STRAPI_BASE_URL}/api/special-offers?populate=*`, {
       next: { revalidate: 1800 },
     });
     if (!response.ok) return [];
@@ -47,7 +47,7 @@ export async function getSpecialOffers(): Promise<SpecialOffer[]> {
  */
 export async function getDealProducts(offerId: number): Promise<DealProduct[]> {
   try {
-    const response = await fetch(`${STRAPI_URL}/api/deal-products?filters[offerId][$eq]=${offerId}&populate=*`, {
+    const response = await fetch(`${STRAPI_BASE_URL}/api/deal-products?filters[offerId][$eq]=${offerId}&populate=*`, {
       next: { revalidate: 1800 },
     });
     if (!response.ok) return [];
@@ -64,7 +64,7 @@ export async function getDealProducts(offerId: number): Promise<DealProduct[]> {
  */
 export async function getAllDeals(): Promise<DealProduct[]> {
   try {
-    const response = await fetch(`${STRAPI_URL}/api/deal-products?populate=*`, {
+    const response = await fetch(`${STRAPI_BASE_URL}/api/deal-products?populate=*`, {
       next: { revalidate: 1800 },
     });
     if (!response.ok) return [];

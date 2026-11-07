@@ -2,6 +2,7 @@
 import { useState, useRef } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import * as Yup from 'yup';
+import { STRAPI_BASE_URL } from "@/lib/strapi";
 
 export interface RegisterValues {
     username: string;
@@ -44,7 +45,7 @@ export function useRegister() {
         setRegisError("");
 
         try {
-            const response = await fetch('http://localhost:1337/api/auth/local/register', {
+            const response = await fetch(`${STRAPI_BASE_URL}/api/auth/local/register`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

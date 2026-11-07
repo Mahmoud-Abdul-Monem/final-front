@@ -1,4 +1,4 @@
-const STRAPI_URL = process.env.NEXT_PUBLIC_STRAPI_URL || 'http://localhost:1337';
+import { STRAPI_BASE_URL } from "@/lib/strapi";
 
 export interface ContactFormData {
   firstName: string;
@@ -33,7 +33,7 @@ export interface ContactInfo {
  */
 export async function submitContactForm(data: ContactFormData): Promise<ContactResponse> {
   try {
-    const response = await fetch(`${STRAPI_URL}/api/contact-submissions`, {
+    const response = await fetch(`${STRAPI_BASE_URL}/api/contact-submissions`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -63,7 +63,7 @@ export async function submitContactForm(data: ContactFormData): Promise<ContactR
  */
 export async function getContactInfo(): Promise<ContactInfo> {
   try {
-    const response = await fetch(`${STRAPI_URL}/api/contact-info`, {
+    const response = await fetch(`${STRAPI_BASE_URL}/api/contact-info`, {
       next: { revalidate: 86400 },
     });
     if (response.ok) {

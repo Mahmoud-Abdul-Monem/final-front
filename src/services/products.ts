@@ -1,4 +1,4 @@
-const STRAPI_URL = process.env.NEXT_PUBLIC_STRAPI_URL || 'http://localhost:1337';
+import { STRAPI_BASE_URL } from "@/lib/strapi";
 
 export interface Product {
   id: number;
@@ -25,7 +25,7 @@ export interface Product {
  */
 export async function getProducts(): Promise<Product[]> {
   try {
-    const response = await fetch(`${STRAPI_URL}/api/products?populate=*`, {
+    const response = await fetch(`${STRAPI_BASE_URL}/api/products?populate=*`, {
       next: { revalidate: 3600 },
     });
     if (!response.ok) return [];
@@ -42,7 +42,7 @@ export async function getProducts(): Promise<Product[]> {
  */
 export async function getFeaturedProducts(): Promise<Product[]> {
   try {
-    const response = await fetch(`${STRAPI_URL}/api/products?filters[isFeatured][$eq]=true&populate=*`, {
+    const response = await fetch(`${STRAPI_BASE_URL}/api/products?filters[isFeatured][$eq]=true&populate=*`, {
       next: { revalidate: 3600 },
     });
     if (!response.ok) return [];
@@ -59,7 +59,7 @@ export async function getFeaturedProducts(): Promise<Product[]> {
  */
 export async function getProductsByCategory(categoryId: number | string): Promise<Product[]> {
   try {
-    const response = await fetch(`${STRAPI_URL}/api/products?filters[category][id][$eq]=${categoryId}&populate=*`, {
+    const response = await fetch(`${STRAPI_BASE_URL}/api/products?filters[category][id][$eq]=${categoryId}&populate=*`, {
       next: { revalidate: 3600 },
     });
     if (!response.ok) return [];
@@ -76,7 +76,7 @@ export async function getProductsByCategory(categoryId: number | string): Promis
  */
 export async function getProductById(documentId: string): Promise<Product | null> {
   try {
-    const response = await fetch(`${STRAPI_URL}/api/products/${documentId}?populate=*`, {
+    const response = await fetch(`${STRAPI_BASE_URL}/api/products/${documentId}?populate=*`, {
       next: { revalidate: 3600 },
     });
     if (!response.ok) return null;
@@ -93,7 +93,7 @@ export async function getProductById(documentId: string): Promise<Product | null
  */
 export async function searchProducts(query: string): Promise<Product[]> {
   try {
-    const response = await fetch(`${STRAPI_URL}/api/products?filters[name][$containsi]=${encodeURIComponent(query)}&populate=*`, {
+    const response = await fetch(`${STRAPI_BASE_URL}/api/products?filters[name][$containsi]=${encodeURIComponent(query)}&populate=*`, {
       next: { revalidate: 60 },
     });
     if (!response.ok) return [];
