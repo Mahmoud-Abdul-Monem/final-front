@@ -10,7 +10,6 @@
   --neutral: #64748B;
 }
 
-
 @theme {
   --color-primary-store: #06513B;
   --color-secondary-store: #D4AF37;
@@ -28,34 +27,36 @@
 
 @theme {
   --font-jakarta: var(--font-jakarta);
-
 }
-
-
-/* @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
-} */
-
-
 
 @custom-variant dark (&:where(.dark, .dark *));
 
+/* Smooth theme transitions for background and colors */
+html,
+body,
+header,
+footer,
+main,
+section,
+nav,
+div,
+p,
+span,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+a,
+button,
+input,
+textarea,
+select {
+  transition-property: background-color, border-color, color, fill, stroke;
+  transition-duration: 300ms;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
 
 button {
   cursor: pointer !important;
