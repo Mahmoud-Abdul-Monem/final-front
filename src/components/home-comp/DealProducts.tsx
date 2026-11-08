@@ -18,7 +18,7 @@ export default function DealProducts({ products }: DealProductsProps) {
   }
 
   const handleAddToCart = (product: Product) => {
-    addItem({
+    const added = addItem({
       id: String(product.id),
       documentId: product.documentId,
       name: product.name,
@@ -27,6 +27,10 @@ export default function DealProducts({ products }: DealProductsProps) {
       image: product.image,
       category: product.category?.name,
     });
+    if (!added) {
+      toast.error("Please log in or register before adding items to your cart.");
+      return;
+    }
     toast.success(`${product.name} added to cart`);
   };
 

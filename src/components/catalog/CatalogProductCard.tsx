@@ -87,7 +87,7 @@ function AddToCartButton({ product, fullWidth = false }: { product: Product; ful
   const isSoldOut = product.stock === 0;
 
   const handleAddToCart = () => {
-    addItem({
+    const added = addItem({
       id: String(product.id),
       documentId: product.documentId,
       name: product.name,
@@ -96,6 +96,10 @@ function AddToCartButton({ product, fullWidth = false }: { product: Product; ful
       image: product.image,
       category: product.category?.name,
     });
+    if (!added) {
+      toast.error("Please log in or register before adding items to your cart.");
+      return;
+    }
     toast.success(`${product.name} added to cart`);
   };
 

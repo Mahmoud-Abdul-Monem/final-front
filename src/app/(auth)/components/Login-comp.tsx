@@ -114,13 +114,16 @@ export default function LoginComp() {
                         <FcGoogle className="text-xl" />
                         <span className="text-[14px] font-semibold text-footer-secondary dark:text-white leading-5">Google</span>
                     </Link>
-                    <Link
-                        className="border border-form-gray dark:border-gray-700 flex justify-center items-center gap-2 p-3 rounded-lg transition-all duration-300 ease-in-out hover:shadow-lg hover:-translate-y-1"
-                        href={`${STRAPI_BASE_URL}/api/connect/facebook`}
+                    <button
+                        type="button"
+                        disabled
+                        aria-label="Facebook login coming soon"
+                        title="Facebook login is coming soon"
+                        className="border border-form-gray/50 dark:border-gray-700/60 flex justify-center items-center gap-2 p-3 rounded-lg text-gray-400 dark:text-gray-500 opacity-70 cursor-not-allowed"
                     >
-                        <FaFacebookF className="text-xl text-[#1877F2]" />
-                        <span className="text-[14px] font-semibold text-footer-secondary dark:text-white leading-5">Facebook</span>
-                    </Link>
+                        <FaFacebookF className="text-xl text-gray-400 dark:text-gray-500" />
+                        <span className="text-[14px] font-semibold leading-5">Facebook (Coming soon)</span>
+                    </button>
                 </div>
             </div>
         </div>

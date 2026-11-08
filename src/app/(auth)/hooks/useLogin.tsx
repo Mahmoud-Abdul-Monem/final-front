@@ -3,6 +3,7 @@ import { useState, useRef } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import * as Yup from 'yup';
 import { STRAPI_BASE_URL } from "@/lib/strapi";
+import { getSafeRedirectPath } from "@/lib/auth";
 
 export interface LoginValues {
     identifier: string;
@@ -50,7 +51,7 @@ export function useLogin() {
             const data = await response.json();
             const token = data.jwt;
             document.cookie = `token=${token}; path=/; max-age=604800`;
-            router.replace('/');
+            router.replace(getSafeRedirectPath(window.location.search));
         } catch {
             setLoginError("Email or Password is incorrect");
         } finally {
