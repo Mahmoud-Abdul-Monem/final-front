@@ -57,7 +57,7 @@ export default function Contact() {
                                         <input
                                             type="text"
                                             id="firstName"
-                                            className="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-primary-store focus:border-transparent transition-colors"
+                                            className="input input-bordered ui-field w-full px-4 py-3 rounded-lg border-gray-300 dark:border-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-primary-store focus:border-transparent transition-colors"
                                             placeholder="John"
                                         />
                                     </div>
@@ -68,7 +68,7 @@ export default function Contact() {
                                         <input
                                             type="text"
                                             id="lastName"
-                                            className="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-primary-store focus:border-transparent transition-colors"
+                                            className="input input-bordered ui-field w-full px-4 py-3 rounded-lg border-gray-300 dark:border-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-primary-store focus:border-transparent transition-colors"
                                             placeholder="Doe"
                                         />
                                     </div>
@@ -81,7 +81,7 @@ export default function Contact() {
                                     <input
                                         type="email"
                                         id="email"
-                                        className="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-primary-store focus:border-transparent transition-colors"
+                                        className="input input-bordered ui-field w-full px-4 py-3 rounded-lg border-gray-300 dark:border-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-primary-store focus:border-transparent transition-colors"
                                         placeholder="john@example.com"
                                     />
                                 </div>
@@ -92,7 +92,7 @@ export default function Contact() {
                                     </label>
                                     <select
                                         id="subject"
-                                        className="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-primary-store focus:border-transparent transition-colors"
+                                        className="select select-bordered ui-field w-full px-4 py-3 rounded-lg border-gray-300 dark:border-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-primary-store focus:border-transparent transition-colors"
                                     >
                                         <option value="">Select a subject</option>
                                         <option value="order">Order Inquiry</option>
@@ -110,14 +110,14 @@ export default function Contact() {
                                     <textarea
                                         id="message"
                                         rows={5}
-                                        className="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-primary-store focus:border-transparent transition-colors resize-none"
+                                        className="textarea textarea-bordered ui-field w-full px-4 py-3 rounded-lg border-gray-300 dark:border-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-primary-store focus:border-transparent transition-colors resize-none"
                                         placeholder="How can we help you?"
                                     />
                                 </div>
 
                                 <button
                                     type="submit"
-                                    className="w-full bg-primary-store hover:bg-green-700 text-white font-semibold py-3 px-6 rounded-lg transition-colors flex items-center justify-center gap-2"
+                                    className="btn btn-primary w-full hover:bg-green-700 text-white font-semibold py-3 px-6 rounded-lg transition-colors flex items-center justify-center gap-2"
                                 >
                                     <FiSend className="w-5 h-5" />
                                     Send Message

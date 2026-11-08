@@ -86,7 +86,7 @@ src/
 │   ├── page.tsx                # Home route and metadata
 │   ├── robots.ts               # Generated robots.txt
 │   ├── sitemap.ts              # Generated sitemap.xml
-│   ├── globals.css             # Tailwind import, theme tokens, global styling
+│   ├── globals.css             # Tailwind/DaisyUI setup, shared themes and field styles
 ├── assets/                     # Local hero image and SVG asset
 ├── components/
 │   ├── catalog/                # Shared catalog explorer, filters, cards, and pagination
@@ -217,7 +217,30 @@ The storefront routes remain public to search crawlers; only the non-indexable c
 
 ## 12. Styling, images, and accessibility
 
-Global Tailwind/DaisyUI setup and theme color variables are in `src/app/globals.css`. The primary visual mode is English and the root document language is `en`. The layout includes a skip link and `main` landmark. Buttons and form fields have labels in many interactive components; continue checking accessible names, heading order, focus behavior, and mobile drawer semantics when extending the UI.
+Tailwind CSS 4 and DaisyUI 5 are configured in `src/app/globals.css`. The DaisyUI light and dark themes keep the existing store palette: primary green `#06513b`, secondary gold `#d4af37`, light bases `#ffffff` / `#e5eeff` / `#dce9ff`, and dark bases `#1f2937` / `#374151` / `#4b5563`. Existing custom Tailwind colors and the Jakarta font token remain in `@theme`; DaisyUI supplies component defaults while Tailwind continues to control layout and responsive details.
+
+Shared styling recipes in `globals.css`:
+
+- `.ui-field` sets field background and text from the active DaisyUI theme. Combine it with `input input-bordered`, `select select-bordered`, or `textarea textarea-bordered`; use it in auth forms, contact form, catalog search/filters, and footer subscription field. Keep field-specific sizing, icons, validation borders, and focus styles in Tailwind classes.
+- `.auth-form-card` replaces repeated Login/Register outer-card utilities. It is full width up to `28rem`, with `1rem` padding/gap by default, `1.5rem` padding/gap at `md` (`48rem`), and `2rem` gap at `lg` (`64rem`). It retains a white surface in light mode, `#0b0f12` in dark mode, `0.75rem` radius, and the existing large shadow. Login and Register add DaisyUI `card` plus their centering utilities.
+- `.featured-product-card` replaces repeated FeaturedProducts card styling: `1rem` padding, `1rem` radius, white / `#1f2937` surface, small resting shadow, and a larger shadow on hover. DaisyUI `card` handles the card structure; the component retains its group and content layout.
+- `.catalog-product-card` centralizes CatalogProductCard surface, overflow, border, radius, shadow, and dark colors: white / `#1f2937`, `0.75rem` radius, form-gray at 30% in light mode and gray-700 at 60% in dark mode, plus a small shadow. Add DaisyUI `card`; the list variant also uses `.catalog-product-card--list`, which switches to a row at the existing `sm` breakpoint (`40rem`). The grid variant remains vertical.
+
+DaisyUI component usage by file:
+
+- `src/app/(auth)/components/Login-comp.tsx` and `Regis-comp.tsx`: shared auth card, bordered fields, primary submit button, error alert.
+- `src/app/Contactus/page.tsx`: bordered inputs/select/textarea and primary submit button.
+- `src/components/catalog/SearchBar.tsx`, `FiltersPanel.tsx`, and `CatalogToolbar.tsx`: themed fields, sort select, and filter buttons; `CatalogPagination.tsx` uses button variants for page controls.
+- `src/components/catalog/CatalogProductCard.tsx`: shared catalog card recipe, DaisyUI card structure, status badges, and cart button.
+- `src/components/catalog/CatalogExplorer.tsx`: bordered DaisyUI card for the catalog filter/content panel.
+- `src/components/home-comp/FSection.tsx`, `FeaturedProducts.tsx`, and `DealProducts.tsx`: hero buttons, shared featured-product card, and primary purchase action.
+- `src/components/header/AuthLinks.tsx`: outline and filled DaisyUI buttons while preserving the footer-specific colors and focus treatment.
+- `src/components/Footer.tsx`: subscription input and compact primary button.
+- `src/app/cart/page.tsx`: DaisyUI cards for cart items/summary and button variants for cart actions.
+
+Common class families are `btn` with variants/sizes, `input`/`select`/`textarea` with `*-bordered`, `card`, `badge` with status variants, and `alert alert-error`. Preserve project-specific Tailwind colors, font choices, spacing, hover/focus behavior, and responsive utilities alongside those classes; DaisyUI is intended to replace repeated component styling, not the site's design tokens. When extending a component, follow the existing examples in those files instead of adding a second shared style with different values.
+
+The primary visual mode is English and the root document language is `en`. The layout includes a skip link and `main` landmark. Buttons and form fields have labels in many interactive components; continue checking accessible names, heading order, focus behavior, and mobile drawer semantics when extending the UI.
 
 `next.config.ts` allows remote images from `images.unsplash.com`, `localhost:1337`, and `127.0.0.1:1337`. Add any production image host there before using it with `next/image`. Product cards have image-error fallback behavior; the home hero uses a local asset.
 

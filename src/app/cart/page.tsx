@@ -41,7 +41,7 @@ export default function CartPage() {
                     {items.map((item) => (
                         <div
                             key={item.id}
-                            className="bg-white dark:bg-gray-800 rounded-xl border border-form-gray/30 dark:border-gray-700/60 p-4 flex gap-4"
+                            className="card bg-base-100 rounded-xl border border-form-gray/30 dark:border-gray-700/60 p-4 flex gap-4"
                         >
                             {/* Product Image */}
                             <div className="relative w-24 h-24 shrink-0 rounded-lg overflow-hidden bg-image-bg dark:bg-gray-700/50">
@@ -131,7 +131,7 @@ export default function CartPage() {
 
                 {/* Order Summary */}
                 <div className="lg:col-span-1">
-                    <div className="bg-white dark:bg-gray-800 rounded-xl border border-form-gray/30 dark:border-gray-700/60 p-6 sticky top-24">
+                    <div className="card bg-base-100 rounded-xl border border-form-gray/30 dark:border-gray-700/60 p-6 sticky top-24">
                         <h2 className="text-xl font-semibold text-ink dark:text-white mb-4">Order Summary</h2>
 
                         <div className="space-y-3 mb-6">
@@ -160,7 +160,7 @@ export default function CartPage() {
 
                         <button
                             type="button"
-                            className="w-full py-3 rounded-lg bg-primary-store hover:bg-green-700 text-white font-semibold transition-colors mb-3"
+                            className="btn btn-primary w-full py-3 rounded-lg hover:bg-green-700 text-white font-semibold transition-colors mb-3"
                         >
                             Proceed to Checkout
                         </button>

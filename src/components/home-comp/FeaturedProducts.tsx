@@ -30,7 +30,7 @@ export default function FeaturedProducts({ products }: FeaturedProductsProps) {
         return (
           <div
             key={product.documentId || product.id}
-            className="bg-white dark:bg-gray-800 rounded-2xl p-4 shadow-sm hover:shadow-lg transition-all duration-300 group flex flex-col justify-between"
+            className="card featured-product-card group flex flex-col justify-between"
           >
             <div>
               <div className="relative mb-4 overflow-hidden rounded-xl bg-gray-100 dark:bg-gray-700">
@@ -91,7 +91,7 @@ export default function FeaturedProducts({ products }: FeaturedProductsProps) {
               <button 
                 onClick={() => addProduct(product)}
                 aria-label={`Add ${product.name} to cart`}
-                className="bg-primary-store hover:bg-green-700 text-white p-2 rounded-lg transition-colors"
+                className="btn btn-primary min-h-0 bg-primary-store hover:bg-green-700 text-white p-2 rounded-lg transition-colors"
               >
                 <FiShoppingBag className="w-5 h-5" />
               </button>

@@ -37,7 +37,7 @@ export default function CatalogToolbar({
             value={sort}
             onChange={(e) => onSortChange(e.target.value as SortOption)}
             aria-label="Sort products"
-            className="appearance-none h-9 pl-3 pr-9 rounded-lg border border-form-gray dark:border-gray-600 bg-panel-blue dark:bg-gray-800 text-sm font-medium text-ink dark:text-white focus:outline-none focus:ring-2 focus:ring-primary-store/40 cursor-pointer"
+            className="select select-bordered ui-field appearance-none h-9 min-h-0 pl-3 pr-9 rounded-lg border-form-gray dark:border-gray-600 bg-panel-blue dark:bg-gray-800 text-sm font-medium text-ink dark:text-white focus:outline-none focus:ring-2 focus:ring-primary-store/40 cursor-pointer"
           >
             {SORT_OPTIONS.map((opt) => (
               <option key={opt.value} value={opt.value}>

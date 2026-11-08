@@ -6,6 +6,7 @@ Read `PROJECT_SUMMARY.md` first for the full project map. This file is a short c
 
 - Luminous Marketplace frontend in `C:\Users\Mahmoud Abdul-Monem\Desktop\final-front`.
 - Next.js 16 App Router, React 19, TypeScript, Tailwind/DaisyUI, Zustand, Strapi backend.
+- DaisyUI 5 is enabled in `src/app/globals.css`; this file also defines the light/dark theme colors and shared `.ui-field`, `.auth-form-card`, `.featured-product-card`, and `.catalog-product-card` recipes. Prefer DaisyUI for common controls/cards/buttons/badges/alerts, and Tailwind for layout and responsive utilities. Keep the existing colors, typography, and breakpoints. See §12 of `PROJECT_SUMMARY.md` for the exact values and component mapping.
 - Shared Strapi origin: `NEXT_PUBLIC_STRAPI_URL`, centralized in `src/lib/strapi.ts`.
 - Follow `AGENTS.md`: read the relevant local guide under `node_modules/next/dist/docs/` before changing Next.js APIs or conventions. Read `PROJECT_SUMMARY.md` before broader project changes.
 

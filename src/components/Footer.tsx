@@ -36,9 +36,9 @@ export default function Footer() {
                             <input
                                 type="email"
                                 placeholder="Email"
-                                className="flex-1 min-w-[200px] bg-white dark:bg-gray-800 dark:text-white rounded-lg px-4 py-3.25 text-[16px] outline-none border border-gray-300 dark:border-gray-700 focus:ring-2 focus:ring-primary-store"
+                                className="input input-bordered ui-field flex-1 min-w-[200px] rounded-lg px-4 py-3.25 text-[16px] outline-none border-gray-300 dark:border-gray-700 focus:ring-2 focus:ring-primary-store"
                             />
-                            <button className="bg-footer-primary rounded-lg text-white px-5 py-2 text-[14px] leading-4 font-bold hover:bg-green-800 transition-all">
+                            <button className="btn btn-primary min-h-0 bg-footer-primary rounded-lg text-white px-5 py-2 text-[14px] leading-4 font-bold hover:bg-green-800 transition-all">
                                 Go
                             </button>
                         </div>

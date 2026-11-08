@@ -23,10 +23,10 @@ export default function FSection() {
             </p>
 
             <div className="flex gap-4 justify-center md:justify-start flex-wrap">
-              <button className="rounded-lg flex justify-center items-center border border-transparent px-6 md:px-8 py-3 text-[14px] leading-5 font-semibold text-white bg-primary-store hover:bg-green-700 transition-all shadow-sm">
+              <button className="btn btn-primary rounded-lg flex justify-center items-center border border-transparent px-6 md:px-8 py-3 text-[14px] leading-5 font-semibold text-white hover:bg-green-700 transition-all shadow-sm">
                 Shop Collection
               </button>
-              <button className="rounded-lg flex justify-center items-center border border-gray-300 dark:border-gray-700 px-6 md:px-8 py-3 text-[14px] leading-5 font-semibold text-footer-primary dark:text-white hover:bg-gray-100 dark:hover:bg-gray-800 transition-all">
+              <button className="btn btn-outline rounded-lg flex justify-center items-center border-gray-300 dark:border-gray-700 px-6 md:px-8 py-3 text-[14px] leading-5 font-semibold text-footer-primary dark:text-white hover:bg-gray-100 dark:hover:bg-gray-800 transition-all">
                 View Lookbook
               </button>
             </div>

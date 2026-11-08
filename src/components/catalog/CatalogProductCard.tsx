@@ -95,11 +95,11 @@ function AddToCartButton({ product, fullWidth = false }: { product: Product; ful
       disabled={isSoldOut}
       onClick={handleAddToCart}
       aria-label={`Add ${product.name} to cart`}
-      className={
+      className={`btn btn-secondary ${
         fullWidth
           ? "mt-1 w-full h-12 rounded-lg bg-secondary-store hover:bg-[#c9a227] disabled:bg-gray-300 dark:disabled:bg-gray-700 text-[#241a00] dark:text-black text-sm font-semibold flex items-center justify-center gap-2 transition-colors"
           : "shrink-0 p-2 rounded-lg bg-gold-btn hover:bg-[#f0c94e] disabled:bg-gray-300 text-[#241a00] transition-colors"
-      }
+      }`}
     >
       <FiShoppingBag className={fullWidth ? "w-4 h-4" : "w-5 h-5"} aria-hidden />
       {fullWidth && "Add to Cart"}
@@ -113,7 +113,7 @@ export default function CatalogProductCard({ product, view, priority = false }: 
 
   if (view === "list") {
     return (
-      <article className="bg-white dark:bg-gray-800 rounded-xl border border-form-gray/30 dark:border-gray-700/60 shadow-sm overflow-hidden flex flex-col sm:flex-row">
+      <article className="card catalog-product-card catalog-product-card--list">
         <div className="relative block sm:w-56 shrink-0 aspect-[4/3] sm:aspect-auto sm:min-h-44 bg-image-bg dark:bg-gray-700/50">
           {product.image && !imgError ? (
             <Image
@@ -167,7 +167,7 @@ export default function CatalogProductCard({ product, view, priority = false }: 
 
   return (
     <article
-      className={`bg-white dark:bg-gray-800 rounded-xl border border-form-gray/30 dark:border-gray-700/60 shadow-sm overflow-hidden flex flex-col ${
+      className={`card catalog-product-card flex flex-col ${
         isSoldOut ? "opacity-80" : ""
       }`}
     >

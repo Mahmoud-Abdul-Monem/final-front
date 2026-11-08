@@ -1,5 +1,8 @@
 @import "tailwindcss";
 @plugin "daisyui";
+@plugin "daisyui" {
+  themes: light, dark;
+}
 
 :root {
   --background: #ffffff;
@@ -8,6 +11,30 @@
   --secondary: #D4AF37;
   --tertiary: #1E3A8A;
   --neutral: #64748B;
+}
+
+[data-theme="light"] {
+  color-scheme: light;
+  --color-primary: #06513b;
+  --color-primary-content: #ffffff;
+  --color-secondary: #d4af37;
+  --color-secondary-content: #241a00;
+  --color-base-100: #ffffff;
+  --color-base-200: #e5eeff;
+  --color-base-300: #dce9ff;
+  --color-base-content: #171717;
+}
+
+[data-theme="dark"] {
+  color-scheme: dark;
+  --color-primary: #06513b;
+  --color-primary-content: #ffffff;
+  --color-secondary: #d4af37;
+  --color-secondary-content: #171717;
+  --color-base-100: #1f2937;
+  --color-base-200: #374151;
+  --color-base-300: #4b5563;
+  --color-base-content: #ffffff;
 }
 
 @theme {
@@ -39,6 +66,75 @@
 }
 
 @custom-variant dark (&:where(.dark, .dark *));
+
+.ui-field {
+  background-color: var(--color-base-100);
+  color: var(--color-base-content);
+}
+
+.auth-form-card {
+  width: 100%;
+  max-width: 28rem;
+  gap: 1rem;
+  padding: 1rem;
+  border-radius: 0.75rem;
+  background-color: #fff;
+  box-shadow: 0 25px 50px -12px rgb(0 0 0 / 0.25);
+}
+
+.featured-product-card {
+  padding: 1rem;
+  border-radius: 1rem;
+  background-color: #fff;
+  box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  transition: box-shadow 300ms;
+}
+
+.featured-product-card:hover {
+  box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+}
+
+.catalog-product-card {
+  overflow: hidden;
+  border: 1px solid rgb(191 201 194 / 0.3);
+  border-radius: 0.75rem;
+  background-color: #fff;
+  box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+}
+
+.catalog-product-card--list {
+  display: flex;
+  flex-direction: column;
+}
+
+.dark .auth-form-card,
+.dark .featured-product-card,
+.dark .catalog-product-card {
+  background-color: #1f2937;
+}
+
+.dark .catalog-product-card {
+  border-color: rgb(55 65 81 / 0.6);
+}
+
+@media (min-width: 40rem) {
+  .catalog-product-card--list {
+    flex-direction: row;
+  }
+}
+
+@media (min-width: 48rem) {
+  .auth-form-card {
+    gap: 1.5rem;
+    padding: 1.5rem;
+  }
+}
+
+@media (min-width: 64rem) {
+  .auth-form-card {
+    gap: 2rem;
+  }
+}
 
 /* Smooth theme transitions for background and colors */
 html,

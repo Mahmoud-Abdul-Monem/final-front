@@ -154,7 +154,7 @@ export default function CatalogExplorer({
         <div className="flex gap-6 items-start">
           {/* Desktop sidebar */}
           <aside className="hidden lg:block w-[260px] shrink-0 sticky top-24">
-            <div className="bg-white dark:bg-gray-800 rounded-xl border border-form-gray/40 dark:border-gray-700/60 shadow-sm p-5">
+            <div className="card bg-base-100 rounded-xl border border-form-gray/40 dark:border-gray-700/60 shadow-sm p-5">
               <FiltersPanel {...filterPanelProps} />
             </div>
           </aside>

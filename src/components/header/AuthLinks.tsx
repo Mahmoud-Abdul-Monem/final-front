@@ -21,13 +21,13 @@ export default function AuthLinks() {
     <nav aria-label="Account" className="flex items-center gap-2">
       <Link
         href="/login"
-        className="inline-flex min-h-10 items-center justify-center rounded-full border border-white/50 px-3 sm:px-4 text-xs sm:text-sm font-semibold text-white transition-colors hover:bg-white/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-footer-primary"
+        className="btn btn-outline inline-flex min-h-10 items-center justify-center rounded-full border-white/50 px-3 sm:px-4 text-xs sm:text-sm font-semibold text-white transition-colors hover:bg-white/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-footer-primary"
       >
         Login
       </Link>
       <Link
         href="/register"
-        className="inline-flex min-h-10 items-center justify-center rounded-full bg-white px-3 sm:px-4 text-xs sm:text-sm font-semibold text-footer-primary shadow-sm transition-colors hover:bg-white/85 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-footer-primary"
+        className="btn btn-primary inline-flex min-h-10 items-center justify-center rounded-full bg-white px-3 sm:px-4 text-xs sm:text-sm font-semibold text-footer-primary shadow-sm transition-colors hover:bg-white/85 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-footer-primary"
       >
         Register
       </Link>

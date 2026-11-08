@@ -1,6 +1,8 @@
 # Luminous Marketplace
 
-An English-language e-commerce frontend built with Next.js, React, TypeScript, Tailwind CSS, Zustand, and a Strapi API.
+An English-language e-commerce frontend built with Next.js, React, TypeScript, Tailwind CSS, DaisyUI, Zustand, and a Strapi API.
+
+UI styling conventions, shared DaisyUI/Tailwind recipes, exact theme colors, responsive breakpoints, and the files using them are documented in `PROJECT_SUMMARY.md` §12. Keep that guide and `AGENTS.md` in sync when changing shared UI styles.
 
 ## Quick start
 

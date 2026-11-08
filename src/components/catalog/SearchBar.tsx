@@ -51,11 +51,11 @@ export default function SearchBar({ value, onSearch, placeholder = "Search produ
           onChange={(e) => setInput(e.target.value)}
           placeholder={placeholder}
           aria-label="Search products"
-          className="w-full h-12 pl-12 pr-28 rounded-xl border border-form-gray dark:border-gray-700 bg-white dark:bg-gray-800 text-ink dark:text-white placeholder:text-body/60 dark:placeholder:text-gray-500 text-sm md:text-base focus:outline-none focus:ring-2 focus:ring-primary-store/40 focus:border-primary-store transition-shadow"
+          className="input input-bordered ui-field w-full h-12 pl-12 pr-28 rounded-xl border-form-gray dark:border-gray-700 text-ink dark:text-white placeholder:text-body/60 dark:placeholder:text-gray-500 text-sm md:text-base focus:outline-none focus:ring-2 focus:ring-primary-store/40 focus:border-primary-store transition-shadow"
         />
         <button
           type="submit"
-          className="absolute right-1.5 h-9 px-4 rounded-lg bg-primary-store hover:bg-green-700 text-white text-sm font-semibold transition-colors"
+          className="btn btn-primary absolute right-1.5 h-9 min-h-0 px-4 rounded-lg hover:bg-green-700 text-white text-sm font-semibold transition-colors"
         >
           Search
         </button>

@@ -23,7 +23,7 @@ function getPageItems(current: number, total: number): (number | "ellipsis")[] {
 }
 
 const btnBase =
-  "inline-flex items-center justify-center rounded-lg font-medium transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-store/50";
+  "btn inline-flex min-h-0 items-center justify-center rounded-lg font-medium transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-store/50";
 const btnSize = "w-9 h-9 sm:w-10 sm:h-10 text-sm sm:text-base";
 
 export default function CatalogPagination({ currentPage, totalPages, onPageChange }: CatalogPaginationProps) {

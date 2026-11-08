@@ -22,7 +22,7 @@ export default function RegisComp() {
     const EyeIcon = showPassword ? FaEyeSlash : TfiEye;
 
     return (
-        <div className="flex p-4 md:p-6 w-full max-w-md justify-center items-center rounded-xl flex-col shadow-2xl bg-white dark:bg-dark-theme gap-4 md:gap-6 lg:gap-8">
+        <div className="card auth-form-card flex justify-center items-center flex-col dark:bg-dark-theme">
             <div className="flex justify-center items-center gap-3 flex-col">
                 {/* تأثير الشعاع (Glow) حول أيقونة البروفايل */}
                 <div className="w-16 h-16 bg-primary-store rounded-full flex justify-center items-center shadow-[0_0_20px_rgba(16,185,129,0.4)] dark:shadow-[0_0_25px_rgba(16,185,129,0.6)]">
@@ -56,7 +56,7 @@ export default function RegisComp() {
                                 </div>
                                 <Field
                                     name="username" id="name" type="text" placeholder="e.g. Jane Doe"
-                                    className={`rounded-lg block focus:outline-0 mt-1 w-full p-3 pl-10 border dark:bg-gray-800 dark:text-white ${!values.username ? 'border-gray-300 dark:border-gray-700' : errors.username ? 'border-red-600' : 'border-green-600'}`}
+                                    className={`input input-bordered ui-field rounded-lg block focus:outline-0 mt-1 w-full p-3 pl-10 ${!values.username ? 'border-gray-300 dark:border-gray-700' : errors.username ? 'border-red-600' : 'border-green-600'}`}
                                 />
                                 <ErrorMessage name="username" component="p" className="text-red-600 text-[12px] mt-1" />
                             </div>
@@ -68,7 +68,7 @@ export default function RegisComp() {
                                 </div>
                                 <Field
                                     name="email" id="email" type="email" placeholder="name@example.com"
-                                    className={`rounded-lg block focus:outline-0 mt-1 w-full p-3 pl-10 border dark:bg-gray-800 dark:text-white ${!values.email ? 'border-gray-300 dark:border-gray-700' : errors.email ? 'border-red-600' : 'border-green-600'}`}
+                                    className={`input input-bordered ui-field rounded-lg block focus:outline-0 mt-1 w-full p-3 pl-10 ${!values.email ? 'border-gray-300 dark:border-gray-700' : errors.email ? 'border-red-600' : 'border-green-600'}`}
                                 />
                                 <ErrorMessage name="email" component="p" className="text-red-600 text-[12px] mt-1" />
                             </div>
@@ -80,7 +80,7 @@ export default function RegisComp() {
                                 </div>
                                 <Field
                                     name="password" id="password" type={showPassword ? "text" : "password"} placeholder="••••••••"
-                                    className={`rounded-lg block focus:outline-0 mt-1 w-full p-3 pl-10 border dark:bg-gray-800 dark:text-white ${!values.password ? 'border-gray-300 dark:border-gray-700' : errors.password ? 'border-red-600' : 'border-green-600'}`}
+                                    className={`input input-bordered ui-field rounded-lg block focus:outline-0 mt-1 w-full p-3 pl-10 ${!values.password ? 'border-gray-300 dark:border-gray-700' : errors.password ? 'border-red-600' : 'border-green-600'}`}
                                 />
                                 <button
                                     className="absolute cursor-pointer inset-y-13 inset-e-3 flex items-center"
@@ -99,7 +99,7 @@ export default function RegisComp() {
                                 </div>
                                 <Field
                                     name="confirmPassword" id="confirm-pass" type={showPassword ? "text" : "password"} placeholder="••••••••"
-                                    className={`rounded-lg block focus:outline-0 mt-1 w-full p-3 pl-10 border dark:bg-gray-800 dark:text-white ${!values.confirmPassword ? 'border-gray-300 dark:border-gray-700' : errors.confirmPassword ? 'border-red-600' : 'border-green-600'}`}
+                                    className={`input input-bordered ui-field rounded-lg block focus:outline-0 mt-1 w-full p-3 pl-10 ${!values.confirmPassword ? 'border-gray-300 dark:border-gray-700' : errors.confirmPassword ? 'border-red-600' : 'border-green-600'}`}
                                 />
                                 <button
                                     className="absolute cursor-pointer inset-y-13 inset-e-3 flex items-center"
@@ -112,13 +112,13 @@ export default function RegisComp() {
                             </div>
 
                             {regisError && (
-                                <p className="bg-red-50 border border-red-200 text-red-800 p-3 rounded-lg text-[14px]">{regisError}</p>
+                                <p role="alert" className="alert alert-error p-3 rounded-lg text-[14px]">{regisError}</p>
                             )}
 
                             <button
                                 type="submit"
                                 disabled={Boolean(errors.password || errors.email || errors.username || errors.confirmPassword || !values.username || !values.password || !values.confirmPassword || !values.email)}
-                                className={`w-full transition-all duration-400 ease-in-out p-3 rounded-lg text-white flex justify-center text-[14px] leading-5 font-semibold items-center ${errors.password || errors.email || errors.username || errors.confirmPassword || !values.username || !values.password || !values.confirmPassword || !values.email ? 'bg-gray-400 dark:bg-gray-700' : 'cursor-pointer bg-primary-store hover:shadow-lg hover:-translate-y-0.5 hover:bg-green-800 border-green-600'}`}
+                                className={`btn btn-primary w-full transition-all duration-400 ease-in-out p-3 rounded-lg text-white flex justify-center text-[14px] leading-5 font-semibold items-center ${errors.password || errors.email || errors.username || errors.confirmPassword || !values.username || !values.password || !values.confirmPassword || !values.email ? 'bg-gray-400 dark:bg-gray-700' : 'cursor-pointer hover:shadow-lg hover:-translate-y-0.5 hover:bg-green-800 border-green-600'}`}
                             >
                                 Create Account
                             </button>

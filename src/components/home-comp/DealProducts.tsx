@@ -69,7 +69,7 @@ export default function DealProducts({ products }: DealProductsProps) {
               <button 
                 onClick={() => addProduct(product)}
                 aria-label={`Add ${product.name} to cart`}
-                className="w-full bg-primary-store hover:bg-green-700 text-white py-2 rounded-lg font-semibold transition-colors"
+                className="btn btn-primary w-full bg-primary-store hover:bg-green-700 text-white py-2 rounded-lg font-semibold transition-colors"
               >
                 Add to Cart
               </button>

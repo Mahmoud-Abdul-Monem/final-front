@@ -145,7 +145,7 @@ export default function FiltersPanel({
               onChange={(e) => setMinDraft(e.target.value)}
               placeholder="Min"
               aria-label="Minimum price"
-              className="w-full h-10 pl-7 pr-3 rounded-lg border border-form-gray dark:border-gray-600 bg-white dark:bg-gray-800 text-sm text-ink dark:text-white placeholder:text-body/50 focus:outline-none focus:ring-2 focus:ring-primary-store/40 focus:border-primary-store"
+              className="input input-bordered ui-field w-full h-10 min-h-0 pl-7 pr-3 rounded-lg border-form-gray dark:border-gray-600 text-sm text-ink dark:text-white placeholder:text-body/50 focus:outline-none focus:ring-2 focus:ring-primary-store/40 focus:border-primary-store"
             />
           </div>
           <span className="text-body dark:text-gray-400">-</span>
@@ -162,7 +162,7 @@ export default function FiltersPanel({
               onChange={(e) => setMaxDraft(e.target.value)}
               placeholder="Max"
               aria-label="Maximum price"
-              className="w-full h-10 pl-7 pr-3 rounded-lg border border-form-gray dark:border-gray-600 bg-white dark:bg-gray-800 text-sm text-ink dark:text-white placeholder:text-body/50 focus:outline-none focus:ring-2 focus:ring-primary-store/40 focus:border-primary-store"
+              className="input input-bordered ui-field w-full h-10 min-h-0 pl-7 pr-3 rounded-lg border-form-gray dark:border-gray-600 text-sm text-ink dark:text-white placeholder:text-body/50 focus:outline-none focus:ring-2 focus:ring-primary-store/40 focus:border-primary-store"
             />
           </div>
         </div>
@@ -188,7 +188,7 @@ export default function FiltersPanel({
         <button
           type="button"
           onClick={applyPrice}
-          className="mt-4 w-full h-10 rounded-lg bg-panel-blue dark:bg-gray-700 border border-form-gray/60 dark:border-gray-600 text-sm font-semibold text-ink dark:text-white hover:bg-chip-blue transition-colors"
+          className="btn mt-4 w-full h-10 min-h-0 rounded-lg bg-panel-blue dark:bg-gray-700 border border-form-gray/60 dark:border-gray-600 text-sm font-semibold text-ink dark:text-white hover:bg-chip-blue transition-colors"
         >
           Apply
         </button>
@@ -211,7 +211,7 @@ export default function FiltersPanel({
         <button
           type="button"
           onClick={onApply}
-          className="mt-2 w-full h-11 rounded-lg bg-primary-store hover:bg-green-700 text-white font-semibold transition-colors"
+          className="btn btn-primary mt-2 w-full h-11 min-h-0 rounded-lg hover:bg-green-700 text-white font-semibold transition-colors"
         >
           Show results
         </button>
