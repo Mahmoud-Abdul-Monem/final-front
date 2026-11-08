@@ -58,12 +58,10 @@ function Checkbox({
   checked,
   onChange,
   label,
-  count,
 }: {
   checked: boolean;
   onChange: () => void;
   label: string;
-  count?: number;
 }) {
   return (
     <label className="flex items-center gap-3 cursor-pointer group py-0.5">
@@ -79,7 +77,6 @@ function Checkbox({
       <input type="checkbox" checked={checked} onChange={onChange} className="sr-only" />
       <span className="text-sm text-body dark:text-gray-300 leading-6 truncate">
         {label}
-        {typeof count === "number" && <span className="text-body/60 dark:text-gray-500"> ({count})</span>}
       </span>
     </label>
   );
@@ -125,7 +122,6 @@ export default function FiltersPanel({
                 checked={filters.categories.includes(cat.documentId)}
                 onChange={() => onToggleCategory(cat.documentId)}
                 label={cat.name}
-                count={cat.itemCount}
               />
             ))
           ) : (

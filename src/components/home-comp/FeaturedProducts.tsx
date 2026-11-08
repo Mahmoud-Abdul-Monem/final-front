@@ -5,8 +5,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { FiShoppingBag, FiStar } from 'react-icons/fi'
 import WishlistButton from '@/components/WishlistButton'
-import { useCartStore } from '@/store/cartStore'
-import toast from 'react-hot-toast'
+import { useCartActions } from '@/hooks/useCartActions'
 import type { Product } from '@/services/products'
 
 interface FeaturedProductsProps {
@@ -14,28 +13,11 @@ interface FeaturedProductsProps {
 }
 
 export default function FeaturedProducts({ products }: FeaturedProductsProps) {
-  const addItem = useCartStore((state) => state.addItem);
+  const { addProduct } = useCartActions();
 
   if (!products || products.length === 0) {
     return <p className="text-gray-500 text-center py-8">No featured products available at the moment.</p>
   }
-
-  const handleAddToCart = (product: Product) => {
-    const added = addItem({
-      id: String(product.id),
-      documentId: product.documentId,
-      name: product.name,
-      price: product.price,
-      originalPrice: product.originalPrice,
-      image: product.image,
-      category: product.category?.name,
-    });
-    if (!added) {
-      toast.error("Please log in or register before adding items to your cart.");
-      return;
-    }
-    toast.success(`${product.name} added to cart`);
-  };
 
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
@@ -107,7 +89,7 @@ export default function FeaturedProducts({ products }: FeaturedProductsProps) {
                 )}
               </div>
               <button 
-                onClick={() => handleAddToCart(product)}
+                onClick={() => addProduct(product)}
                 aria-label={`Add ${product.name} to cart`}
                 className="bg-primary-store hover:bg-green-700 text-white p-2 rounded-lg transition-colors"
               >

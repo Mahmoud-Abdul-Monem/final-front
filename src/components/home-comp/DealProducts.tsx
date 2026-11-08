@@ -2,8 +2,7 @@
 
 import React from 'react'
 import Image from 'next/image'
-import { useCartStore } from '@/store/cartStore'
-import toast from 'react-hot-toast'
+import { useCartActions } from '@/hooks/useCartActions'
 import type { Product } from '@/services/products'
 
 interface DealProductsProps {
@@ -11,28 +10,11 @@ interface DealProductsProps {
 }
 
 export default function DealProducts({ products }: DealProductsProps) {
-  const addItem = useCartStore((state) => state.addItem);
+  const { addProduct } = useCartActions();
 
   if (!products || products.length === 0) {
     return null;
   }
-
-  const handleAddToCart = (product: Product) => {
-    const added = addItem({
-      id: String(product.id),
-      documentId: product.documentId,
-      name: product.name,
-      price: product.price,
-      originalPrice: product.originalPrice,
-      image: product.image,
-      category: product.category?.name,
-    });
-    if (!added) {
-      toast.error("Please log in or register before adding items to your cart.");
-      return;
-    }
-    toast.success(`${product.name} added to cart`);
-  };
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -85,7 +67,7 @@ export default function DealProducts({ products }: DealProductsProps) {
 
             <div>
               <button 
-                onClick={() => handleAddToCart(product)}
+                onClick={() => addProduct(product)}
                 aria-label={`Add ${product.name} to cart`}
                 className="w-full bg-primary-store hover:bg-green-700 text-white py-2 rounded-lg font-semibold transition-colors"
               >

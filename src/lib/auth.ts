@@ -9,6 +9,11 @@ export function hasAuthToken(): boolean {
     });
 }
 
+export function storeAuthToken(token: string): void {
+  if (typeof document === "undefined") return;
+  document.cookie = `token=${token}; path=/; max-age=604800`;
+}
+
 export function getSafeRedirectPath(search: string): string {
   const nextPath = new URLSearchParams(search).get("next");
   return nextPath?.startsWith("/") && !nextPath.startsWith("//") ? nextPath : "/";

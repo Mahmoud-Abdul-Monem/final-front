@@ -11,14 +11,10 @@ export const useThemeStore = create<ThemeState>()(
     persist(
         (set) => ({
             theme: "dark",
-            setTheme: (newTheme) => {
-                document.cookie = `theme=${newTheme}; path=/; max-age=31536000`;
-                set({ theme: newTheme });
-            },
+            setTheme: (newTheme) => set({ theme: newTheme }),
             toggleTheme: () =>
                 set((state) => {
                     const nextTheme = state.theme === "light" ? "dark" : "light";
-                    document.cookie = `theme=${nextTheme}; path=/; max-age=31536000`;
                     return { theme: nextTheme };
                 }),
         }),

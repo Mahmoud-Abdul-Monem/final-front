@@ -8,6 +8,8 @@ Luminous Marketplace is an English-language e-commerce storefront built with the
 
 The application is a frontend project. Checkout, payment processing, order management, a dedicated favorites page, and several form submissions are not implemented end to end.
 
+Category cards and catalog category filters show category names without item-count labels. The API model still carries `itemCount`; it is simply not rendered in those views.
+
 ## 2. Technology stack
 
 | Area | Implementation |
@@ -60,7 +62,7 @@ npm run lint
 | `NEXT_PUBLIC_STRAPI_URL` | Base URL for product, category, offer, and contact service requests | Defaults to `http://localhost:1337` |
 | `NEXT_PUBLIC_SITE_URL` | Absolute site origin used by metadata, sitemap, and robots output | Defaults to `http://localhost:3000`; set to the canonical HTTPS production origin when deployed |
 
-Authentication hooks currently call `http://localhost:1337` directly instead of using `NEXT_PUBLIC_STRAPI_URL`. Configure or change those hooks before deploying against a non-local API. Do not put private credentials in `NEXT_PUBLIC_*` variables; values with that prefix are exposed to the browser.
+Authentication and content requests use the shared Strapi base URL from `NEXT_PUBLIC_STRAPI_URL` through `src/lib/strapi.ts`. It defaults to `http://localhost:1337` for local development. Set the variable in the deployment environment to the public Strapi origin. Do not put private credentials in `NEXT_PUBLIC_*` variables; values with that prefix are exposed to the browser.
 
 ## 4. Repository layout
 
@@ -69,7 +71,7 @@ src/
 ├── app/
 │   ├── (auth)/                 # Login, registration, and placeholder password recovery
 │   │   ├── components/         # Login and registration forms
-│   │   ├── hooks/              # Form validation and authentication requests
+│   │   ├── hooks/              # Form orchestration for login and registration
 │   │   ├── login/page.tsx
 │   │   ├── register/page.tsx
 │   │   ├── forgetpassword/page.tsx
@@ -95,10 +97,10 @@ src/
 │   └── WishlistButton.tsx      # Shared interactive favorite control
 ├── services/                   # Strapi fetch functions and response types
 ├── store/                      # Cart, theme, and favorites Zustand stores
-└── proxy.ts                    # Authentication redirect and cookie handling
+└── proxy.ts                    # Cart route protection and OAuth token cookie handling
 ```
 
-The `src/app/(auth)/layout.tsx` and route-group folder are Next.js route groups: `(auth)` does not appear in the URL. `src/proxy.ts` is the request interception entry point used by this project.
+The `src/app/(auth)/layout.tsx` and route-group folder are Next.js route groups: `(auth)` does not appear in the URL. `src/proxy.ts` is the request interception entry point used by this project. Authentication requests are in `src/services/auth.ts`; validation schemas are in `src/lib/validation/authSchemas.ts`. `src/hooks/useCartActions.ts` shares cart interaction rules, and `src/lib/cart.ts` maps product data to cart items.
 
 ## 5. Routes and page behavior
 
@@ -114,7 +116,7 @@ The `src/app/(auth)/layout.tsx` and route-group folder are Next.js route groups:
 | `/register` | Registration form | Calls Strapi registration endpoint | Auth metadata sets `noindex` |
 | `/forgetpassword` | Placeholder | Displays placeholder content; password recovery is not implemented | Auth metadata sets `noindex` |
 
-The request proxy protects nearly every matched route when there is no `token` cookie. Login and registration are allowed without a token. As written, this also means public storefront and informational URLs redirect unauthenticated visitors to `/login`. The proxy accepts `access_token` or `jwt` query parameters, stores the value in a cookie, and redirects to `/`. Review this behavior before treating the storefront as publicly crawlable or deploying it.
+Only `/cart` is protected by `src/proxy.ts`. If no `token` cookie exists, a direct visit redirects to `/login?next=/cart`; the storefront and informational routes remain public. The proxy also accepts `access_token` or `jwt` query parameters, stores the value in a cookie, and redirects to `/`.
 
 ## 6. Rendering and component boundaries
 
@@ -123,6 +125,7 @@ The request proxy protects nearly every matched route when there is no `token` c
 - `CatalogExplorer`, product cards, the cart, theme controls, navigation menu, and wishlist button use client-side state or browser interactions.
 - The catalog UI is shared by `/products` and `/shopping`. Both routes currently fetch all products and categories before client-side filtering.
 - Home page sections are split into separate files. Featured products and deal products have client components for cart interaction.
+- Separation of concerns: service modules make API requests, validation schemas describe form rules, form hooks coordinate submission and navigation, Zustand stores own persisted state, and shared hooks/utilities handle reusable UI actions and data mapping.
 - Semantic elements are used in selected layouts and sections, but not every visual wrapper has been converted; `div` remains appropriate for layout-only containers.
 
 ## 7. Catalog system
@@ -163,7 +166,7 @@ All services return empty collections or `null` for most failed catalog lookups 
 
 ## 9. Client-side state
 
-### Cart: `src/store/cartStore.ts`
+### Cart: `src/store/cartStore.ts`, `src/hooks/useCartActions.ts`
 
 Persisted with Zustand under `cart-storage`.
 
@@ -173,6 +176,8 @@ Persisted with Zustand under `cart-storage`.
 - Updating quantity to zero or less removes the item.
 - `getSubtotal` sums `price * quantity`; shipping and tax are placeholders in the UI and are not included in the total.
 - `getTotalItems` sums quantities.
+- The store only manages cart state. `useCartActions` checks for a login token before adding an item, maps the product through `src/lib/cart.ts`, and shows a toast for success or the login requirement. Product cards across the catalog and home page use this shared action.
+- The header cart control is a button: signed-in visitors navigate to `/cart`, while signed-out visitors see “Log in to view your cart.” without navigation. The cart count is shown only when a token is present. Direct `/cart` access is independently guarded by the proxy.
 
 ### Favorites: `src/store/wishlistStore.ts`
 
@@ -180,17 +185,18 @@ Persists product IDs under the `wishlist` localStorage key. `toggleProduct` adds
 
 ### Theme: `src/store/theme.tsx`
 
-Persists the `light` or `dark` theme under `theme-storage`, updates a browser cookie, and exposes set/toggle actions. `ThemeProvider` applies the matching class and `data-theme` attribute. The root layout includes an early inline script that reads persisted theme state before first paint to reduce a dark-mode flash.
+Persists the `light` or `dark` theme under `theme-storage` and exposes set/toggle actions. `ThemeProvider` applies the matching class and `data-theme` attribute. The root layout includes an early inline script that reads persisted theme state before first paint to reduce a dark-mode flash. The store owns theme state; the provider owns DOM updates.
 
 ## 10. Authentication and request proxy
 
-Authentication hooks are in `src/app/(auth)/hooks/` and forms are in `src/app/(auth)/components/`.
+Authentication hooks are in `src/app/(auth)/hooks/`, forms are in `src/app/(auth)/components/`, API calls are in `src/services/auth.ts`, shared URL/auth helpers are in `src/lib/`, and Yup schemas are in `src/lib/validation/authSchemas.ts`.
 
-- Login validates email and a minimum six-character password with Yup, then sends credentials to `POST http://localhost:1337/api/auth/local`.
-- Registration validates username, email, password, and confirmation, then sends data to `POST http://localhost:1337/api/auth/local/register`.
+- Login validates email and a minimum six-character password with Yup, then sends credentials to `POST {NEXT_PUBLIC_STRAPI_URL}/api/auth/local`.
+- Registration validates username, email, password, and confirmation, then sends data to `POST {NEXT_PUBLIC_STRAPI_URL}/api/auth/local/register`.
 - Successful responses are expected to include `jwt`; the browser writes it to a `token` cookie with a seven-day max age.
 - Submissions are throttled in the UI to one request per second.
-- Login and registration are the only unauthenticated page routes allowed by `src/proxy.ts`.
+- After successful login or registration, the hook redirects to a safe `next` path when provided (for example, `/cart`), otherwise to `/`.
+- Facebook login is currently disabled and labeled “Coming soon”; it makes no OAuth request. Google OAuth remains routed through the configured Strapi base URL.
 
 The cookie is currently set from client-side JavaScript and is not `HttpOnly` or `Secure`. The proxy checks for presence of a token; it does not validate token signature, expiry, or authorization. Treat this as development behavior, not a production authentication boundary. The `access_token`/`jwt` query parameter path should also be reviewed because query tokens can appear in browser history and logs.
 
@@ -204,7 +210,7 @@ The cookie is currently set from client-side JavaScript and is not `HttpOnly` or
 - `NEXT_PUBLIC_SITE_URL` must be set to the deployed canonical origin. Its localhost fallback is for development only.
 - No product JSON-LD, dynamic per-product metadata, or generated social preview image is currently implemented.
 
-SEO deployment depends on the request proxy allowing search crawlers to reach public pages. With the current proxy rule, unauthenticated crawlers are redirected to login, so metadata and sitemap alone do not make the storefront indexable.
+The storefront routes remain public to search crawlers; only the non-indexable cart route is protected. Metadata and sitemap should still be checked against the deployed canonical origin.
 
 ## 12. Styling, images, and accessibility
 
@@ -214,8 +220,8 @@ Global Tailwind/DaisyUI setup and theme color variables are in `src/app/globals.
 
 ## 13. Current limitations and follow-up work
 
-1. Decide whether the storefront is public or authenticated. Update `src/proxy.ts` and crawler behavior to match that decision.
-2. Move authentication API URLs to configuration and establish a production-safe session strategy using server-managed secure cookies and real token validation.
+1. Review the token-in-query OAuth callback flow because query tokens can appear in browser history and logs; prefer a server-managed callback and secure session cookies for production.
+2. Replace the client-readable token cookie with a production-safe session strategy using server-managed secure cookies and real token validation.
 3. Connect the contact form and footer subscription form to real handlers; add server-side validation and success/error states.
 4. Implement password recovery, product detail, a dedicated wishlist page, checkout, and order flows if they are product requirements.
 5. Move catalog filtering, sorting, and pagination to Strapi/server-side requests and represent filter state in search parameters.

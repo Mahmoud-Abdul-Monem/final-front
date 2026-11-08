@@ -5,8 +5,7 @@ import { FiShoppingBag, FiStar } from "react-icons/fi";
 import WishlistButton from "@/components/WishlistButton";
 import type { Product } from "@/services/products";
 import type { CatalogView } from "./types";
-import { useCartStore } from "@/store/cartStore";
-import toast from "react-hot-toast";
+import { useCartActions } from "@/hooks/useCartActions";
 
 // TODO: link cards to /products/[documentId] once the product detail page exists
 
@@ -83,24 +82,11 @@ function Badge({ product }: { product: Product }) {
 }
 
 function AddToCartButton({ product, fullWidth = false }: { product: Product; fullWidth?: boolean }) {
-  const addItem = useCartStore((state) => state.addItem);
+  const { addProduct } = useCartActions();
   const isSoldOut = product.stock === 0;
 
   const handleAddToCart = () => {
-    const added = addItem({
-      id: String(product.id),
-      documentId: product.documentId,
-      name: product.name,
-      price: product.price,
-      originalPrice: product.originalPrice,
-      image: product.image,
-      category: product.category?.name,
-    });
-    if (!added) {
-      toast.error("Please log in or register before adding items to your cart.");
-      return;
-    }
-    toast.success(`${product.name} added to cart`);
+    addProduct(product);
   };
 
   return (
