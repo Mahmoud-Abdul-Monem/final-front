@@ -97,7 +97,7 @@ src/
 │   └── WishlistButton.tsx      # Shared interactive favorite control
 ├── services/                   # Strapi fetch functions and response types
 ├── store/                      # Cart, theme, and favorites Zustand stores
-└── proxy.ts                    # Cart route protection and OAuth token cookie handling
+└── proxy.ts                    # Cart/auth-page redirects and OAuth token cookie handling
 ```
 
 The `src/app/(auth)/layout.tsx` and route-group folder are Next.js route groups: `(auth)` does not appear in the URL. `src/proxy.ts` is the request interception entry point used by this project. Authentication requests are in `src/services/auth.ts`; validation schemas are in `src/lib/validation/authSchemas.ts`. `src/hooks/useCartActions.ts` shares cart interaction rules, and `src/lib/cart.ts` maps product data to cart items.
@@ -116,7 +116,7 @@ The `src/app/(auth)/layout.tsx` and route-group folder are Next.js route groups:
 | `/register` | Registration form | Calls Strapi registration endpoint | Auth metadata sets `noindex` |
 | `/forgetpassword` | Placeholder | Displays placeholder content; password recovery is not implemented | Auth metadata sets `noindex` |
 
-Only `/cart` is protected by `src/proxy.ts`. If no `token` cookie exists, a direct visit redirects to `/login?next=/cart`; the storefront and informational routes remain public. The proxy also accepts `access_token` or `jwt` query parameters, stores the value in a cookie, and redirects to `/`.
+`src/proxy.ts` applies the route access redirects. If no `token` cookie exists, a direct visit to `/cart` redirects to `/login?next=/cart`. Visitors with a `token` cookie are redirected from `/login` and `/register` to `/`. The storefront and informational routes remain public. The proxy also accepts `access_token` or `jwt` query parameters, stores the value in a cookie, and redirects to `/`.
 
 ## 6. Rendering and component boundaries
 
@@ -127,6 +127,7 @@ Only `/cart` is protected by `src/proxy.ts`. If no `token` cookie exists, a dire
 - Home page sections are split into separate files. Featured products and deal products have client components for cart interaction.
 - Separation of concerns: service modules make API requests, validation schemas describe form rules, form hooks coordinate submission and navigation, Zustand stores own persisted state, and shared hooks/utilities handle reusable UI actions and data mapping.
 - Semantic elements are used in selected layouts and sections, but not every visual wrapper has been converted; `div` remains appropriate for layout-only containers.
+- Header responsibilities are split between the server-rendered `Header` composition and focused client controls in `src/components/header/`: `AuthLinks` reads the browser token to show Login/Register only when signed out, while `CartBadge` owns cart count and click display. `MobileNav` owns the mobile site navigation. Auth route access itself is enforced separately in `src/proxy.ts`.
 
 ## 7. Catalog system
 
@@ -176,8 +177,8 @@ Persisted with Zustand under `cart-storage`.
 - Updating quantity to zero or less removes the item.
 - `getSubtotal` sums `price * quantity`; shipping and tax are placeholders in the UI and are not included in the total.
 - `getTotalItems` sums quantities.
-- The store only manages cart state. `useCartActions` checks for a login token before adding an item, maps the product through `src/lib/cart.ts`, and shows a toast for success or the login requirement. Product cards across the catalog and home page use this shared action.
-- The header cart control is a button: signed-in visitors navigate to `/cart`, while signed-out visitors see “Log in to view your cart.” without navigation. The cart count is shown only when a token is present. Direct `/cart` access is independently guarded by the proxy.
+- The store only manages cart state. `useCartActions` is the shared client interaction layer: it checks the login token before adding an item, maps product data through the pure helper `src/lib/cart.ts`, and shows success/login requirement toasts. Product cards across the catalog and home page use this shared action.
+- The header cart control is a button: signed-in visitors navigate to `/cart`; signed-out visitors see “Log in to view your cart.” and are sent to `/login?next=/cart`. The cart count is shown only when a token is present. Direct `/cart` access is independently guarded by the proxy.
 
 ### Favorites: `src/store/wishlistStore.ts`
 
@@ -190,6 +191,8 @@ Persists the `light` or `dark` theme under `theme-storage` and exposes set/toggl
 ## 10. Authentication and request proxy
 
 Authentication hooks are in `src/app/(auth)/hooks/`, forms are in `src/app/(auth)/components/`, API calls are in `src/services/auth.ts`, shared URL/auth helpers are in `src/lib/`, and Yup schemas are in `src/lib/validation/authSchemas.ts`.
+
+Responsibility boundaries: `src/services/auth.ts` makes Strapi requests; validation rules remain in `src/lib/validation/authSchemas.ts`; `useLogin` and `useRegister` coordinate form submission, token storage, and client navigation; `src/lib/auth.ts` contains browser cookie and safe redirect helpers; and `src/proxy.ts` handles request-time route redirects using the token cookie. The header's `AuthLinks` only reflects cookie presence in the UI; it is not the route security check.
 
 - Login validates email and a minimum six-character password with Yup, then sends credentials to `POST {NEXT_PUBLIC_STRAPI_URL}/api/auth/local`.
 - Registration validates username, email, password, and confirmation, then sends data to `POST {NEXT_PUBLIC_STRAPI_URL}/api/auth/local/register`.

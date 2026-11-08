@@ -8,7 +8,7 @@ This version has breaking changes — APIs, conventions, and file structure may 
 - TypeScript: `./node_modules/.bin/tsc --noEmit` (npx may pick up system tsc wrapper)
 - Browser testing: Playwright MCP server is available for visual verification
 - Dev server: `npm run dev` (uses Turbopack)
-- Auth: only `/cart` is protected by `src/proxy.ts`; unauthenticated direct visits redirect to `/login?next=/cart`. OAuth callbacks may accept `?access_token=...` or `?jwt=...`.
+- Auth: `/cart` is protected by `src/proxy.ts`; unauthenticated visits redirect to `/login?next=/cart`. Authenticated visits to `/login` or `/register` redirect to `/`. OAuth callbacks may accept `?access_token=...` or `?jwt=...`.
 
 ## Project context
 - Read `PROJECT_SUMMARY.md` first for the current architecture, routes, environment variables, service boundaries, state behavior, and known limitations. Treat it as a concise map; inspect source files only for the specific change being made.

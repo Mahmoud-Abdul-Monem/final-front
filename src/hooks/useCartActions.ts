@@ -5,8 +5,10 @@ import type { Product } from "@/services/products";
 import { useCartStore } from "@/store/cartStore";
 import { hasAuthToken } from "@/lib/auth";
 import { toCartItem } from "@/lib/cart";
+import { useRouter } from "next/navigation";
 
 export function useCartActions() {
+  const router = useRouter();
   const addItem = useCartStore((state) => state.addItem);
 
   const addProduct = (product: Product): boolean => {
@@ -24,6 +26,7 @@ export function useCartActions() {
     if (hasAuthToken()) return true;
 
     toast.error("Log in to view your cart.");
+    router.push("/login?next=/cart");
     return false;
   };
 

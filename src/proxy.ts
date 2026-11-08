@@ -18,6 +18,10 @@ export function proxy(req: NextRequest) {
         return NextResponse.redirect(loginUrl);
     }
 
+    if ((req.nextUrl.pathname === '/login' || req.nextUrl.pathname === '/register') && tokenFromCookie) {
+        return NextResponse.redirect(new URL('/', req.url));
+    }
+
     return NextResponse.next();
 }
 
