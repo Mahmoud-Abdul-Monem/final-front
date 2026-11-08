@@ -22,7 +22,7 @@ NEXT_PUBLIC_STRAPI_URL=http://localhost:1337
 NEXT_PUBLIC_SITE_URL=http://localhost:3000
 ```
 
-Use the deployed canonical origin for `NEXT_PUBLIC_SITE_URL` in production. Authentication hooks currently use a hardcoded local Strapi URL and must be updated before deploying to another API host.
+Use the deployed canonical origin for `NEXT_PUBLIC_SITE_URL` in production. Authentication and content requests use `NEXT_PUBLIC_STRAPI_URL`.
 
 ## Project documentation
 
