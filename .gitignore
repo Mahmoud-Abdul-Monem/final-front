@@ -43,15 +43,12 @@ next-env.d.ts
 # playwright test artifacts
 .playwright-mcp/
 
-# AI coding agent instructions and local context
-AGENTS.md
-**/AGENTS.md
-CLAUDE.md
-**/CLAUDE.md
-CLAUDE\ copy.md
-**/CLAUDE\ copy.md
-CODEX_PROJECT_CONTEXT.md
-**/CODEX_PROJECT_CONTEXT.md
+# Markdown documents (keep the project summary and readme files)
+*.md
+!PROJECT_SUMMARY.md
+!README.md
+**/PROJECT_SUMMARY.md
+**/README.md
 .agents/
 **/.agents/
 .codex/
