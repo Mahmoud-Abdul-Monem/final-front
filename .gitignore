@@ -47,8 +47,10 @@ next-env.d.ts
 *.md
 !PROJECT_SUMMARY.md
 !README.md
+!CODEX_PROJECT_CONTEXT.md
 **/PROJECT_SUMMARY.md
 **/README.md
+**/CODEX_PROJECT_CONTEXT.md
 .agents/
 **/.agents/
 .codex/
