@@ -40,17 +40,16 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
-# playwright test artifacts
+# local browser test artifacts
 .playwright-mcp/
+**/.playwright-mcp/
 
 # Markdown documents (keep the project summary and readme files)
 *.md
 !PROJECT_SUMMARY.md
 !README.md
-!CODEX_PROJECT_CONTEXT.md
 **/PROJECT_SUMMARY.md
 **/README.md
-**/CODEX_PROJECT_CONTEXT.md
 .agents/
 **/.agents/
 .codex/
