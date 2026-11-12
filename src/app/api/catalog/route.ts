@@ -1,17 +1,23 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getProductPageByCategory, getProductPageData } from "@/services/products";
+import { getProductPageByCategories, getProductPageData } from "@/services/products";
 
 export async function GET(request: NextRequest) {
   const params = request.nextUrl.searchParams;
   const page = Number(params.get("page") || 1);
-  const categoryId = params.get("category");
+  const categoryIds = (params.get("category") || "")
+    .split(",")
+    .filter(Boolean);
 
   if (!Number.isInteger(page) || page < 1) {
     return NextResponse.json({ error: "Invalid page" }, { status: 400 });
   }
 
-  const result = categoryId
-    ? await getProductPageByCategory(categoryId, page, 25)
+  if (categoryIds.some((id) => !/^\d+$/.test(id))) {
+    return NextResponse.json({ error: "Invalid category" }, { status: 400 });
+  }
+
+  const result = categoryIds.length
+    ? await getProductPageByCategories(categoryIds, page, 25)
     : await getProductPageData(page, 25);
 
   return NextResponse.json(result);

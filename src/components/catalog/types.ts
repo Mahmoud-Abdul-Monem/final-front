@@ -39,7 +39,7 @@ export interface CatalogExplorerProps {
   products: Product[];
   pagination: ProductPagination;
   categories: Category[];
-  initialCategory?: string;
+  initialCategories?: string[];
   title: string;
   description?: string;
   breadcrumb?: CatalogBreadcrumbItem[];

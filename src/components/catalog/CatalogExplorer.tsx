@@ -23,7 +23,7 @@ export default function CatalogExplorer({
   products,
   pagination,
   categories,
-  initialCategory,
+  initialCategories = [],
   title,
   description,
   breadcrumb,
@@ -31,10 +31,9 @@ export default function CatalogExplorer({
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
-  const activeCategory = initialCategory || "";
   const [filters, setFilters] = useState<CatalogFiltersState>({
     ...DEFAULT_FILTERS,
-    categories: activeCategory ? [activeCategory] : [],
+    categories: initialCategories,
   });
   const [sort, setSort] = useState<SortOption>("featured");
   const [view, setView] = useState<CatalogView>("grid");
@@ -45,7 +44,10 @@ export default function CatalogExplorer({
   const [remotePagination, setRemotePagination] = useState(pagination);
   const [drawerOpen, setDrawerOpen] = useState(false);
   const priceDebounceRef = useRef<NodeJS.Timeout | null>(null);
-  const categoryId = categories.find((category) => category.documentId === activeCategory)?.id;
+  const categoryIds = useMemo(
+    () => categories.filter((category) => filters.categories.includes(category.documentId)).map((category) => category.id),
+    [categories, filters.categories],
+  );
 
   const updateUrl = useCallback((updates: Record<string, string | null>) => {
     const params = new URLSearchParams(searchParams.toString());
@@ -58,12 +60,8 @@ export default function CatalogExplorer({
   }, [pathname, router, searchParams]);
 
   useEffect(() => {
-    if (!activeCategory) {
-      setFilters((current) => ({ ...current, categories: [] }));
-      return;
-    }
-    setFilters((current) => ({ ...current, categories: [activeCategory] }));
-  }, [activeCategory]);
+    setFilters((current) => ({ ...current, categories: initialCategories }));
+  }, [initialCategories]);
 
   useEffect(() => {
     setSearchProducts(products);
@@ -77,14 +75,18 @@ export default function CatalogExplorer({
   useEffect(() => {
     const currentUrl = new URL(window.location.href);
     const requestedPage = Number(currentUrl.searchParams.get("page") || 1);
-    const requestedCategory = currentUrl.searchParams.get("category");
+    const requestedCategories = (currentUrl.searchParams.get("category") || "").split(",").filter(Boolean);
     const initialPage = pagination.page || 1;
-    if (requestedPage === initialPage && requestedCategory === activeCategory) return;
+    const normalizedRequested = [...requestedCategories].sort().join(",");
+    const normalizedInitial = [...initialCategories].sort().join(",");
+    if (requestedPage === initialPage && normalizedRequested === normalizedInitial) return;
 
     const apiUrl = new URL("/api/catalog", window.location.origin);
     apiUrl.searchParams.set("page", String(requestedPage));
-    const requestedCategoryId = categories.find((category) => category.documentId === requestedCategory)?.id;
-    if (requestedCategoryId) apiUrl.searchParams.set("category", String(requestedCategoryId));
+    const requestedCategoryIds = categories
+      .filter((category) => requestedCategories.includes(category.documentId))
+      .map((category) => category.id);
+    if (requestedCategoryIds.length) apiUrl.searchParams.set("category", requestedCategoryIds.join(","));
     let cancelled = false;
     fetch(apiUrl)
       .then((response) => response.json())
@@ -100,7 +102,7 @@ export default function CatalogExplorer({
         }
       });
     return () => { cancelled = true; };
-  }, [searchParams, activeCategory, categoryId, categories, pagination.page]);
+  }, [searchParams, initialCategories, categories, pagination.page]);
 
   useEffect(() => {
     const query = filters.query.trim();
@@ -117,14 +119,14 @@ export default function CatalogExplorer({
         const collected = [];
         const firstPageUrl = new URL("/api/catalog", window.location.origin);
         firstPageUrl.searchParams.set("page", "1");
-        if (categoryId) firstPageUrl.searchParams.set("category", String(categoryId));
+        if (categoryIds.length) firstPageUrl.searchParams.set("category", categoryIds.join(","));
         const firstResponse = await fetch(firstPageUrl);
         const firstResult = await firstResponse.json();
         collected.push(...(firstResult.products ?? []));
         for (let currentPage = 2; currentPage <= (firstResult.pagination?.pageCount ?? 0); currentPage++) {
           const pageUrl = new URL("/api/catalog", window.location.origin);
           pageUrl.searchParams.set("page", String(currentPage));
-          if (categoryId) pageUrl.searchParams.set("category", String(categoryId));
+          if (categoryIds.length) pageUrl.searchParams.set("category", categoryIds.join(","));
           const response = await fetch(pageUrl);
           const result = await response.json();
           collected.push(...(result.products ?? []));
@@ -141,7 +143,7 @@ export default function CatalogExplorer({
       cancelled = true;
       clearTimeout(timeout);
     };
-  }, [filters.query, products, categoryId]);
+  }, [filters.query, products, categoryIds]);
 
   useEffect(() => {
     return () => {
@@ -211,12 +213,14 @@ export default function CatalogExplorer({
     filters.brands.length > 0;
 
   const toggleCategory = (id: string) => {
-    const nextCategory = activeCategory === id ? "" : id;
+    const nextCategories = filters.categories.includes(id)
+      ? filters.categories.filter((category) => category !== id)
+      : [...filters.categories, id];
     setFilters((f) => ({
       ...f,
-      categories: nextCategory ? [nextCategory] : [],
+      categories: nextCategories,
     }));
-    updateUrl({ category: nextCategory || null, page: null });
+    updateUrl({ category: nextCategories.length ? nextCategories.join(",") : null, page: null });
   };
 
   const toggleBrand = (brand: string) => {

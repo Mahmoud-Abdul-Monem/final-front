@@ -34,7 +34,7 @@ export interface ProductPage {
 
 const DEFAULT_PRODUCT_PAGE_SIZE = 25;
 
-async function getProductPage(query: { page?: number; pageSize?: number; categoryId?: number | string }): Promise<ProductPage> {
+async function getProductPage(query: { page?: number; pageSize?: number; categoryIds?: Array<number | string> }): Promise<ProductPage> {
   const page = Math.max(1, Math.floor(query.page ?? 1));
   const pageSize = Math.max(1, Math.floor(query.pageSize ?? DEFAULT_PRODUCT_PAGE_SIZE));
   const params = new URLSearchParams({
@@ -42,9 +42,9 @@ async function getProductPage(query: { page?: number; pageSize?: number; categor
     "pagination[pageSize]": String(pageSize),
     populate: "*",
   });
-  if (query.categoryId !== undefined) {
-    params.set("filters[category][id][$eq]", String(query.categoryId));
-  }
+  query.categoryIds?.forEach((categoryId, index) => {
+    params.set(`filters[category][id][$in][${index}]`, String(categoryId));
+  });
 
   const empty: ProductPage = {
     products: [],
@@ -81,7 +81,15 @@ export function getProductPageByCategory(
   page = 1,
   pageSize = DEFAULT_PRODUCT_PAGE_SIZE,
 ): Promise<ProductPage> {
-  return getProductPage({ categoryId, page, pageSize });
+  return getProductPage({ categoryIds: [categoryId], page, pageSize });
+}
+
+export function getProductPageByCategories(
+  categoryIds: Array<number | string>,
+  page = 1,
+  pageSize = DEFAULT_PRODUCT_PAGE_SIZE,
+): Promise<ProductPage> {
+  return getProductPage({ categoryIds, page, pageSize });
 }
 
 /**
@@ -127,7 +135,7 @@ export async function getProductsByCategory(
   pageSize = DEFAULT_PRODUCT_PAGE_SIZE,
 ): Promise<ProductPage> {
   try {
-    return await getProductPage({ categoryId, page, pageSize });
+    return await getProductPage({ categoryIds: [categoryId], page, pageSize });
   } catch (error) {
     console.error('Failed to fetch products by category:', error);
     return {

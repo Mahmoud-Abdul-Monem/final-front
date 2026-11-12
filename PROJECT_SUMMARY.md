@@ -269,7 +269,7 @@ The repository guidance recommends TypeScript checking with the local compiler b
 ## 15. Catalog pagination and filtering implementation (2026-11-12)
 
 - Strapi paginates the catalog at 25 products per page. `getProductPageData` and `getProductPageByCategory` return products plus `meta.pagination`; `getProductsByCategory` accepts page/pageSize and returns the same page shape.
-- `/products` and `/shopping` read `page` and `category` search parameters on the server for initial data. Client page/category navigation updates these parameters; category selection is single-select, resets page to 1, and uses the Strapi category ID filter.
+- `/products` and `/shopping` read `page` and `category` search parameters on the server for initial data. Client page/category navigation updates these parameters; category selection is multi-select, stores selected document IDs as a comma-separated `category` value, resets page to 1 when changed, and uses Strapi's category ID `$in` filter so products from any selected category are returned.
 - `/api/catalog` is the same-origin route handler used by the client catalog to retrieve page data through the server-side product service and shared `NEXT_PUBLIC_STRAPI_URL`.
 - Search remains frontend-side and debounced by 700ms. When a search term is active, it loads all Strapi pages for the selected category, then matches locally so it is not limited to the current 25-item page. Search result counts and pagination describe the locally matched collection.
 - Price and placeholder brand filters and sorting remain local. When those local filters are active, the displayed count reflects the filtered loaded collection; with them inactive, the toolbar uses Strapi's total.

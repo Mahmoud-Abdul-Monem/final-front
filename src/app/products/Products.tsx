@@ -1,5 +1,5 @@
 import CatalogExplorer from "@/components/catalog/CatalogExplorer";
-import { getProductPageByCategory, getProductPageData } from "@/services/products";
+import { getProductPageByCategories, getProductPageData } from "@/services/products";
 import { getCategories } from "@/services/categories";
 
 export default async function Products({
@@ -9,12 +9,14 @@ export default async function Products({
 }) {
   const params = await searchParams;
   const pageValue = Array.isArray(params.page) ? params.page[0] : params.page;
-  const categoryValue = Array.isArray(params.category) ? params.category[0] : params.category;
+  const categoryValues = (Array.isArray(params.category) ? params.category : params.category ? [params.category] : [])
+    .flatMap((value) => value.split(","))
+    .filter(Boolean);
   const requestedPage = Math.max(1, Number.parseInt(pageValue || "1", 10) || 1);
   const categories = await getCategories();
-  const selectedCategory = categories.find((category) => category.documentId === categoryValue);
-  const productPage = selectedCategory
-    ? await getProductPageByCategory(selectedCategory.id, requestedPage)
+  const selectedCategories = categories.filter((category) => categoryValues.includes(category.documentId));
+  const productPage = selectedCategories.length > 0
+    ? await getProductPageByCategories(selectedCategories.map((category) => category.id), requestedPage)
     : await getProductPageData(requestedPage);
 
   return (
@@ -22,7 +24,7 @@ export default async function Products({
       products={productPage.products}
       pagination={productPage.pagination}
       categories={categories}
-      initialCategory={categoryValue ?? ""}
+      initialCategories={selectedCategories.map((category) => category.documentId)}
       title="All Products"
       description="Discover all available products in our store — curated quality and modern commerce."
       breadcrumb={[
