@@ -139,7 +139,7 @@ The reusable catalog lives in `src/components/catalog/`.
 - `CatalogToolbar.tsx` controls sort order and grid/list mode.
 - `CatalogProductCard.tsx` renders each product, rating, price, stock/discount badge, favorite button, and add-to-cart action.
 - `CatalogPagination.tsx` navigates Strapi-backed pages using `meta.pagination.pageCount`; the toolbar uses Strapi `total` when no local search/price/brand filter is active.
-- Shared types and defaults are in `types.ts`; Strapi catalog page size is 25 products.
+- Shared types and defaults are in `types.ts`; Strapi catalog page size is 24 products.
 
 Sorting options are featured, ascending price, descending price, name, and rating. Category filtering uses Strapi's category ID filter and is single-select. Price and placeholder brand filtering remain local; brand filtering matches brand-like text in product name/category because the `Product` model has no brand field. Search, price, and brand filters operate on the loaded search collection and report its filtered count; backend pagination metadata remains authoritative when those local filters are inactive.
 
@@ -268,8 +268,8 @@ The repository guidance recommends TypeScript checking with the local compiler b
 
 ## 15. Catalog pagination and filtering implementation (2026-11-12)
 
-- Strapi paginates the catalog at 25 products per page. `getProductPageData` and `getProductPageByCategory` return products plus `meta.pagination`; `getProductsByCategory` accepts page/pageSize and returns the same page shape.
+- Strapi paginates the catalog at 24 products per page using its endpoint pagination parameters. `getProductPageData` and category page services return products plus Strapi `meta.pagination`; client pagination controls use the returned page count and do not slice catalog pages locally.
 - `/products` and `/shopping` read `page` and `category` search parameters on the server for initial data. Client page/category navigation updates these parameters; category selection is multi-select, stores selected document IDs as a comma-separated `category` value, resets page to 1 when changed, and uses Strapi's category ID `$in` filter so products from any selected category are returned.
 - `/api/catalog` is the same-origin route handler used by the client catalog to retrieve page data through the server-side product service and shared `NEXT_PUBLIC_STRAPI_URL`.
-- Search remains frontend-side and debounced by 700ms. When a search term is active, it loads all Strapi pages for the selected category, then matches locally so it is not limited to the current 25-item page. Search result counts and pagination describe the locally matched collection.
+- Search remains frontend-side and debounced by 700ms. When a search term is active, it loads all Strapi pages for the selected categories, then matches locally so it is not limited to the current 24-item page. Search result counts and pagination describe the locally matched collection. The search input does not emit an initial empty query, preserving the current page on mount.
 - Price and placeholder brand filters and sorting remain local. When those local filters are active, the displayed count reflects the filtered loaded collection; with them inactive, the toolbar uses Strapi's total.

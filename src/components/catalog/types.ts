@@ -1,4 +1,4 @@
-import type { Product, ProductPagination } from "@/services/products";
+import { CATALOG_PAGE_SIZE, type Product, type ProductPagination } from "@/services/products";
 import type { Category } from "@/services/categories";
 
 export type SortOption = "featured" | "price-asc" | "price-desc" | "name-asc" | "rating";
@@ -28,7 +28,7 @@ export const SORT_OPTIONS: { value: SortOption; label: string }[] = [
   { value: "rating", label: "Top Rated" },
 ];
 
-export const PRODUCTS_PER_PAGE = 25;
+export const PRODUCTS_PER_PAGE = CATALOG_PAGE_SIZE;
 
 export interface CatalogBreadcrumbItem {
   label: string;

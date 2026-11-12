@@ -32,11 +32,11 @@ export interface ProductPage {
   pagination: ProductPagination;
 }
 
-const DEFAULT_PRODUCT_PAGE_SIZE = 25;
+export const CATALOG_PAGE_SIZE = 24;
 
 async function getProductPage(query: { page?: number; pageSize?: number; categoryIds?: Array<number | string> }): Promise<ProductPage> {
   const page = Math.max(1, Math.floor(query.page ?? 1));
-  const pageSize = Math.max(1, Math.floor(query.pageSize ?? DEFAULT_PRODUCT_PAGE_SIZE));
+  const pageSize = Math.max(1, Math.floor(query.pageSize ?? CATALOG_PAGE_SIZE));
   const params = new URLSearchParams({
     "pagination[page]": String(page),
     "pagination[pageSize]": String(pageSize),
@@ -72,14 +72,14 @@ async function getProductPage(query: { page?: number; pageSize?: number; categor
   }
 }
 
-export function getProductPageData(page = 1, pageSize = DEFAULT_PRODUCT_PAGE_SIZE): Promise<ProductPage> {
+export function getProductPageData(page = 1, pageSize = CATALOG_PAGE_SIZE): Promise<ProductPage> {
   return getProductPage({ page, pageSize });
 }
 
 export function getProductPageByCategory(
   categoryId: number | string,
   page = 1,
-  pageSize = DEFAULT_PRODUCT_PAGE_SIZE,
+  pageSize = CATALOG_PAGE_SIZE,
 ): Promise<ProductPage> {
   return getProductPage({ categoryIds: [categoryId], page, pageSize });
 }
@@ -87,7 +87,7 @@ export function getProductPageByCategory(
 export function getProductPageByCategories(
   categoryIds: Array<number | string>,
   page = 1,
-  pageSize = DEFAULT_PRODUCT_PAGE_SIZE,
+  pageSize = CATALOG_PAGE_SIZE,
 ): Promise<ProductPage> {
   return getProductPage({ categoryIds, page, pageSize });
 }
@@ -132,7 +132,7 @@ export async function getFeaturedProducts(): Promise<Product[]> {
 export async function getProductsByCategory(
   categoryId: number | string,
   page = 1,
-  pageSize = DEFAULT_PRODUCT_PAGE_SIZE,
+  pageSize = CATALOG_PAGE_SIZE,
 ): Promise<ProductPage> {
   try {
     return await getProductPage({ categoryIds: [categoryId], page, pageSize });

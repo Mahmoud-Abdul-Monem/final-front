@@ -19,6 +19,9 @@ export default function SearchBar({ value, onSearch, placeholder = "Search produ
 
   // Debounce: 700ms delay before triggering search
   useEffect(() => {
+    // Do not emit the initial empty value; it would reset URL-backed pagination on mount.
+    if (input.trim() === value.trim()) return;
+
     if (debounceRef.current) {
       clearTimeout(debounceRef.current);
     }

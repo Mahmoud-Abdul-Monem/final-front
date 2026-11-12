@@ -17,8 +17,8 @@ export async function GET(request: NextRequest) {
   }
 
   const result = categoryIds.length
-    ? await getProductPageByCategories(categoryIds, page, 25)
-    : await getProductPageData(page, 25);
+    ? await getProductPageByCategories(categoryIds, page)
+    : await getProductPageData(page);
 
   return NextResponse.json(result);
 }
