@@ -107,8 +107,8 @@ The `src/app/(auth)/layout.tsx` and route-group folder are Next.js route groups:
 | URL | Purpose | Data and behavior | Search indexing |
 | --- | --- | --- | --- |
 | `/` | Home storefront | Hero, featured products, categories, special offer, deal products | Indexable |
-| `/products` | Full catalog | Fetches a 25-product Strapi page and categories; page and category are URL-backed; search, price/brand filters, sort, and layout remain client-side | Indexable |
-| `/shopping` | Catalog presented as electronics | Fetches a 25-product Strapi page and categories; page and category are URL-backed; remaining catalog controls stay client-side | Indexable |
+| `/products` | Full catalog | Fetches a 24-product Strapi page and categories; page and category are URL-backed; search, price/brand filters, sort, and layout remain client-side | Indexable |
+| `/shopping` | Catalog presented as electronics | Fetches a 24-product Strapi page and categories; page and category are URL-backed; remaining catalog controls stay client-side | Indexable |
 | `/About` | About the marketplace | Static story, mission, stats, features, and team content | Indexable |
 | `/Contactus` | Contact information and FAQ | Static form and page content; form is not wired to the contact service | Indexable |
 | `/cart` | Shopping cart | Reads and updates persisted local cart state | `noindex` |
@@ -123,7 +123,7 @@ The `src/app/(auth)/layout.tsx` and route-group folder are Next.js route groups:
 - The root layout is a Server Component and owns global metadata, document structure, header, main landmark, footer, and toast container.
 - Server page/components fetch initial Strapi content and pass serializable data into client components.
 - `CatalogExplorer`, product cards, the cart, theme controls, navigation menu, and wishlist button use client-side state or browser interactions.
-- The catalog UI is shared by `/products` and `/shopping`. Both routes fetch a 25-product Strapi page and categories on the server; the selected page and category are reflected in URL search parameters.
+- The catalog UI is shared by `/products` and `/shopping`. Both routes fetch a 24-product Strapi page and categories on the server; the selected page and category are reflected in URL search parameters.
 - Home page sections are split into separate files. Featured products and deal products have client components for cart interaction.
 - Separation of concerns: service modules make API requests, validation schemas describe form rules, form hooks coordinate submission and navigation, Zustand stores own persisted state, and shared hooks/utilities handle reusable UI actions and data mapping.
 - Semantic elements are used in selected layouts and sections, but not every visual wrapper has been converted; `div` remains appropriate for layout-only containers.
