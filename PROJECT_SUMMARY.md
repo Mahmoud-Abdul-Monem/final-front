@@ -25,7 +25,7 @@ Category cards and catalog category filters show category names without item-cou
 | Content API | Strapi v5-style flat response, expected at `http://localhost:1337` by default |
 | Image optimization | `next/image`, with Unsplash and local Strapi hosts allowed |
 
-`tsconfig.json` currently has `strict: false`; types are present throughout the application, but strict TypeScript checks are not enabled.
+`tsconfig.json` enables `strict: true`; the repository TypeScript check passes with strict checking enabled.
 
 ## 3. Getting started
 
@@ -107,8 +107,8 @@ The `src/app/(auth)/layout.tsx` and route-group folder are Next.js route groups:
 | URL | Purpose | Data and behavior | Search indexing |
 | --- | --- | --- | --- |
 | `/` | Home storefront | Hero, featured products, categories, special offer, deal products | Indexable |
-| `/products` | Full catalog | Fetches products and categories; client-side search, filters, sort, layout, and pagination | Indexable |
-| `/shopping` | Catalog presented as electronics | Fetches the same full product and category collections as `/products`; client-side catalog behavior | Indexable |
+| `/products` | Full catalog | Fetches a 25-product Strapi page and categories; page and category are URL-backed; search, price/brand filters, sort, and layout remain client-side | Indexable |
+| `/shopping` | Catalog presented as electronics | Fetches a 25-product Strapi page and categories; page and category are URL-backed; remaining catalog controls stay client-side | Indexable |
 | `/About` | About the marketplace | Static story, mission, stats, features, and team content | Indexable |
 | `/Contactus` | Contact information and FAQ | Static form and page content; form is not wired to the contact service | Indexable |
 | `/cart` | Shopping cart | Reads and updates persisted local cart state | `noindex` |
@@ -123,7 +123,7 @@ The `src/app/(auth)/layout.tsx` and route-group folder are Next.js route groups:
 - The root layout is a Server Component and owns global metadata, document structure, header, main landmark, footer, and toast container.
 - Server page/components fetch initial Strapi content and pass serializable data into client components.
 - `CatalogExplorer`, product cards, the cart, theme controls, navigation menu, and wishlist button use client-side state or browser interactions.
-- The catalog UI is shared by `/products` and `/shopping`. Both routes currently fetch all products and categories before client-side filtering.
+- The catalog UI is shared by `/products` and `/shopping`. Both routes fetch a 25-product Strapi page and categories on the server; the selected page and category are reflected in URL search parameters.
 - Home page sections are split into separate files. Featured products and deal products have client components for cart interaction.
 - Separation of concerns: service modules make API requests, validation schemas describe form rules, form hooks coordinate submission and navigation, Zustand stores own persisted state, and shared hooks/utilities handle reusable UI actions and data mapping.
 - Semantic elements are used in selected layouts and sections, but not every visual wrapper has been converted; `div` remains appropriate for layout-only containers.
@@ -133,15 +133,15 @@ The `src/app/(auth)/layout.tsx` and route-group folder are Next.js route groups:
 
 The reusable catalog lives in `src/components/catalog/`.
 
-- `CatalogExplorer.tsx` owns query, category, price, brand, sort, view, page, and mobile-filter state.
-- `SearchBar.tsx` reports search text; the explorer applies filtering locally.
+- `CatalogExplorer.tsx` owns query, category, price, brand, sort, view, and mobile-filter state. Page/category state is reflected in `?page=` and `?category=` and fetched through `/api/catalog`.
+- `SearchBar.tsx` reports search text after a 700ms debounce. Search stays local: when a query is entered, the explorer loads all Strapi pages for the selected category and matches those products in the browser.
 - `FiltersPanel.tsx`, `CatalogMobileFilters.tsx`, and `ActiveFilters.tsx` provide desktop/mobile filters and removable filter chips.
 - `CatalogToolbar.tsx` controls sort order and grid/list mode.
 - `CatalogProductCard.tsx` renders each product, rating, price, stock/discount badge, favorite button, and add-to-cart action.
-- `CatalogPagination.tsx` provides client-side pagination.
-- Shared types and defaults are in `types.ts`; page size is 12.
+- `CatalogPagination.tsx` navigates Strapi-backed pages using `meta.pagination.pageCount`; the toolbar uses Strapi `total` when no local search/price/brand filter is active.
+- Shared types and defaults are in `types.ts`; Strapi catalog page size is 25 products.
 
-Sorting options are featured, ascending price, descending price, name, and rating. Category and price filtering use product data. Brand filtering currently matches brand-like text in product name/category because the `Product` model has no brand field. Filtering and pagination are not encoded in the URL and are not performed by Strapi.
+Sorting options are featured, ascending price, descending price, name, and rating. Category filtering uses Strapi's category ID filter and is single-select. Price and placeholder brand filtering remain local; brand filtering matches brand-like text in product name/category because the `Product` model has no brand field. Search, price, and brand filters operate on the loaded search collection and report its filtered count; backend pagination metadata remains authoritative when those local filters are inactive.
 
 ## 8. Data services and API contract
 
@@ -149,7 +149,7 @@ Service functions are in `src/services/` and use native `fetch` with Next.js rev
 
 ### Products: `src/services/products.ts`
 
-`Product` includes numeric `id`, `documentId`, name, price, image, and optional original price, rating, reviews, category, description, stock, and featured flag. Functions fetch all products, featured products, products by category, one product by document ID, and case-insensitive name search. Most requests revalidate after one hour; search revalidates after one minute.
+`Product` includes numeric `id`, `documentId`, name, price, image, and optional original price, rating, reviews, category, description, stock, and featured flag. Functions fetch all products, paged catalog data, paged category-filtered data, featured products, one product by document ID, and case-insensitive name search. Paged catalog requests use Strapi pagination metadata and revalidate after one minute; other requests keep their existing revalidation settings.
 
 ### Categories: `src/services/categories.ts`
 
@@ -255,7 +255,7 @@ The primary visual mode is English and the root document language is `en`. The l
 7. Replace sample contact/business information with verified business data.
 8. Add route-aware and product-specific metadata and structured data when product detail pages exist.
 9. Review outdated footer policy links and placeholder buttons/links.
-10. Reconcile package scripts, TypeScript configuration, and the current Next.js version; consider enabling strict type checking after cleanup.
+10. Reconcile package scripts and the current Next.js version; strict TypeScript checking is enabled.
 
 ## 14. Validation commands
 
@@ -265,3 +265,11 @@ npm run build
 ```
 
 The repository guidance recommends TypeScript checking with the local compiler binary. Browser verification can use the configured Playwright MCP server. Do not treat a successful TypeScript check as proof that API connectivity, authentication, payment, forms, or crawler access work end to end.
+
+## 15. Catalog pagination and filtering implementation (2026-11-12)
+
+- Strapi paginates the catalog at 25 products per page. `getProductPageData` and `getProductPageByCategory` return products plus `meta.pagination`; `getProductsByCategory` accepts page/pageSize and returns the same page shape.
+- `/products` and `/shopping` read `page` and `category` search parameters on the server for initial data. Client page/category navigation updates these parameters; category selection is single-select, resets page to 1, and uses the Strapi category ID filter.
+- `/api/catalog` is the same-origin route handler used by the client catalog to retrieve page data through the server-side product service and shared `NEXT_PUBLIC_STRAPI_URL`.
+- Search remains frontend-side and debounced by 700ms. When a search term is active, it loads all Strapi pages for the selected category, then matches locally so it is not limited to the current 25-item page. Search result counts and pagination describe the locally matched collection.
+- Price and placeholder brand filters and sorting remain local. When those local filters are active, the displayed count reflects the filtered loaded collection; with them inactive, the toolbar uses Strapi's total.

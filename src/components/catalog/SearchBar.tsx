@@ -17,17 +17,15 @@ export default function SearchBar({ value, onSearch, placeholder = "Search produ
     setInput(value);
   }, [value]);
 
-  // Debounce: 300ms delay before triggering search
+  // Debounce: 700ms delay before triggering search
   useEffect(() => {
     if (debounceRef.current) {
       clearTimeout(debounceRef.current);
     }
 
     debounceRef.current = setTimeout(() => {
-      if (input.trim()) {
-        onSearch(input.trim());
-      }
-    }, 300);
+      onSearch(input.trim());
+    }, 700);
 
     return () => {
       if (debounceRef.current) {

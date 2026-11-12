@@ -1,4 +1,4 @@
-import type { Product } from "@/services/products";
+import type { Product, ProductPagination } from "@/services/products";
 import type { Category } from "@/services/categories";
 
 export type SortOption = "featured" | "price-asc" | "price-desc" | "name-asc" | "rating";
@@ -28,7 +28,7 @@ export const SORT_OPTIONS: { value: SortOption; label: string }[] = [
   { value: "rating", label: "Top Rated" },
 ];
 
-export const PRODUCTS_PER_PAGE = 12;
+export const PRODUCTS_PER_PAGE = 25;
 
 export interface CatalogBreadcrumbItem {
   label: string;
@@ -37,7 +37,9 @@ export interface CatalogBreadcrumbItem {
 
 export interface CatalogExplorerProps {
   products: Product[];
+  pagination: ProductPagination;
   categories: Category[];
+  initialCategory?: string;
   title: string;
   description?: string;
   breadcrumb?: CatalogBreadcrumbItem[];

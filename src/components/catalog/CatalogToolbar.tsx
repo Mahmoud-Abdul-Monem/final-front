@@ -5,6 +5,7 @@ import { SORT_OPTIONS, type CatalogView, type SortOption } from "./types";
 
 interface CatalogToolbarProps {
   total: number;
+  localFiltersActive?: boolean;
   page: number;
   perPage: number;
   sort: SortOption;
@@ -15,6 +16,7 @@ interface CatalogToolbarProps {
 
 export default function CatalogToolbar({
   total,
+  localFiltersActive = false,
   page,
   perPage,
   sort,
@@ -28,7 +30,9 @@ export default function CatalogToolbar({
   return (
     <div className="flex flex-wrap items-center justify-between gap-3 pb-4 border-b border-form-gray/50 dark:border-gray-700/60">
       <p className="text-sm text-body dark:text-gray-400">
-        Showing {start}-{end} of {total} products
+        {localFiltersActive
+          ? `Showing ${total} matching products on this page`
+          : `Showing ${start}-${end} of ${total} products`}
       </p>
 
       <div className="flex items-center gap-3">

@@ -1,6 +1,7 @@
 ﻿"use client";
 
-import { useMemo, useState, useRef, useEffect } from "react";
+import { useMemo, useState, useRef, useEffect, useCallback } from "react";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import CatalogHeader from "./CatalogHeader";
 import SearchBar from "./SearchBar";
 import FiltersPanel from "./FiltersPanel";
@@ -20,17 +21,127 @@ import {
 
 export default function CatalogExplorer({
   products,
+  pagination,
   categories,
+  initialCategory,
   title,
   description,
   breadcrumb,
 }: CatalogExplorerProps) {
-  const [filters, setFilters] = useState<CatalogFiltersState>(DEFAULT_FILTERS);
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const activeCategory = initialCategory || "";
+  const [filters, setFilters] = useState<CatalogFiltersState>({
+    ...DEFAULT_FILTERS,
+    categories: activeCategory ? [activeCategory] : [],
+  });
   const [sort, setSort] = useState<SortOption>("featured");
   const [view, setView] = useState<CatalogView>("grid");
-  const [page, setPage] = useState(1);
+  const page = pagination.page || 1;
+  const [searchProducts, setSearchProducts] = useState(products);
+  const [searchPending, setSearchPending] = useState(false);
+  const [remoteProducts, setRemoteProducts] = useState(products);
+  const [remotePagination, setRemotePagination] = useState(pagination);
   const [drawerOpen, setDrawerOpen] = useState(false);
   const priceDebounceRef = useRef<NodeJS.Timeout | null>(null);
+  const categoryId = categories.find((category) => category.documentId === activeCategory)?.id;
+
+  const updateUrl = useCallback((updates: Record<string, string | null>) => {
+    const params = new URLSearchParams(searchParams.toString());
+    for (const [key, value] of Object.entries(updates)) {
+      if (value) params.set(key, value);
+      else params.delete(key);
+    }
+    const query = params.toString();
+    router.push(query ? `${pathname}?${query}` : pathname, { scroll: false });
+  }, [pathname, router, searchParams]);
+
+  useEffect(() => {
+    if (!activeCategory) {
+      setFilters((current) => ({ ...current, categories: [] }));
+      return;
+    }
+    setFilters((current) => ({ ...current, categories: [activeCategory] }));
+  }, [activeCategory]);
+
+  useEffect(() => {
+    setSearchProducts(products);
+  }, [products]);
+
+  useEffect(() => {
+    setRemoteProducts(products);
+    setRemotePagination(pagination);
+  }, [products, pagination]);
+
+  useEffect(() => {
+    const currentUrl = new URL(window.location.href);
+    const requestedPage = Number(currentUrl.searchParams.get("page") || 1);
+    const requestedCategory = currentUrl.searchParams.get("category");
+    const initialPage = pagination.page || 1;
+    if (requestedPage === initialPage && requestedCategory === activeCategory) return;
+
+    const apiUrl = new URL("/api/catalog", window.location.origin);
+    apiUrl.searchParams.set("page", String(requestedPage));
+    const requestedCategoryId = categories.find((category) => category.documentId === requestedCategory)?.id;
+    if (requestedCategoryId) apiUrl.searchParams.set("category", String(requestedCategoryId));
+    let cancelled = false;
+    fetch(apiUrl)
+      .then((response) => response.json())
+      .then((result) => {
+        if (cancelled) return;
+        setRemoteProducts(result.products ?? []);
+        setRemotePagination(result.pagination ?? { page: requestedPage, pageSize: PRODUCTS_PER_PAGE, pageCount: 0, total: 0 });
+      })
+      .catch(() => {
+        if (!cancelled) {
+          setRemoteProducts([]);
+          setRemotePagination({ page: requestedPage, pageSize: PRODUCTS_PER_PAGE, pageCount: 0, total: 0 });
+        }
+      });
+    return () => { cancelled = true; };
+  }, [searchParams, activeCategory, categoryId, categories, pagination.page]);
+
+  useEffect(() => {
+    const query = filters.query.trim();
+    if (!query) {
+      setSearchProducts(products);
+      setSearchPending(false);
+      return;
+    }
+
+    let cancelled = false;
+    setSearchPending(true);
+    const timeout = setTimeout(async () => {
+      try {
+        const collected = [];
+        const firstPageUrl = new URL("/api/catalog", window.location.origin);
+        firstPageUrl.searchParams.set("page", "1");
+        if (categoryId) firstPageUrl.searchParams.set("category", String(categoryId));
+        const firstResponse = await fetch(firstPageUrl);
+        const firstResult = await firstResponse.json();
+        collected.push(...(firstResult.products ?? []));
+        for (let currentPage = 2; currentPage <= (firstResult.pagination?.pageCount ?? 0); currentPage++) {
+          const pageUrl = new URL("/api/catalog", window.location.origin);
+          pageUrl.searchParams.set("page", String(currentPage));
+          if (categoryId) pageUrl.searchParams.set("category", String(categoryId));
+          const response = await fetch(pageUrl);
+          const result = await response.json();
+          collected.push(...(result.products ?? []));
+        }
+        if (!cancelled) setSearchProducts(collected);
+      } catch {
+        if (!cancelled) setSearchProducts(products);
+      } finally {
+        if (!cancelled) setSearchPending(false);
+      }
+    }, 700);
+
+    return () => {
+      cancelled = true;
+      clearTimeout(timeout);
+    };
+  }, [filters.query, products, categoryId]);
 
   useEffect(() => {
     return () => {
@@ -40,26 +151,17 @@ export default function CatalogExplorer({
     };
   }, []);
 
-  const resetPage = () => setPage(1);
+  const resetPage = () => updateUrl({ page: null });
 
-  // TODO: move filtering to the API layer (Strapi filters / searchParams) for
-  // server-side pagination. Client-side filtering is a placeholder for now.
   const filtered = useMemo(() => {
     const q = filters.query.trim().toLowerCase();
     const min = filters.minPrice === "" ? null : Number(filters.minPrice);
     const max = filters.maxPrice === "" ? null : Number(filters.maxPrice);
 
-    return products.filter((p) => {
+    return searchProducts.filter((p) => {
       if (q) {
         const haystack = `${p.name} ${p.description ?? ""} ${p.category?.name ?? ""}`.toLowerCase();
         if (!haystack.includes(q)) return false;
-      }
-      if (filters.categories.length > 0) {
-        const catKey = p.category?.documentId ?? p.category?.name;
-        const match = filters.categories.some(
-          (sel) => sel === catKey || sel === p.category?.name || categories.find((c) => c.documentId === sel)?.name === p.category?.name
-        );
-        if (!match) return false;
       }
       if (min !== null && !isNaN(min) && p.price < min) return false;
       if (max !== null && !isNaN(max) && p.price > max) return false;
@@ -72,7 +174,7 @@ export default function CatalogExplorer({
       }
       return true;
     });
-  }, [products, filters, categories]);
+  }, [searchProducts, filters]);
 
   const sorted = useMemo(() => {
     const arr = [...filtered];
@@ -91,9 +193,15 @@ export default function CatalogExplorer({
     }
   }, [filtered, sort]);
 
-  const totalPages = Math.max(1, Math.ceil(sorted.length / PRODUCTS_PER_PAGE));
-  const safePage = Math.min(page, totalPages);
-  const paged = sorted.slice((safePage - 1) * PRODUCTS_PER_PAGE, safePage * PRODUCTS_PER_PAGE);
+  const totalPages = Math.max(1, filters.query ? Math.ceil(sorted.length / PRODUCTS_PER_PAGE) : remotePagination.pageCount);
+  const safePage = Math.min(remotePagination.page || page, totalPages);
+  const paged = filters.query
+    ? sorted.slice((safePage - 1) * PRODUCTS_PER_PAGE, safePage * PRODUCTS_PER_PAGE)
+    : sorted;
+  const resultTotal = filters.query || filters.minPrice || filters.maxPrice || filters.brands.length > 0
+    ? sorted.length
+    : remotePagination.total;
+  const localPageFiltersActive = !filters.query && (Boolean(filters.minPrice) || Boolean(filters.maxPrice) || filters.brands.length > 0);
 
   const hasActiveFilters =
     filters.query !== "" ||
@@ -103,11 +211,12 @@ export default function CatalogExplorer({
     filters.brands.length > 0;
 
   const toggleCategory = (id: string) => {
+    const nextCategory = activeCategory === id ? "" : id;
     setFilters((f) => ({
       ...f,
-      categories: f.categories.includes(id) ? f.categories.filter((c) => c !== id) : [...f.categories, id],
+      categories: nextCategory ? [nextCategory] : [],
     }));
-    resetPage();
+    updateUrl({ category: nextCategory || null, page: null });
   };
 
   const toggleBrand = (brand: string) => {
@@ -120,7 +229,7 @@ export default function CatalogExplorer({
 
   const resetFilters = () => {
     setFilters(DEFAULT_FILTERS);
-    resetPage();
+    updateUrl({ category: null, page: null });
     if (priceDebounceRef.current) {
       clearTimeout(priceDebounceRef.current);
     }
@@ -173,7 +282,8 @@ export default function CatalogExplorer({
             )}
 
             <CatalogToolbar
-              total={sorted.length}
+              total={resultTotal}
+              localFiltersActive={localPageFiltersActive}
               page={safePage}
               perPage={PRODUCTS_PER_PAGE}
               sort={sort}
@@ -182,7 +292,9 @@ export default function CatalogExplorer({
               onViewChange={setView}
             />
 
-            {paged.length > 0 ? (
+            {searchPending ? (
+              <p className="py-16 text-center text-sm text-body dark:text-gray-400" role="status">Searching products...</p>
+            ) : paged.length > 0 ? (
               <>
                 <div
                   className={
@@ -200,7 +312,7 @@ export default function CatalogExplorer({
                     />
                   ))}
                 </div>
-                <CatalogPagination currentPage={safePage} totalPages={totalPages} onPageChange={setPage} />
+                <CatalogPagination currentPage={safePage} totalPages={totalPages} onPageChange={(nextPage) => updateUrl({ page: String(nextPage) })} />
               </>
             ) : (
               <div className="py-20 text-center">

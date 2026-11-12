@@ -20,6 +20,70 @@ export interface Product {
   isFeatured?: boolean;
 }
 
+export interface ProductPagination {
+  page: number;
+  pageSize: number;
+  pageCount: number;
+  total: number;
+}
+
+export interface ProductPage {
+  products: Product[];
+  pagination: ProductPagination;
+}
+
+const DEFAULT_PRODUCT_PAGE_SIZE = 25;
+
+async function getProductPage(query: { page?: number; pageSize?: number; categoryId?: number | string }): Promise<ProductPage> {
+  const page = Math.max(1, Math.floor(query.page ?? 1));
+  const pageSize = Math.max(1, Math.floor(query.pageSize ?? DEFAULT_PRODUCT_PAGE_SIZE));
+  const params = new URLSearchParams({
+    "pagination[page]": String(page),
+    "pagination[pageSize]": String(pageSize),
+    populate: "*",
+  });
+  if (query.categoryId !== undefined) {
+    params.set("filters[category][id][$eq]", String(query.categoryId));
+  }
+
+  const empty: ProductPage = {
+    products: [],
+    pagination: { page, pageSize, pageCount: 0, total: 0 },
+  };
+
+  try {
+    const response = await fetch(`${STRAPI_BASE_URL}/api/products?${params.toString()}`, {
+      next: { revalidate: 60 },
+    });
+    if (!response.ok) return empty;
+    const data = await response.json();
+    return {
+      products: data?.data ?? [],
+      pagination: {
+        page: data?.meta?.pagination?.page ?? page,
+        pageSize: data?.meta?.pagination?.pageSize ?? pageSize,
+        pageCount: data?.meta?.pagination?.pageCount ?? 0,
+        total: data?.meta?.pagination?.total ?? 0,
+      },
+    };
+  } catch (error) {
+    console.error("Failed to fetch product page:", error);
+    return empty;
+  }
+}
+
+export function getProductPageData(page = 1, pageSize = DEFAULT_PRODUCT_PAGE_SIZE): Promise<ProductPage> {
+  return getProductPage({ page, pageSize });
+}
+
+export function getProductPageByCategory(
+  categoryId: number | string,
+  page = 1,
+  pageSize = DEFAULT_PRODUCT_PAGE_SIZE,
+): Promise<ProductPage> {
+  return getProductPage({ categoryId, page, pageSize });
+}
+
 /**
  * Fetch all products
  */
@@ -57,17 +121,19 @@ export async function getFeaturedProducts(): Promise<Product[]> {
 /**
  * Fetch products by category
  */
-export async function getProductsByCategory(categoryId: number | string): Promise<Product[]> {
+export async function getProductsByCategory(
+  categoryId: number | string,
+  page = 1,
+  pageSize = DEFAULT_PRODUCT_PAGE_SIZE,
+): Promise<ProductPage> {
   try {
-    const response = await fetch(`${STRAPI_BASE_URL}/api/products?filters[category][id][$eq]=${categoryId}&populate=*`, {
-      next: { revalidate: 3600 },
-    });
-    if (!response.ok) return [];
-    const data = await response.json();
-    return data?.data || [];
+    return await getProductPage({ categoryId, page, pageSize });
   } catch (error) {
     console.error('Failed to fetch products by category:', error);
-    return [];
+    return {
+      products: [],
+      pagination: { page, pageSize, pageCount: 0, total: 0 },
+    };
   }
 }
 

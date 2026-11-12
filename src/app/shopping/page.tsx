@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import CatalogExplorer from "@/components/catalog/CatalogExplorer";
-import { getProducts } from "@/services/products";
+import { getProductPageByCategory, getProductPageData } from "@/services/products";
 import { getCategories } from "@/services/categories";
 
 export const metadata: Metadata = {
@@ -11,15 +11,27 @@ export const metadata: Metadata = {
   openGraph: { title: "Shop Electronics", url: "/shopping" },
 };
 
-export default async function ShoppingPage() {
-  // TODO: pass URL searchParams (q, category, min, max, page, sort) into these
-  // service calls once server-side filtering/pagination is wired up.
-  const [products, categories] = await Promise.all([getProducts(), getCategories()]);
+export default async function ShoppingPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ page?: string | string[]; category?: string | string[] }>;
+}) {
+  const params = await searchParams;
+  const pageValue = Array.isArray(params.page) ? params.page[0] : params.page;
+  const categoryValue = Array.isArray(params.category) ? params.category[0] : params.category;
+  const requestedPage = Math.max(1, Number.parseInt(pageValue || "1", 10) || 1);
+  const categories = await getCategories();
+  const selectedCategory = categories.find((category) => category.documentId === categoryValue);
+  const productPage = selectedCategory
+    ? await getProductPageByCategory(selectedCategory.id, requestedPage)
+    : await getProductPageData(requestedPage);
 
   return (
     <CatalogExplorer
-      products={products}
+      products={productPage.products}
+      pagination={productPage.pagination}
       categories={categories}
+      initialCategory={categoryValue ?? ""}
       title="Electronics"
       description="Discover the pinnacle of technological innovation and sophisticated design. Our curated collection of high-end electronics bridges the gap between performance and luxury."
       breadcrumb={[

@@ -9,6 +9,10 @@ export const metadata: Metadata = {
   openGraph: { title: "Shop All Products", url: "/products" },
 };
 
-export default function ProductsPage() {
-  return <Products />;
+export default function ProductsPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ page?: string | string[]; category?: string | string[] }>;
+}) {
+  return <Products searchParams={searchParams} />;
 }
