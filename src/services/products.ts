@@ -53,7 +53,7 @@ async function getProductPage(query: { page?: number; pageSize?: number; categor
 
   try {
     const response = await fetch(`${STRAPI_BASE_URL}/api/products?${params.toString()}`, {
-      next: { revalidate: 60 },
+      next: { revalidate: 3600 },
     });
     if (!response.ok) return empty;
     const data = await response.json();
@@ -168,7 +168,7 @@ export async function getProductById(documentId: string): Promise<Product | null
 export async function searchProducts(query: string): Promise<Product[]> {
   try {
     const response = await fetch(`${STRAPI_BASE_URL}/api/products?filters[name][$containsi]=${encodeURIComponent(query)}&populate=*`, {
-      next: { revalidate: 60 },
+      next: { revalidate: 3600 },
     });
     if (!response.ok) return [];
     const data = await response.json();

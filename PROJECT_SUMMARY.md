@@ -149,7 +149,7 @@ Service functions are in `src/services/` and use native `fetch` with Next.js rev
 
 ### Products: `src/services/products.ts`
 
-`Product` includes numeric `id`, `documentId`, name, price, image, and optional original price, rating, reviews, category, description, stock, and featured flag. Functions fetch all products, paged catalog data, paged category-filtered data, featured products, one product by document ID, and case-insensitive name search. Paged catalog requests use Strapi pagination metadata and revalidate after one minute; other requests keep their existing revalidation settings.
+`Product` includes numeric `id`, `documentId`, name, price, image, and optional original price, rating, reviews, category, description, stock, and featured flag. Functions fetch all products, paged catalog data, paged category-filtered data, featured products, one product by document ID, and case-insensitive name search. Product data requests revalidate after one hour.
 
 ### Categories: `src/services/categories.ts`
 
