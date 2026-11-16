@@ -38,16 +38,11 @@ export default function CatalogExplorer({
   const [sort, setSort] = useState<SortOption>("featured");
   const [view, setView] = useState<CatalogView>("grid");
   const page = pagination.page || 1;
-  const [searchProducts, setSearchProducts] = useState(products);
   const [searchPending, setSearchPending] = useState(false);
   const [remoteProducts, setRemoteProducts] = useState(products);
   const [remotePagination, setRemotePagination] = useState(pagination);
   const [drawerOpen, setDrawerOpen] = useState(false);
   const priceDebounceRef = useRef<NodeJS.Timeout | null>(null);
-  const categoryIds = useMemo(
-    () => categories.filter((category) => filters.categories.includes(category.documentId)).map((category) => category.id),
-    [categories, filters.categories],
-  );
 
   const updateUrl = useCallback((updates: Record<string, string | null>) => {
     const params = new URLSearchParams(searchParams.toString());
@@ -64,10 +59,6 @@ export default function CatalogExplorer({
   }, [initialCategories]);
 
   useEffect(() => {
-    setSearchProducts(products);
-  }, [products]);
-
-  useEffect(() => {
     setRemoteProducts(products);
     setRemotePagination(pagination);
   }, [products, pagination]);
@@ -76,18 +67,26 @@ export default function CatalogExplorer({
     const currentUrl = new URL(window.location.href);
     const requestedPage = Number(currentUrl.searchParams.get("page") || 1);
     const requestedCategories = (currentUrl.searchParams.get("category") || "").split(",").filter(Boolean);
+    const query = filters.query.trim();
     const initialPage = pagination.page || 1;
     const normalizedRequested = [...requestedCategories].sort().join(",");
     const normalizedInitial = [...initialCategories].sort().join(",");
-    if (requestedPage === initialPage && normalizedRequested === normalizedInitial) return;
+    if (!query && requestedPage === initialPage && normalizedRequested === normalizedInitial) {
+      setRemoteProducts(products);
+      setRemotePagination(pagination);
+      setSearchPending(false);
+      return;
+    }
 
     const apiUrl = new URL("/api/catalog", window.location.origin);
     apiUrl.searchParams.set("page", String(requestedPage));
+    if (query) apiUrl.searchParams.set("q", query);
     const requestedCategoryIds = categories
       .filter((category) => requestedCategories.includes(category.documentId))
       .map((category) => category.id);
     if (requestedCategoryIds.length) apiUrl.searchParams.set("category", requestedCategoryIds.join(","));
     let cancelled = false;
+    setSearchPending(Boolean(query));
     fetch(apiUrl)
       .then((response) => response.json())
       .then((result) => {
@@ -100,50 +99,12 @@ export default function CatalogExplorer({
           setRemoteProducts([]);
           setRemotePagination({ page: requestedPage, pageSize: PRODUCTS_PER_PAGE, pageCount: 0, total: 0 });
         }
+      })
+      .finally(() => {
+        if (!cancelled) setSearchPending(false);
       });
     return () => { cancelled = true; };
-  }, [searchParams, initialCategories, categories, pagination.page]);
-
-  useEffect(() => {
-    const query = filters.query.trim();
-    if (!query) {
-      setSearchProducts(products);
-      setSearchPending(false);
-      return;
-    }
-
-    let cancelled = false;
-    setSearchPending(true);
-    const timeout = setTimeout(async () => {
-      try {
-        const collected = [];
-        const firstPageUrl = new URL("/api/catalog", window.location.origin);
-        firstPageUrl.searchParams.set("page", "1");
-        if (categoryIds.length) firstPageUrl.searchParams.set("category", categoryIds.join(","));
-        const firstResponse = await fetch(firstPageUrl);
-        const firstResult = await firstResponse.json();
-        collected.push(...(firstResult.products ?? []));
-        for (let currentPage = 2; currentPage <= (firstResult.pagination?.pageCount ?? 0); currentPage++) {
-          const pageUrl = new URL("/api/catalog", window.location.origin);
-          pageUrl.searchParams.set("page", String(currentPage));
-          if (categoryIds.length) pageUrl.searchParams.set("category", categoryIds.join(","));
-          const response = await fetch(pageUrl);
-          const result = await response.json();
-          collected.push(...(result.products ?? []));
-        }
-        if (!cancelled) setSearchProducts(collected);
-      } catch {
-        if (!cancelled) setSearchProducts(products);
-      } finally {
-        if (!cancelled) setSearchPending(false);
-      }
-    }, 700);
-
-    return () => {
-      cancelled = true;
-      clearTimeout(timeout);
-    };
-  }, [filters.query, products, categoryIds]);
+  }, [searchParams, initialCategories, categories, pagination, products, filters.query]);
 
   useEffect(() => {
     return () => {
@@ -156,15 +117,10 @@ export default function CatalogExplorer({
   const resetPage = () => updateUrl({ page: null });
 
   const filtered = useMemo(() => {
-    const q = filters.query.trim().toLowerCase();
     const min = filters.minPrice === "" ? null : Number(filters.minPrice);
     const max = filters.maxPrice === "" ? null : Number(filters.maxPrice);
 
-    return searchProducts.filter((p) => {
-      if (q) {
-        const haystack = `${p.name} ${p.description ?? ""} ${p.category?.name ?? ""}`.toLowerCase();
-        if (!haystack.includes(q)) return false;
-      }
+    return remoteProducts.filter((p) => {
       if (min !== null && !isNaN(min) && p.price < min) return false;
       if (max !== null && !isNaN(max) && p.price > max) return false;
       if (filters.brands.length > 0) {
@@ -176,7 +132,7 @@ export default function CatalogExplorer({
       }
       return true;
     });
-  }, [searchProducts, filters]);
+  }, [remoteProducts, filters]);
 
   const sorted = useMemo(() => {
     const arr = [...filtered];
@@ -195,15 +151,13 @@ export default function CatalogExplorer({
     }
   }, [filtered, sort]);
 
-  const totalPages = Math.max(1, filters.query ? Math.ceil(sorted.length / PRODUCTS_PER_PAGE) : remotePagination.pageCount);
+  const totalPages = Math.max(1, remotePagination.pageCount);
   const safePage = Math.min(remotePagination.page || page, totalPages);
-  const paged = filters.query
-    ? sorted.slice((safePage - 1) * PRODUCTS_PER_PAGE, safePage * PRODUCTS_PER_PAGE)
-    : sorted;
-  const resultTotal = filters.query || filters.minPrice || filters.maxPrice || filters.brands.length > 0
+  const paged = sorted;
+  const resultTotal = filters.minPrice || filters.maxPrice || filters.brands.length > 0
     ? sorted.length
     : remotePagination.total;
-  const localPageFiltersActive = !filters.query && (Boolean(filters.minPrice) || Boolean(filters.maxPrice) || filters.brands.length > 0);
+  const localPageFiltersActive = Boolean(filters.minPrice) || Boolean(filters.maxPrice) || filters.brands.length > 0;
 
   const hasActiveFilters =
     filters.query !== "" ||

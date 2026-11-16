@@ -34,7 +34,7 @@ export interface ProductPage {
 
 export const CATALOG_PAGE_SIZE = 24;
 
-async function getProductPage(query: { page?: number; pageSize?: number; categoryIds?: Array<number | string> }): Promise<ProductPage> {
+async function getProductPage(query: { page?: number; pageSize?: number; categoryIds?: Array<number | string>; search?: string }): Promise<ProductPage> {
   const page = Math.max(1, Math.floor(query.page ?? 1));
   const pageSize = Math.max(1, Math.floor(query.pageSize ?? CATALOG_PAGE_SIZE));
   const params = new URLSearchParams({
@@ -42,6 +42,9 @@ async function getProductPage(query: { page?: number; pageSize?: number; categor
     "pagination[pageSize]": String(pageSize),
     populate: "*",
   });
+  if (query.search?.trim()) {
+    params.set("filters[name][$containsi]", query.search.trim());
+  }
   query.categoryIds?.forEach((categoryId, index) => {
     params.set(`filters[category][id][$in][${index}]`, String(categoryId));
   });
@@ -90,6 +93,15 @@ export function getProductPageByCategories(
   pageSize = CATALOG_PAGE_SIZE,
 ): Promise<ProductPage> {
   return getProductPage({ categoryIds, page, pageSize });
+}
+
+export function searchProductPage(
+  search: string,
+  categoryIds: Array<number | string> = [],
+  page = 1,
+  pageSize = CATALOG_PAGE_SIZE,
+): Promise<ProductPage> {
+  return getProductPage({ search, categoryIds, page, pageSize });
 }
 
 /**

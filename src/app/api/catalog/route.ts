@@ -1,9 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getProductPageByCategories, getProductPageData } from "@/services/products";
+import { getProductPageByCategories, getProductPageData, searchProductPage } from "@/services/products";
 
 export async function GET(request: NextRequest) {
   const params = request.nextUrl.searchParams;
   const page = Number(params.get("page") || 1);
+  const search = params.get("q")?.trim() || "";
   const categoryIds = (params.get("category") || "")
     .split(",")
     .filter(Boolean);
@@ -16,7 +17,9 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({ error: "Invalid category" }, { status: 400 });
   }
 
-  const result = categoryIds.length
+  const result = search
+    ? await searchProductPage(search, categoryIds, page)
+    : categoryIds.length
     ? await getProductPageByCategories(categoryIds, page)
     : await getProductPageData(page);
 
